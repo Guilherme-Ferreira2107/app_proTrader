@@ -1,0 +1,67 @@
+.recover {
+    box-sizing: border-box;
+    background-image: linear-gradient(to right, #ff000000 0%, #231225 60%);
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    align-items: center;
+    min-height: 500px;
+}
+.recover section {
+    height: 100vh;
+    padding: 20px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+.recover .box-recover {
+    display: flex;
+    border: none;
+    background-color: #fff;
+    width: 350px;
+    height: 480px;
+    padding: 20px;
+    box-shadow: -20px 0 15px rgba(0,0,0,.2);
+}
+.recover .box-recover img {
+    width: 100px;
+}
+.recover label {
+    color: #333;
+    width: 100%;
+}
+.recover input {
+    color: #333;
+    width: 100%;
+    margin-bottom: 20px;
+    padding: 10px 0 10px 10px;
+    border: none;
+    border-bottom: 1px solid rgb(199, 175, 38);
+}
+.recover .button-recover {
+    border: none;
+    padding: 10px;
+    background-color: rgb(253, 217, 0);
+    color: #333;
+    text-decoration: none;
+    text-transform: uppercase;
+    font-weight: bold;
+    box-shadow: 0 20px 50px rgba(0,0,0,.5);
+}
+.recover .button-recover:hover {
+    background-color: rgb(35, 18, 37);
+    color: rgb(252, 252, 252);
+    transition: 0.25s;
+}
+.recover .box-recover a {
+    color: #231225;
+    text-decoration: underline;
+}
+.recover .loading {
+    height: 50px;
+    background: transparent;
+}
+.recover .message-erro {
+    color: red;
+    font-weight: bold;
+}

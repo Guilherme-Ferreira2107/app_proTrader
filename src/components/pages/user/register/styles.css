@@ -1,0 +1,101 @@
+.register {
+    box-sizing: border-box;
+    background-image: linear-gradient(to left, #ff000000 0%, #231225 60%);
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    align-items: center;
+    min-height: 500px;
+}
+.register section {
+    height: 100vh;
+    padding: 20px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+.register .box-content {
+    border: none;
+    background-color: rgba(35, 18, 37, 0.502);
+    width: 350px;
+    height: 450px;
+    padding: 20px;
+    color: #fff;
+    text-align: right;
+}
+.register .box-content .plan {
+    text-align: left;
+}
+.register .box-content a, .register .box-register .button-register {
+    border: none;
+    padding: 10px;
+    background-color: rgb(253, 217, 0);
+    color: #333;
+    text-decoration: none;
+    text-transform: uppercase;
+    font-weight: bold;
+    box-shadow: 0 20px 50px rgba(0,0,0,.5);
+}
+.register .box-content a:hover, .register .box-register .button-register:hover {
+    background-color: rgb(35, 18, 37);
+    color: rgb(252, 252, 252);
+    transition: 0.25s;
+}
+.register .box-content a:active {
+    border: 1px solid rgb(199, 175, 38);
+}
+.register .box-register {
+    display: flex;
+    border: none;
+    background-color: #fff;
+    width: 350px;
+    height: 480px;
+    padding: 20px;
+    box-shadow: -20px 0 15px rgba(0,0,0,.2);
+}
+.register .box-register img {
+    width: 100px;
+}
+.register label {
+    color: #333;
+    width: 100%;
+}
+.register input {
+    color: #333;
+    width: 100%;
+    margin-bottom: 20px;
+    padding: 10px 0 10px 10px;
+    border: none;
+    border-bottom: 1px solid rgb(199, 175, 38);
+}
+.register .box-register a {
+    color: #333;
+    text-decoration: underline;
+}
+.register .box-register a b{
+    color: #231225;
+    font-size: 16px;
+}
+.register .register {
+    display: none;
+}
+.register .box-option {
+    display: flex;
+    justify-content: space-between;
+}
+@media (max-width: 700px) {
+    .register .box-content {
+        display: none;
+    }
+    .register .box-register .register {
+        display: inline;
+    }
+}
+.register .loading {
+    height: 50px;
+    background: transparent;
+}
+.register .message-erro {
+    color: red;
+    font-weight: bold;
+}

@@ -1,0 +1,22 @@
+.calculations {
+    padding: 15px;
+}
+.calculations .scene-menu {
+    display: flex;
+    justify-content: center;
+}
+.calculations .scene-option {
+    display: inline-block;
+}
+.calculations .scene-menu .scene-option {
+    padding: 10px;
+    background-color: #fdd900;
+    width: 200px;
+}
+.calculations .scene-menu .scene-option a {
+    text-decoration: none;
+    color: #231225;
+}
+.calculations .scene-menu div:hover {
+    background-color: #fdd700b6;
+}

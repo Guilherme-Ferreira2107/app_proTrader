@@ -1,0 +1,27 @@
+.initial-app {
+    background-image: linear-gradient(to right, #ff000000 0%, #231225 60%);
+    display: flex;
+    height: 100vh;
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    animation-name: background-loading;
+    animation-duration: 2.5s;
+}
+.initial-app img {
+    width: 150px;
+    margin-bottom: 20px;
+}
+.initial-app p {
+    color: #fff;
+    margin-right: 10px;
+}
+@keyframes background-loading {
+    from {
+        background-color:#231225;
+    }
+    to {
+        background-color:#fff;
+    }
+}
