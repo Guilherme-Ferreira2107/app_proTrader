@@ -102,14 +102,7 @@ class Main extends Component {
                             </form>
                         </div>
                     </div>
-                    </div>
-                    {
-                        this.props.redirect === 'exit' ? <Redirect to="/" /> : null
-                    }
-                    {
-                        this.props.redirect === '' ? <Redirect to="/" /> : null
-                    }
-                    
+                    </div>                   
                 </div>
                 <Footer />
             </>

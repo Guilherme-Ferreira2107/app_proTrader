@@ -3,6 +3,7 @@ import './style.css';
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import { Link } from 'react-router-dom';
 
 import { exit } from '../../store/actions';
 
@@ -46,7 +47,7 @@ class Header extends Component {
                             <li><a href="#main">{ this.props.newEmail }</a></li>
                             <li>
                                 <button className="btn-exit" onClick={this._exitApp}>
-                                Exit <span className="glyphicon glyphicon-log-in"></span> 
+                                <Link to="/">Exit </Link><span className="glyphicon glyphicon-log-in"></span> 
                                 </button>
                             </li>
                         </ul>

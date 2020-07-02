@@ -61,12 +61,14 @@ class Calculations extends Component {
                             </Route>
                         </Switch>
                     </Router>
+                    {/*
                     {
                         this.props.redirect === 'exit' ? <Redirect to="/" /> : null
                     }
                     {
                         this.props.redirect === '' ? <Redirect to="/" /> : null
                     }
+                    */}
                     
                 </div>
             <Footer />

@@ -16,9 +16,12 @@ class InitialApp extends React.Component {
     state = {
         redirect: '',
     }
-    componentWillUpdate() {
-        this._loadingWallet();        
+    
+    componentWillMount() {
+        //this._loadingWallet();
+        this._redirect();
     }
+    /*
     _await = () => {
         setTimeout( () => {
             this.setState({
@@ -33,6 +36,14 @@ class InitialApp extends React.Component {
             this._await()
         }, 3000);
     }
+    */
+   _redirect = () => {
+    setTimeout( () => {
+        this.setState({
+            redirect: 'main'
+        })
+    }, 3000);
+   }
     render(){
         const { redirect } = this.state;
         return(
@@ -42,6 +53,14 @@ class InitialApp extends React.Component {
                 <p>Carregando...</p>
                 
                 <Loading />
+
+                {
+                    this.state.redirect === 'main'
+                    ? <Redirect to="/main" />
+                    : null
+                }
+
+                {/*
                 {
                     this.props.redirect === ''
                     ? <Redirect to="/login" />
@@ -57,11 +76,7 @@ class InitialApp extends React.Component {
                     ? <Redirect to="/main" />
                     : null
                 }
-                {
-                    this.props.newEmail === ''
-                    ? console.log('Não há email')
-                    : this._loadingWallet
-                }
+                */}
             </div>
         );
     }

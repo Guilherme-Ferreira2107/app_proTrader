@@ -35,15 +35,15 @@ class Login extends Component {
     _authUser = async () => {
         const { inputEmail, inputPass } = this.state;
         const { authUser } = this.props;
-
+        /*
         await authUser({ inputEmail, inputPass});
-
+        */
         await this.setState({ loading: true });
         await setTimeout( () => {
             this.setState({
                 loading: false,
                 message: this.props.message,
-                redirect: this.props.redirect
+                redirect: 'main'
             })
         }, 2000 )
     }
@@ -100,7 +100,7 @@ class Login extends Component {
                             }
                             <p className="message-erro text-center">{ this.state.message }</p>
                             { 
-                                redirect === 'main'
+                                this.state.redirect === 'main'
                                 ? <Redirect to="/" />
                                 : null
                             }
