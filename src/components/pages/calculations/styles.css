@@ -1,6 +1,21 @@
 .calculations {
     padding: 15px;
     min-width: 450px;
+    background-color: #f0f0f094;
+    border-radius: 0 100% 0 0;
+    animation-name: calculations-background;
+    animation-duration: 3s;
+}
+@keyframes calculations-background {
+    from {
+        background-color:#23122575;
+        border-radius: 100% 100% 0 100%;
+    }
+  
+    to {
+        background-color:#f0f0f094;
+        border-radius: 0 100% 0 0;
+    }
 }
 .calculations .scene-menu {
     display: flex;

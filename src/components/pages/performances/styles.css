@@ -1,3 +1,19 @@
 .performances {
     padding: 15px;
+    height: 100vh;
+    background-color: #f0f0f094;
+    border-radius: 100% 0 0 0;
+    animation-name: performances-background;
+    animation-duration: 3s;
+}
+@keyframes performances-background {
+    from {
+        background-color:#231225;
+        border-radius: 100% 100% 100% 0;
+    }
+  
+    to {
+        background-color:#f0f0f094;
+        border-radius: 100% 0 0 0;
+    }
 }

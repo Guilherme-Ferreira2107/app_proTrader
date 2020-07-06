@@ -1,5 +1,20 @@
 .main {
     margin-bottom: 50px;
+    background-color: #f0f0f094;
+    border-radius: 100% 0 0 0;
+    animation-name: main-background;
+    animation-duration: 3s;
+}
+@keyframes main-background {
+    from {
+        background-color:#231225;
+        border-radius: 100% 100% 100% 0;
+    }
+  
+    to {
+        background-color:#f0f0f094;
+        border-radius: 100% 0 0 0;
+    }
 }
 .main .exhibit{
     margin-top: 20px;

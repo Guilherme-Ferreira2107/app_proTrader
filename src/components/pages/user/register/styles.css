@@ -1,6 +1,6 @@
 .register {
     box-sizing: border-box;
-    background-image: linear-gradient(to left, #ff000000 0%, #231225 60%);
+    background-image: linear-gradient(to left, #ff000000 0%, #231225 70%);
     display: flex;
     justify-content: center;
     align-content: center;
