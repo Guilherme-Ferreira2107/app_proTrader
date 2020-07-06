@@ -6,7 +6,18 @@
     align-content: center;
     align-items: center;
     min-height: 500px;
+    animation-name: login-background;
+    animation-duration: 3s;
 }
+@keyframes login-background {
+    from {
+        background-color:#231225;
+    }
+  
+    to {
+        background-color:#fff;
+    }
+  }
 .login section {
     height: 100vh;
     padding: 20px;
@@ -22,6 +33,24 @@
     padding: 20px;
     color: #fff;
 }
+.login .box-content {
+    display: relative;
+    justify-content: space-between;
+    animation-duration: 1s;
+    animation-name: login;
+    position: relative;
+}
+@keyframes login {
+    from {
+      left: 50%;
+      display: flex;
+    }
+  
+    to {
+      left: 0%;
+      display: flex;
+    }
+  }
 .login .box-content a, .login .box-login .button-login {
     border: none;
     padding: 10px;
@@ -42,6 +71,7 @@
 }
 .login .box-login {
     display: flex;
+    z-index: 100;
     border: none;
     background-color: #fff;
     width: 350px;
@@ -71,10 +101,6 @@
 .login .register {
     display: none;
     background-color: transparent;
-}
-.login .box-option {
-    display: flex;
-    justify-content: space-between;
 }
 @media (max-width: 700px) {
     .login .box-content {

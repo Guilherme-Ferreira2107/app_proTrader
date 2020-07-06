@@ -6,7 +6,18 @@
     align-content: center;
     align-items: center;
     min-height: 500px;
+    animation-name: recover-background;
+    animation-duration: 3s;
 }
+@keyframes recover-background {
+    from {
+        background-color:#231225;
+    }
+  
+    to {
+        background-color:#fff;
+    }
+  }
 .recover section {
     height: 100vh;
     padding: 20px;

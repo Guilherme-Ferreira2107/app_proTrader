@@ -49,8 +49,8 @@ class Calculations extends Component {
                     <Router>
                         <div className="container scene-menu text-center">
                             <Link to="/calculations/soros"><div className="scene-option"><a href="#soros">SOROS</a></div></Link>
-                            <Link to="/calculations/martingale"><div className="scene-option"><a href="#martingale">MARTINGALE</a></div></Link>
                             <Link to="/calculations/sorosgale"><div className="scene-option"><a href="#sorosgale">SOROSGALE</a></div></Link>
+                            <Link to="/calculations/martingale"><div className="scene-option"><a href="#martingale">MARTINGALE</a></div></Link>
                         </div>
                         <br />
                         <div className="container">

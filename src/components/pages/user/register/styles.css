@@ -6,7 +6,18 @@
     align-content: center;
     align-items: center;
     min-height: 500px;
+    animation-name: register-background;
+    animation-duration: 3s;
 }
+@keyframes register-background {
+    from {
+        background-color:#231225;
+    }
+  
+    to {
+        background-color:#fff;
+    }
+  }
 .register section {
     height: 100vh;
     padding: 20px;
@@ -23,6 +34,24 @@
     color: #fff;
     text-align: right;
 }
+.register .box-content {
+    display: relative;
+    justify-content: space-between;
+    animation-duration: 1s;
+    animation-name: register;
+    position: relative;
+}
+@keyframes register {
+    from {
+        right: 50%;
+        display: flex;
+    }
+  
+    to {
+        right: 0%;
+        display: flex;
+    }
+  }
 .register .box-content .plan {
     text-align: left;
 }
@@ -45,6 +74,7 @@
     border: 1px solid rgb(199, 175, 38);
 }
 .register .box-register {
+    z-index: 100;
     display: flex;
     border: none;
     background-color: #fff;

@@ -7,7 +7,7 @@
     justify-content: center;
     flex-direction: column;
     animation-name: background-loading;
-    animation-duration: 2.5s;
+    animation-duration: 3s;
 }
 .initial-app img {
     width: 150px;
