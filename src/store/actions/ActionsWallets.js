@@ -64,3 +64,15 @@ const loadingWalletSuccess = (data, dispatch) => {
         userWallet: data
     })
 }
+
+export const UPDATE_WALLET = "UPDATE_WALLET";
+export const updateWallet = ({inputValue, newWallet}) => ({
+    type: 'UPDATE_WALLET',
+    newWallet: parseFloat(newWallet)+parseFloat(inputValue),
+});
+
+export const UPDATE_PROFIT = "UPDATE_PROFIT";
+export const updateProfit = ({inputValue, newProfit}) => ({
+    type: 'UPDATE_PROFIT',
+    newProfit: parseFloat(inputValue) + parseFloat(newProfit)
+});

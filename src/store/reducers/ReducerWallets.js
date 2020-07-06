@@ -10,6 +10,8 @@ import {
     UPDATE_PAYOUT,
     UPDATE_STOPLOSS,
     UPDATE_RETURN,
+    UPDATE_WALLET,
+    UPDATE_PROFIT,
  } from '../actions';
 
 const INITIAL_STATE = {
@@ -22,6 +24,8 @@ const INITIAL_STATE = {
     profitWeekly: 0,
     profitMonthly: 0,
 
+    newWallet:0,
+    newProfit:0,
     newPayout: 0,
     newStoploss: 0,
     newOrder: 0,

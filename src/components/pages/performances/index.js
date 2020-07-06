@@ -3,7 +3,7 @@ import './styles.css';
 
 import {connect} from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { Redirect } from 'react-router-dom';
+//import { Redirect } from 'react-router-dom';
 
 import {
     appLoading,

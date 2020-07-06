@@ -1,5 +1,6 @@
 .calculations {
     padding: 15px;
+    min-width: 450px;
 }
 .calculations .scene-menu {
     display: flex;
@@ -7,6 +8,7 @@
 }
 .calculations .scene-option {
     display: inline-block;
+    box-shadow: 5px 5px 18px #9291915b;
 }
 .calculations .scene-menu .scene-option {
     padding: 10px;
@@ -16,6 +18,7 @@
 .calculations .scene-menu .scene-option a {
     text-decoration: none;
     color: #231225;
+    letter-spacing: 2px;
 }
 .calculations .scene-menu div:hover {
     background-color: #fdd700b6;

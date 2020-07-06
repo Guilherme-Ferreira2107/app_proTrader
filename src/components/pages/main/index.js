@@ -3,7 +3,7 @@ import './styles.css';
 
 import {connect} from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { Redirect } from 'react-router-dom';
+//import { Redirect } from 'react-router-dom';
 
 import {
     updateValueInitial,
@@ -37,7 +37,6 @@ class Main extends Component {
                     <div className="container">
                         <h4>Olá <em>{ newName }</em>, seja bem vindo ao seu Trading System!</h4>
                     </div>
-                    
                     <div className="container exhibit">
                         <div className="col-sm-4">
                             <h2>Saldo disponível: </h2>

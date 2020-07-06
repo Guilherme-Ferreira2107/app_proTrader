@@ -3,7 +3,7 @@ import './styles.css';
 
 import {connect} from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { Redirect } from 'react-router-dom';
+//import { Redirect } from 'react-router-dom';
 import {
     BrowserRouter as Router,
     Switch,
@@ -21,6 +21,8 @@ import Footer from '../../footer';
 import Soros from './soros';
 import SorosGale from './sorosGale';
 import Martingale from './martingale';
+
+import PanelController from './panel'
 
 class Calculations extends Component {
     state = {
@@ -41,26 +43,33 @@ class Calculations extends Component {
                             newName === ''
                             ? <h4>Seja bem vindo, selecione seu gerenciamento:</h4>
                             : <h4>Olá { newName }, selecione seu gerenciamento:</h4>
-                        }                        
+                        }
                     </div>
+                    <br />                    
                     <Router>
                         <div className="container scene-menu text-center">
                             <Link to="/calculations/soros"><div className="scene-option"><a href="#soros">SOROS</a></div></Link>
                             <Link to="/calculations/martingale"><div className="scene-option"><a href="#martingale">MARTINGALE</a></div></Link>
                             <Link to="/calculations/sorosgale"><div className="scene-option"><a href="#sorosgale">SOROSGALE</a></div></Link>
                         </div>
-                        <Switch>
-                            <Route exact path="/calculations/soros">
-                                <Soros />
-                            </Route>
-                            <Route path="/calculations/martingale">
-                                <Martingale />
-                            </Route>
-                            <Route path="/calculations/sorosgale">
-                                <SorosGale />
-                            </Route>
-                        </Switch>
+                        <br />
+                        <div className="container">
+                            <PanelController />
+                        </div>
+                        <br />
+                            <Switch>
+                                <Route exact path="/calculations/soros">
+                                    <Soros />
+                                </Route>
+                                <Route path="/calculations/martingale">
+                                    <Martingale />
+                                </Route>
+                                <Route path="/calculations/sorosgale">
+                                    <SorosGale />
+                                </Route>
+                            </Switch>
                     </Router>
+                    
                     {/*
                     {
                         this.props.redirect === 'exit' ? <Redirect to="/" /> : null
@@ -71,6 +80,7 @@ class Calculations extends Component {
                     */}
                     
                 </div>
+                
             <Footer />
             </>
         );
