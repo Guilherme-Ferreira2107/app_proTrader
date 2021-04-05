@@ -1,83 +1,119 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import "./styles.css";
 
-import Loading from "../../../components/loading";
 import IconCheck from "../../../assets/icons/checkmark.png";
-import { Redirect } from "react-router";
+
+// Components
+import Loading from "../../../components/loading";
+import Title from "../../../components/title";
+import Input from "../../../components/input";
+import Submit from "../../../components/submit";
+import Label from "../../../components/label";
+import Link from "../../../components/link";
+import Alert from "../../../components/alert";
+
+// FormHooks
+import { useForm } from "react-hook-form";
+import { useHistory } from "react-router-dom";
+
+// Services
+import { registerUser } from "../../../services/loginService";
 
 const Register = () => {
+  const { register, handleSubmit } = useForm();
+  const history = useHistory();
   const [inputName, setInputName] = useState();
   const [inputEmail, setInputEmail] = useState();
   const [inputPass, setInputPass] = useState();
   const [loading, setLoading] = useState(false);
-  const [redirect, setRedirect] = useState(false);
   const [message, setMessage] = useState();
+  const [enablePopup, setEnablePopup] = useState(false);
 
-  useEffect(() => {
-    setInputName("");
-    setInputEmail("");
-    setInputPass("");
-    setLoading(false);
-    setRedirect(false);
-    setMessage("");
-  }, []);
+  const handlerSend = async (data) => {
+    try {
+      setLoading(true);
+      await registerUser(data?.email, data?.password)
+        .then(() => {
+          setEnablePopup(true);
+          setInputName("");
+          setInputEmail("");
+          setInputPass("");
+        })
+        .catch((error) => setMessage(error.message));
+    } catch (error) {
+    } finally {
+      setLoading(false);
+    }
+  };
 
-  const handleSubmit = () => {};
+  const inputChangeName = (event) => {
+    setInputName(event.target.value);
+  };
 
-  const inputChangeName = (value) => {};
+  const inputChangeEmail = (event) => {
+    setInputEmail(event.target.value);
+  };
 
-  const inputChangeEmail = (value) => {};
+  const inputChangePass = (event) => {
+    setInputPass(event.target.value);
+  };
 
-  const inputChangePass = (value) => {};
-
-  const registerUser = (value) => {};
+  const redirect = () => {
+    setEnablePopup(false);
+    history.push("/Login");
+  };
 
   return (
     <div className="register">
+      {enablePopup && (
+        <Alert
+          onClick={redirect}
+          message="Usuário cadastrado com sucesso!"
+          value="Faça login"
+        />
+      )}
       <section>
         <div className="box-register">
-          <form onSubmit={handleSubmit}>
-            <h2>Crie sua conta</h2>
-            <br />
-            <label>Nome</label>
-            <input
+          <form onSubmit={handleSubmit(handlerSend)}>
+            <Title>Crie sua conta</Title>
+            <Input
+              label="Nome"
               placeholder="Insira seu nome"
+              name="name"
               value={inputName}
+              ref={register({
+                required: "Nome é obrigatório!",
+              })}
               onChange={inputChangeName}
             />
-            <label>E-mail</label>
-            <input
+            <Input
+              label="E-mail"
               placeholder="trader@gmail.com"
+              name="email"
               value={inputEmail}
+              ref={register({
+                required: "Email é obrigatório!",
+              })}
               onChange={inputChangeEmail}
             />
-            <label>Senha</label>
-            <input
-              placeholder="Crie uma senha"
+            <Input
+              label="Senha"
+              placeholder="Insira sua senha"
               type="password"
-              value={inputPass}
+              name="password"
+              ref={register({
+                required: "Senha é obrigatório!",
+              })}
               onChange={inputChangePass}
+              value={inputPass}
             />
-            {loading ? (
-              <div className="loading">
-                <Loading />
-              </div>
-            ) : (
-              <input
-                className="button-register"
-                name="register"
-                type="submit"
-                value="Cadastrar"
-                onClick={registerUser}
-              />
-            )}
-            <p className="message-erro text-center">{message}</p>
-            {redirect === "main" ? <Redirect to="/" /> : null}
-            <div className="box-option">
-              <a href="/Login">
-                Já é cadastrado? <b>Entrar</b>
-              </a>
-            </div>
+            <Loading loading={loading}>
+              <Submit type="submit" name="register" value="Cadastrar" />
+            </Loading>
+            <Label color="red" weight="bold" align="center">
+              {message}
+            </Label>
+            <Link href="/Login">Já é cadastrado?</Link>
           </form>
         </div>
         <div className="box-content">

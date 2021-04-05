@@ -8,3 +8,13 @@ firebase.initializeApp(firebaseConfig);
 export const authLogin = async (inputEmail, inputPass) => {
   return firebase.auth().signInWithEmailAndPassword(inputEmail, inputPass);
 };
+
+// Registrar Usuario
+export const registerUser = async (email, password) => {
+  return firebase.auth().createUserWithEmailAndPassword(email, password);
+};
+
+// Registrar Usuario
+export const recoverPassword = async (email) => {
+  return firebase.auth().sendPasswordResetEmail(email);
+};

@@ -1,68 +1,91 @@
 import React, { useEffect, useState } from "react";
 import "./styles.css";
 import { Redirect } from "react-router-dom";
-import Loading from "../../../components/loading";
 import Logo from "../../../assets/images/logo.png";
 
+// Components
+import Loading from "../../../components/loading";
+import LogoIcon from "../../../components/logo";
+import Title from "../../../components/title";
+import Input from "../../../components/input";
+import Submit from "../../../components/submit";
+import Label from "../../../components/label";
+import Link from "../../../components/link";
+import Alert from "../../../components/alert";
+
+// FormHooks
+import { useForm } from "react-hook-form";
+import { useHistory } from "react-router-dom";
+
+// Services
+import { recoverPassword } from "../../../services/loginService";
+
 const Recover = () => {
+  const { register, handleSubmit } = useForm();
+  const history = useHistory();
   const [inputEmail, setInputEmail] = useState();
-  const [redirect, setRedirect] = useState();
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState();
-
-  useEffect(() => {
-    setRedirect("");
-    setLoading(false);
-    setMessage("");
-  }, []);
+  const [enablePopup, setEnablePopup] = useState(false);
 
   const inputChangeEmail = (event) => {
     setInputEmail(event.target.value);
   };
 
-  const _recoverPass = async () => {};
+  const recoverPass = async (data) => {
+    try {
+      setLoading(true);
+      await recoverPassword(data?.email)
+        .then(() => {
+          setEnablePopup(true);
+          setInputEmail("");
+        })
+        .catch((error) => setMessage(error.message));
+    } catch (error) {
+    } finally {
+      setLoading(false);
+    }
+  };
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
+  const redirect = () => {
+    setEnablePopup(false);
+    history.push("/Login");
   };
 
   return (
     <div className="recover">
       <section>
         <div className="box-recover">
-          <form onSubmit={handleSubmit}>
-            <div className="content text-center">
-              <img src={Logo} alt="Logo" />
-            </div>
-            <h2>Recuperação de senha</h2>
-            <label>Informe seu E-mail</label>
-            <input
+          <form onSubmit={handleSubmit(recoverPass)}>
+            <LogoIcon src={Logo} alt="Logo" />
+            <Title>Recuperação de senha</Title>
+            <Input
+              label="Informe seu E-mail"
+              name="email"
               placeholder="trader@gmail.com"
               value={inputEmail}
               onChange={inputChangeEmail}
+              ref={register({
+                required: "Email é obrigatório!",
+              })}
             />
-            {loading ? (
-              <div className="loading">
-                <Loading />
-              </div>
-            ) : (
-              <input
-                className="button-recover"
-                name="Recover"
-                type="submit"
-                value="Recuperar Senha"
-                onClick={_recoverPass}
+            <Loading loading={loading}>
+              <Submit type="submit" name="Recover" value="Recuperar Senha" />
+            </Loading>
+            <Label color="red" weight="bold" align="center">
+              {message}
+            </Label>
+            <Link className="registerMobile" href="/Login">
+              Voltar para Login
+            </Link>
+            {enablePopup && (
+              <Alert
+                onClick={redirect}
+                message="E-mail de recuperação de senha, enviado com sucesso!"
+                value="Faça login"
               />
             )}
-            <p className="message-erro text-center">{message}</p>
-
-            <div className="box-option">
-              <a href="/login">
-                Já é cadastrado? <b>Entrar</b>
-              </a>
-            </div>
           </form>
-          {redirect === "login" ? <Redirect to="/login" /> : null}
         </div>
       </section>
     </div>

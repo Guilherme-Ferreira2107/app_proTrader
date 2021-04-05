@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 
 import { Wrapper, LabelForm, InputForm } from "./styles.js";
 
@@ -18,5 +19,19 @@ const Input = React.forwardRef((props, ref) => {
     </Wrapper>
   );
 });
+
+Input.propTypes = {
+  name: PropTypes.string.isRequired,
+  type: PropTypes.string,
+  placeholder: PropTypes.string,
+  onChange: PropTypes.oneOfType([PropTypes.func]),
+};
+
+Input.defaultProps = {
+  type: "text",
+  placeholder: "",
+  onChange: () => {},
+  label: "",
+};
 
 export default Input;
