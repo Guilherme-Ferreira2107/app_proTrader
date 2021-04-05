@@ -3,6 +3,10 @@ import React, { useState } from "react";
 // Components
 import Loading from "../../../components/loading";
 import Logo from "../../../assets/images/logo.png";
+import Label from "../../../components/label";
+import Title from "../../../components/title";
+import Button from "../../../components/button";
+import Link from "../../../components/link";
 
 // Styles
 import { Wrapper } from "./styles.js";
@@ -48,29 +52,31 @@ const Login = () => {
     <Wrapper className="login">
       <section>
         <div className="box-content">
-          <h2>Trader Wallets</h2>
-          <p>
+          <Title color="#fff">Trader Wallets</Title>
+          <Label color="#fff">
             Conheça o Trader Wallets, a aplicação que ajuda a controlar seus
             tradings de forma eficiente.
-          </p>
-          <p>
+          </Label>
+          <Label color="#fff">
             Faça cálculos rápidos e precisos com nossa calculadora de: Soros,
             Martingale e SorosGale.
-          </p>
-          <p>
+          </Label>
+          <Label color="#fff">
             Confira sua performance de ganhos e perdas de seus investimentos.
-          </p>
-          <p>
+          </Label>
+          <Label color="#fff">
             Controlar seu patrimônio nunca foi tão fácil. É online e gratuito!
-          </p>
-          <a href="/Register">Cadastre-se agora</a>
+          </Label>
+          <Link theme href="/Register">
+            Cadastre-se agora
+          </Link>
         </div>
         <div className="box-login">
           <form onSubmit={handleSubmit(handlerSend)}>
             <div className="content text-center">
               <img src={Logo} alt="Logo" />
             </div>
-            <h2>Sign In</h2>
+            <Title>Sign In</Title>
             <label>E-mail</label>
             <input
               placeholder="trader@gmail.com"

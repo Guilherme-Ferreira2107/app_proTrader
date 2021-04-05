@@ -33,16 +33,11 @@ export const Wrapper = styled.div`
     background-color: rgba(35, 18, 37, 0.502);
     width: 350px;
     height: 450px;
-    padding: 20px;
-    color: #fff;
     display: relative;
     justify-content: space-between;
     animation-duration: 1s;
     animation-name: login;
     position: relative;
-  }
-  &.login .box-content p {
-    margin: 25px 0;
   }
   @keyframes login {
     from {
@@ -55,7 +50,6 @@ export const Wrapper = styled.div`
       display: flex;
     }
   }
-  &.login .box-content a,
   &.login .box-login .button-login {
     border: none;
     padding: 10px;
@@ -66,14 +60,10 @@ export const Wrapper = styled.div`
     font-weight: bold;
     box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
   }
-  &.login .box-content a:hover,
   &.login .box-login .button-login:hover {
     background-color: rgb(35, 18, 37);
     color: rgb(252, 252, 252);
     transition: 0.25s;
-  }
-  &.login .box-content a:active {
-    border: 1px solid rgb(199, 175, 38);
   }
   &.login .box-login {
     display: flex;
