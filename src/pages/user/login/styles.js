@@ -22,7 +22,6 @@ export const Wrapper = styled.div`
   }
   & section {
     height: 100vh;
-    padding: 20px;
     display: flex;
     flex-direction: row;
     align-items: center;
