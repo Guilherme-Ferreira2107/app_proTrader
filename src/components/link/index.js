@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { Wrapper, Ref } from "./styles.js";
 
 const Link = (props) => {
-  const { href, children, size, color, background, theme } = props;
+  const { href, children, size, color, background, theme, className } = props;
   const [enableTheme, setEnableTheme] = useState(false);
 
   useEffect(() => {
@@ -18,6 +18,7 @@ const Link = (props) => {
         color={color}
         background={background}
         theme={enableTheme}
+        className={className}
       >
         {children}
       </Ref>

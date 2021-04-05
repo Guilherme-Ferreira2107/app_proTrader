@@ -5,4 +5,5 @@ export const Wrapper = styled.p`
   color: ${(props) => props.color};
   font-size: ${(props) => props.size};
   text-align: ${(props) => props.align};
+  font-weight: ${(props) => props.weight};
 `;

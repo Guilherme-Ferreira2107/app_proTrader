@@ -5,15 +5,20 @@ import Loading from "../../../components/loading";
 import Logo from "../../../assets/images/logo.png";
 import Label from "../../../components/label";
 import Title from "../../../components/title";
-import Button from "../../../components/button";
 import Link from "../../../components/link";
+import Input from "../../../components/input";
+import Submit from "../../../components/submit";
+import LogoIcon from "../../../components/logo";
 
 // Styles
-import { Wrapper } from "./styles.js";
+import { Wrapper, BoxContent, BoxLogin } from "./styles.js";
 
 // FormHooks
 import { useForm } from "react-hook-form";
 import { useHistory } from "react-router-dom";
+
+// Material UI
+import { Grid } from "@material-ui/core";
 
 // Services
 import { authLogin } from "../../../services/loginService";
@@ -49,9 +54,9 @@ const Login = () => {
   };
 
   return (
-    <Wrapper className="login">
+    <Wrapper>
       <section>
-        <div className="box-content">
+        <BoxContent>
           <Title color="#fff">Trader Wallets</Title>
           <Label color="#fff">
             Conheça o Trader Wallets, a aplicação que ajuda a controlar seus
@@ -70,15 +75,13 @@ const Login = () => {
           <Link theme href="/Register">
             Cadastre-se agora
           </Link>
-        </div>
-        <div className="box-login">
+        </BoxContent>
+        <BoxLogin>
           <form onSubmit={handleSubmit(handlerSend)}>
-            <div className="content text-center">
-              <img src={Logo} alt="Logo" />
-            </div>
+            <LogoIcon src={Logo} alt="Logo" />
             <Title>Sign In</Title>
-            <label>E-mail</label>
-            <input
+            <Input
+              label="E-mail"
               placeholder="trader@gmail.com"
               name="email"
               value={inputEmail}
@@ -87,8 +90,8 @@ const Login = () => {
               })}
               onChange={inputChangeEmail}
             />
-            <label>Senha</label>
-            <input
+            <Input
+              label="Senha"
               placeholder="Insira sua senha"
               type="password"
               name="password"
@@ -99,22 +102,23 @@ const Login = () => {
               value={inputPass}
             />
             <Loading loading={loading}>
-              <input
-                type="submit"
-                className="button-login"
-                name="Login"
-                value="Login"
-              />
+              <Submit type="submit" name="Login" value="Login" />
             </Loading>
-            <p className="message-erro text-center">{message}</p>
-            <div className="box-option">
-              <a href="/Recover">Esqueceu sua senha?</a>
-              <a className="register" href="/Register">
-                Cadastre-se agora
-              </a>
-            </div>
+            <Label color="red" weight="bold" align="center">
+              {message}
+            </Label>
+            <Grid container>
+              <Grid item xs={6}>
+                <Link href="/Recover">Esqueceu sua senha?</Link>
+              </Grid>
+              <Grid item xs={6}>
+                <Link className="registerMobile" href="/Register">
+                  Cadastre-se agora
+                </Link>
+              </Grid>
+            </Grid>
           </form>
-        </div>
+        </BoxLogin>
       </section>
     </Wrapper>
   );
