@@ -35,13 +35,14 @@ export const Wrapper = styled.div`
     height: 450px;
     padding: 20px;
     color: #fff;
-  }
-  &.login .box-content {
     display: relative;
     justify-content: space-between;
     animation-duration: 1s;
     animation-name: login;
     position: relative;
+  }
+  &.login .box-content p {
+    margin: 25px 0;
   }
   @keyframes login {
     from {
@@ -94,8 +95,8 @@ export const Wrapper = styled.div`
   &.login input {
     color: #333;
     width: 100%;
-    margin-bottom: 20px;
-    padding: 10px 0 10px 10px;
+    margin-bottom: 10px;
+    padding: 10px 0 0 10px;
     border: none;
     border-bottom: 1px solid rgb(199, 175, 38);
   }

@@ -5,7 +5,7 @@ import Header from "../../components/header";
 import Footer from "../../components/footer";
 import { useSelector } from "react-redux";
 
-const Main = (props) => {
+const Main = () => {
   const valueCurrent = useSelector((state) => state.valueCurrent);
   const valueInitial = useSelector((state) => state.valueInitial);
   const newName = useSelector((state) => state.newName);

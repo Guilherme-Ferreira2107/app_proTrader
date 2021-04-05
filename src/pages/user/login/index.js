@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from "react";
-import { Redirect } from "react-router-dom";
+import React, { useState } from "react";
 
 // Components
 import Loading from "../../../components/loading";
@@ -18,9 +17,8 @@ import { authLogin } from "../../../services/loginService";
 const Login = () => {
   const [inputEmail, setInputEmail] = useState();
   const [inputPass, setInputPass] = useState();
-  const [redirect, setRedirect] = useState();
   const [loading, setLoading] = useState(false);
-  const [message, setMessage] = useState();
+  const [message, setMessage] = useState("");
   const history = useHistory();
   const { register, handleSubmit } = useForm();
 
@@ -35,8 +33,11 @@ const Login = () => {
   const handlerSend = async (data) => {
     try {
       setLoading(true);
-      const resultado = await authLogin(data?.email, data?.password);
-      resultado && history.push("/main");
+      await authLogin(data?.email, data?.password)
+        .then(() => {
+          history.push("/main");
+        })
+        .catch((error) => setMessage(error.message));
     } catch (error) {
     } finally {
       setLoading(false);
@@ -89,6 +90,7 @@ const Login = () => {
                 required: "Senha é obrigatório!",
               })}
               onChange={inputChangeSenha}
+              value={inputPass}
             />
             <Loading loading={loading}>
               <input
@@ -99,7 +101,6 @@ const Login = () => {
               />
             </Loading>
             <p className="message-erro text-center">{message}</p>
-            {redirect === "main" ? <Redirect to="/" /> : null}
             <div className="box-option">
               <a href="/Recover">Esqueceu sua senha?</a>
               <a className="register" href="/Register">

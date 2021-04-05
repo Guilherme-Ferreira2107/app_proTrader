@@ -5,6 +5,8 @@ import { Link } from "react-router-dom";
 import Logo from "../../assets/images/logo.png";
 
 const Header = () => {
+  const _exitApp = () => {};
+  const newEmail = "";
   return (
     <div className="header">
       <nav className="navbar navbar-inverse">
@@ -42,10 +44,10 @@ const Header = () => {
 
             <ul className="nav navbar-nav navbar-right">
               <li>
-                <a href="#main">{this.props.newEmail}</a>
+                <a href="#main">{newEmail}</a>
               </li>
               <li>
-                <button className="btn-exit" onClick={this._exitApp}>
+                <button className="btn-exit" onClick={_exitApp}>
                   <Link to="/">Exit </Link>
                   <span className="glyphicon glyphicon-log-in"></span>
                 </button>
