@@ -1,14 +1,14 @@
-import React from 'react'
-import { RotateSpinner } from 'react-spinners-kit'
+import React from "react";
+import { RotateSpinner } from "react-spinners-kit";
 
-import './style.css'
+import { LoadingWrapper } from "./styles.js";
 
-const Loading = () => {
-    return(
-        <div className="loading">
-            <RotateSpinner size={35} color="#231225" />
-        </div>
-    );
-}
+const Loading = ({ children, loading }) => {
+  return (
+    <LoadingWrapper>
+      {loading ? <RotateSpinner size={35} color="#231225" /> : <>{children}</>}
+    </LoadingWrapper>
+  );
+};
 
 export default Loading;

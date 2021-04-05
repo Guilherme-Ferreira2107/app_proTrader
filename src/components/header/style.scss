@@ -1,0 +1,23 @@
+.navbar {
+  border-radius: 0px;
+}
+.header .navbar-brand img {
+  width: 25px;
+}
+.header .btn-exit {
+  margin-left: 10px;
+  background: transparent;
+  border: none;
+  margin-top: 15px;
+  color: rgb(202, 202, 202);
+  a {
+    color: rgb(202, 202, 202);
+    text-decoration: none;
+    &:hover {
+      color: #ffffff;
+    }
+  }
+}
+.header .btn-exit:hover {
+  color: #ffffff;
+}

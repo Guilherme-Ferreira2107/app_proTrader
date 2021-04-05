@@ -1,0 +1,42 @@
+.main {
+  min-height: 500px;
+  background-color: #f0f0f094;
+  border-radius: 100% 0 0 0;
+  animation-name: main-background;
+  animation-duration: 3s;
+}
+@keyframes main-background {
+  from {
+    background-color: #f0f0f010;
+    border-radius: 100% 100% 100% 0;
+  }
+
+  to {
+    background-color: #f0f0f094;
+    border-radius: 100% 0 0 0;
+  }
+}
+.main .exhibit {
+  margin-top: 20px;
+  padding: 30px 0 30px 20px;
+  border: none;
+  border-radius: 5px;
+  background-color: #fff;
+  box-shadow: 5px 5px 18px #9291915b;
+  color: #333;
+}
+.main .container .form-control {
+  width: 100%;
+}
+.main .container .btn {
+  min-width: 100px;
+}
+.main .update-wallet {
+  margin-top: 50px;
+  padding: 30px 0 30px 20px;
+  border: none;
+  border-radius: 5px;
+  background-color: #fff;
+  box-shadow: 5px 5px 18px #9291915b;
+  color: #333;
+}
