@@ -21,7 +21,7 @@ import { useHistory } from "react-router-dom";
 import { Grid } from "@material-ui/core";
 
 // Services
-import { authLogin } from "../../../services/loginService";
+import { authLogin } from "../../../services/authService";
 
 const Login = () => {
   const [inputEmail, setInputEmail] = useState();

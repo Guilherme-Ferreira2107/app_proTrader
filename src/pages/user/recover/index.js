@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import "./styles.css";
-import { Redirect } from "react-router-dom";
 import Logo from "../../../assets/images/logo.png";
 
 // Components
@@ -18,7 +17,7 @@ import { useForm } from "react-hook-form";
 import { useHistory } from "react-router-dom";
 
 // Services
-import { recoverPassword } from "../../../services/loginService";
+import { recoverPassword } from "../../../services/authService";
 
 const Recover = () => {
   const { register, handleSubmit } = useForm();

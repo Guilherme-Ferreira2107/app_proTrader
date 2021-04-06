@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import firebase from "firebase";
+import b64 from "base-64";
 import "./styles.css";
 
 import IconCheck from "../../../assets/icons/checkmark.png";
@@ -17,7 +19,7 @@ import { useForm } from "react-hook-form";
 import { useHistory } from "react-router-dom";
 
 // Services
-import { registerUser } from "../../../services/loginService";
+import { registerUser } from "../../../services/authService";
 
 const Register = () => {
   const { register, handleSubmit } = useForm();
@@ -38,6 +40,24 @@ const Register = () => {
           setInputName("");
           setInputEmail("");
           setInputPass("");
+
+          let emailB64 = b64.encode(data?.email);
+          let nome = data?.name;
+
+          firebase
+            .database()
+            .ref("/user/" + emailB64)
+            .push({
+              nome,
+              email: data?.email,
+              saldo: 0,
+              carteira: {
+                ordemValor: 0,
+                resultado: 0,
+              },
+            })
+            .then(() => console.log("Sucesso"))
+            .catch((error) => setMessage(error.message));
         })
         .catch((error) => setMessage(error.message));
     } catch (error) {

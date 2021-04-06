@@ -9,6 +9,7 @@
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",
     "axios": "^0.19.2",
+    "base-64": "^1.0.0",
     "bootstrap": "^4.6.0",
     "firebase": "^8.3.2",
     "immer": "^9.0.1",
