@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import firebase from "firebase";
 
 // Components
 import Loading from "../../../components/loading";
@@ -23,13 +24,23 @@ import { Grid } from "@material-ui/core";
 // Services
 import { authLogin } from "../../../services/authService";
 
+// Redux
+import { useDispatch } from "react-redux";
+import {
+  getCurrent,
+  updateToken,
+  updateEmail,
+} from "../../../store/modulos/users/actions";
+
 const Login = () => {
+  const dispatch = useDispatch();
+  const history = useHistory();
+  const { register, handleSubmit } = useForm();
   const [inputEmail, setInputEmail] = useState();
   const [inputPass, setInputPass] = useState();
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
-  const history = useHistory();
-  const { register, handleSubmit } = useForm();
+  const { currentUser } = firebase.auth();
 
   const inputChangeEmail = (event) => {
     setInputEmail(event.target.value);
@@ -40,17 +51,25 @@ const Login = () => {
   };
 
   const handlerSend = async (data) => {
+    const email = data?.email;
     try {
       setLoading(true);
-      await authLogin(data?.email, data?.password)
+      await authLogin(email, data?.password)
         .then(() => {
-          history.push("/main");
+          authSuccess(email);
         })
         .catch((error) => setMessage(error.message));
     } catch (error) {
     } finally {
       setLoading(false);
     }
+  };
+
+  const authSuccess = (email) => {
+    currentUser && dispatch(getCurrent({ currentUser }));
+    dispatch(updateEmail(email));
+    dispatch(updateToken(currentUser?.refreshToken));
+    history.push("/main");
   };
 
   return (

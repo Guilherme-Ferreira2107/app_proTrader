@@ -20,6 +20,7 @@ import { useHistory } from "react-router-dom";
 
 // Services
 import { registerUser } from "../../../services/authService";
+import moment from "moment";
 
 const Register = () => {
   const { register, handleSubmit } = useForm();
@@ -50,11 +51,15 @@ const Register = () => {
             .push({
               nome,
               email: data?.email,
-              saldo: 0,
-              carteira: {
-                ordemValor: 0,
-                resultado: 0,
-              },
+              saldo: 100,
+              saldoInicial: 100,
+              carteira: [
+                {
+                  hora: moment().format("yyyy-mm-DD, h:mm:ss"),
+                  ordemValor: 0,
+                  resultado: 0,
+                },
+              ],
             })
             .then(() => console.log("Sucesso"))
             .catch((error) => setMessage(error.message));
