@@ -11,7 +11,7 @@ export const Wrapper = styled.div`
   align-content: center;
   position: fixed;
   z-index: 200;
-  background-color: #5cb85ce5;
+  background-color: ${(props) => props.type};
   border-radius: 0.25rem;
   bottom: 10px;
   left: 10px;
@@ -50,7 +50,7 @@ export const AlertButton = styled.button`
   transition: 0.25s;
 
   &:hover {
-    background: #5cb85c;
+    background: ${(props) => props.type};
     color: #fff;
   }
 `;

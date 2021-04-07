@@ -12,8 +12,7 @@ export const ModalInicial = styled.div`
   position: fixed;
   z-index: 200;
   color: #fff;
-  background-color: #231225;
-  border-radius: 0.25rem;
+
   top: 60px;
   left: 10px;
   transition: 0.25s;
@@ -33,8 +32,15 @@ export const ModalInicial = styled.div`
     }
   }
 
+  div {
+    background-color: #231225;
+    padding: 50px 70px;
+    border-radius: 0.25rem;
+    text-align: center;
+    position: relative;
+  }
+
   form {
-    width: auto;
     color: #231225;
   }
 

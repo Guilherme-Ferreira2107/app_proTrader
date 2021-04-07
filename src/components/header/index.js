@@ -5,7 +5,9 @@ import { Link } from "react-router-dom";
 import Logo from "../../assets/images/logo.png";
 
 const Header = () => {
-  const _exitApp = () => {};
+  const _exitApp = () => {
+    localStorage.removeItem("@wallet-app/dadosUsuario");
+  };
   const newEmail = "";
   return (
     <div className="header">

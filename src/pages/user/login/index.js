@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import firebase from "firebase";
 
 // Components
 import Loading from "../../../components/loading";
@@ -26,11 +25,7 @@ import { authLogin } from "../../../services/authService";
 
 // Redux
 import { useDispatch } from "react-redux";
-import {
-  getCurrent,
-  updateToken,
-  updateEmail,
-} from "../../../store/modulos/users/actions";
+import { updateEmail } from "../../../store/modulos/users/actions";
 
 const Login = () => {
   const dispatch = useDispatch();
@@ -40,8 +35,6 @@ const Login = () => {
   const [inputPass, setInputPass] = useState();
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
-  const { currentUser } = firebase.auth();
-
   const inputChangeEmail = (event) => {
     setInputEmail(event.target.value);
   };
@@ -66,10 +59,8 @@ const Login = () => {
   };
 
   const authSuccess = (email) => {
-    currentUser && dispatch(getCurrent({ currentUser }));
     dispatch(updateEmail(email));
-    dispatch(updateToken(currentUser?.refreshToken));
-    history.push("/main");
+    history.push("/");
   };
 
   return (

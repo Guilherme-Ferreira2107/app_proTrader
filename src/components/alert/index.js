@@ -4,9 +4,17 @@ import PropTypes from "prop-types";
 import { Wrapper, AlertForm, AlertButton } from "./styles.js";
 
 const Alert = (props) => {
-  const { onClick, message, value } = props;
+  const { onClick, message, value, type } = props;
+
+  const checkType = () => {
+    if (type === "sucesso") return "#5cb85ce5";
+    else if (type === "erro") {
+      return "#ff0000";
+    }
+  };
+
   return (
-    <Wrapper onClick={onClick}>
+    <Wrapper onClick={onClick} type={checkType}>
       <AlertForm>{message}</AlertForm>
       <AlertButton>{value}</AlertButton>
     </Wrapper>

@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from "react";
-import firebase from "firebase";
-import b64 from "base-64";
-import _ from "lodash";
+import { mask } from "remask";
 
 // FormHooks
 import { useForm } from "react-hook-form";
@@ -10,9 +8,7 @@ import { useForm } from "react-hook-form";
 import Header from "../../components/header";
 import Footer from "../../components/footer";
 import Loading from "../../components/loading";
-
-// Redux
-import { useSelector } from "react-redux";
+import Alert from "../../components/alert";
 
 // Style
 import "./styles.css";
@@ -20,107 +16,194 @@ import { ModalInicial } from "./styles.js";
 
 const Main = () => {
   const { register, handleSubmit } = useForm();
-  const userMail = useSelector((state) => state.email);
-  const [valueCurrent, setValueCurrent] = useState(0);
   const [valueInitial, setValueInitial] = useState(0);
-  const [profitTotal, setProfitTotal] = useState("");
-  const [profitDaily, setProfitDaily] = useState("");
-  const [profitWeekly, setProfitWeekly] = useState("");
-  const [profitMonthly, setProfitMonthly] = useState("");
-  const [dadosUsuario, setDadosUsuario] = useState("");
-  const [emailEncode, setEmailEncode] = useState("");
+  const [valueCurrent, setValueCurrent] = useState(0);
+  const [profitTotal, setProfitTotal] = useState(0);
+  const [profitDaily, setProfitDaily] = useState(0);
+  const [profitWeekly, setProfitWeekly] = useState(0);
+  const [profitMonthly, setProfitMonthly] = useState(0);
+  const [dadosUsuario, setDadosUsuario] = useState();
+  const [enablePopup, setEnablePopup] = useState(false);
+  const [showAlert, setShowAlert] = useState(false);
+  const [alert, setAlert] = useState(<div />);
   const [loading, setLoading] = useState(false);
   const [addValor, setAddValor] = useState("");
   const [removeValor, setRemoveValor] = useState("");
-  const [valorInicial, setValorInicial] = useState("");
-
-  // Converter email para recuperar dados
-  useEffect(() => {
-    setEmailEncode(b64.encode(userMail));
-  }, [userMail]);
+  const [valorInicial, setValorInicial] = useState();
+  const patterns = ["999,999", "999.999,9999", "999.999.999,99"];
 
   // Recuperar dados
-  useEffect(() => {
+  const recuperarDados = async () => {
     try {
       setLoading(true);
-      firebase
-        .database()
-        .ref(`user/${emailEncode}`)
-        .once("value")
-        .then((snapshot) => {
-          const lvl = _.values(snapshot.val());
-          const resultado = _.values(lvl[0]);
-          setDadosUsuario(resultado[0]);
-          setValueInitial(resultado[0]?.saldoInicial);
-          setValueCurrent(resultado[0]?.saldo);
-        })
-        .catch((error) => console.log(error));
+      let dados = JSON.parse(localStorage.getItem("@wallet-app/dadosUsuario"));
+      setDadosUsuario(dados[0]);
     } catch (error) {
       console.log(error);
     } finally {
       setLoading(false);
     }
-  }, [emailEncode]);
-
-  // Distribuir valores
-  useEffect(() => {
-    if (valueCurrent && valueInitial)
-      setProfitTotal(valueCurrent - valueInitial);
-
-    setProfitDaily(0);
-    setProfitWeekly(0);
-    setProfitMonthly(0);
-  }, [valueCurrent, valueInitial]);
+  };
 
   useEffect(() => {
-    console.log(dadosUsuario);
+    recuperarDados();
+  }, []);
+
+  // Depositar valor inicial
+  const addValorInicial = (data) => {
+    let dados = JSON.parse(localStorage.getItem("@wallet-app/dadosUsuario"));
+    dados[0].saldoInicial = data.valorInicial;
+    try {
+      setLoading(true);
+      localStorage.setItem("@wallet-app/dadosUsuario", JSON.stringify(dados));
+      setValorInicial("");
+      setEnablePopup(false);
+      recuperarDados();
+      setShowAlert(true);
+      setAlert(
+        <Alert
+          message="Depósito inicial feito com Sucesso!"
+          value="Ok"
+          onClick={removeAlert}
+          type="sucesso"
+        />
+      );
+    } catch (error) {
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    setValueInitial(dadosUsuario?.saldoInicial);
   }, [dadosUsuario]);
 
-  const addValorInicial = (data) => {
-    console.log(+data?.valorInicial);
-    setValorInicial("");
-  };
+  useEffect(() => {
+    if (valueInitial === 0) {
+      setEnablePopup(true);
+    } else {
+      setEnablePopup(false);
+      setValueCurrent(valueInitial);
+    }
+    valueInitial && recuperarDados();
+  }, [valueInitial]);
 
   // Adicionar saldo
   const addSaldo = (event) => {
     event.preventDefault();
-    console.log(+addValor);
-    setAddValor("");
+    if (addValor) {
+      let resultado = parseFloat(valueInitial) + parseFloat(addValor);
+      let dados = JSON.parse(localStorage.getItem("@wallet-app/dadosUsuario"));
+      dados[0].saldoInicial = resultado;
+      try {
+        setLoading(true);
+        localStorage.setItem("@wallet-app/dadosUsuario", JSON.stringify(dados));
+        recuperarDados();
+        setShowAlert(true);
+        setAlert(
+          <Alert
+            message="Depósito com sucesso!"
+            value="Ok"
+            onClick={removeAlert}
+            type="sucesso"
+          />
+        );
+      } catch (error) {
+      } finally {
+        setLoading(false);
+      }
+      setAddValor("");
+    }
   };
 
   // Saque saldo
   const saqueSaldo = (event) => {
     event.preventDefault();
-    console.log(-removeValor);
-    setRemoveValor("");
+    if (removeValor) {
+      if (removeValor <= parseFloat(valueInitial)) {
+        let resultado = parseFloat(valueInitial) - parseFloat(removeValor);
+        let dados = JSON.parse(
+          localStorage.getItem("@wallet-app/dadosUsuario")
+        );
+        dados[0].saldoInicial = resultado;
+        try {
+          setLoading(true);
+          localStorage.setItem(
+            "@wallet-app/dadosUsuario",
+            JSON.stringify(dados)
+          );
+          recuperarDados();
+          setShowAlert(true);
+          setAlert(
+            <Alert
+              message="Saque com sucesso!"
+              value="Ok"
+              onClick={removeAlert}
+              type="sucesso"
+            />
+          );
+        } catch (error) {
+        } finally {
+          setLoading(false);
+        }
+      } else {
+        setShowAlert(true);
+        setAlert(
+          <Alert
+            message="Saldo indisponível! Verifique seu saldo disponível"
+            value="Ok"
+            onClick={removeAlert}
+            type="erro"
+          />
+        );
+      }
+      setRemoveValor("");
+    }
+  };
+
+  // Formatar números
+  const formatNumber = (value) => {
+    const conversao = value.toLocaleString("pt-br", {
+      style: "currency",
+      currency: "BRL",
+      maximumFractionDigits: 2,
+    });
+    return conversao;
+  };
+
+  const removeAlert = () => {
+    setShowAlert(false);
   };
 
   return (
     <>
       <Header />
-      {valueInitial === 0 ? (
+      {enablePopup && (
         <ModalInicial>
-          <h3>Para começar, inicie seu wallet com um valor inicial!</h3>
-          <form onSubmit={handleSubmit(addValorInicial)}>
-            <input
-              className="inputValue"
-              type="number"
-              name="valorInicial"
-              placeholder="R$100,00"
-              required
-              ref={register({
-                required: "Senha é obrigatório!",
-              })}
-            />
-            <input
-              className="button btn btn-success"
-              type="submit"
-              value="Depositar e começar!"
-            />
-          </form>
+          <div>
+            <h3>Para começar, deposite em seu wallet um valor inicial!</h3>
+            <form onSubmit={handleSubmit(addValorInicial)}>
+              <input
+                className="inputValue"
+                name="valorInicial"
+                placeholder="R$ 1.000,00"
+                required
+                ref={register({
+                  required: "Depósito é obrigatório!",
+                })}
+                value={valorInicial}
+                onChange={(event) => setValorInicial(event.target.value)}
+              />
+              <input
+                className="button btn btn-success"
+                type="submit"
+                value="Depositar e começar!"
+              />
+            </form>
+          </div>
         </ModalInicial>
-      ) : null}
-      <div className={valueInitial === 0 ? "main opacity" : "main"}>
+      )}
+      <div className={enablePopup ? "main opacity" : "main"}>
         <div className="container">
           <h4>
             Olá <em>{dadosUsuario?.nome}</em>, seja bem vindo ao seu Trading
@@ -129,43 +212,23 @@ const Main = () => {
         </div>
         <Loading loading={loading}>
           <div className="container exhibit">
-            <div className="col-sm-4">
+            <div className="col-sm-4 card-principal">
               <h2>Saldo disponível: </h2>
-              <h2>
-                R${valueCurrent && valueCurrent.toFixed(2).replace(".", ",")}
-              </h2>
+              <h2>{valueCurrent && formatNumber(Number(valueCurrent))}</h2>
             </div>
             <div className="col-sm-8">
               <div className="col-sm-4">
-                <label>Saldo Inicial</label>
-                <h4>
-                  R${valueInitial && valueInitial.toFixed(2).replace(".", ",")}{" "}
-                </h4>
-              </div>
-              <div className="col-sm-8">
-                <label>Lucro Total</label>
-                <h4>
-                  R${profitTotal && profitTotal.toFixed(2).replace(".", ",")}{" "}
-                </h4>
-              </div>
-              <div className="col-sm-4">
                 <label>Lucro Diário</label>
-                <h4>
-                  R${profitDaily && profitDaily.toFixed(2).replace(".", ",")}{" "}
-                </h4>
+                <h4>{profitDaily ? formatNumber(profitDaily) : "R$ 0,00"}</h4>
               </div>
               <div className="col-sm-4">
                 <label>Lucro Semanal</label>
-                <h4>
-                  R${profitWeekly && profitWeekly.toFixed(2).replace(".", ",")}{" "}
-                </h4>
+                <h4>{profitWeekly ? formatNumber(profitWeekly) : "R$ 0,00"}</h4>
               </div>
               <div className="col-sm-4">
                 <label>Lucro Mensal</label>
                 <h4>
-                  R$
-                  {profitMonthly &&
-                    profitMonthly.toFixed(2).replace(".", ",")}{" "}
+                  {profitMonthly ? formatNumber(profitMonthly) : "R$ 0,00"}
                 </h4>
               </div>
             </div>
@@ -218,6 +281,7 @@ const Main = () => {
         </div>
       </div>
       <Footer />
+      {showAlert && alert}
     </>
   );
 };
