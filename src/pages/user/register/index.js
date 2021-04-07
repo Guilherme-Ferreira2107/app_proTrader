@@ -51,8 +51,11 @@ const Register = () => {
             .push({
               nome,
               email: data?.email,
-              saldo: 100,
+              saldoAtual: 100,
               saldoInicial: 100,
+              lucroDia: 0,
+              lucroSemana: 0,
+              lucroMes: 0,
               carteira: [
                 {
                   hora: moment().format("yyyy-mm-DD, h:mm:ss"),

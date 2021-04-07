@@ -1,3 +1,7 @@
+.opacity {
+  filter: blur(5px);
+  pointer-events: none;
+}
 .main {
   min-height: 500px;
   background-color: #f0f0f094;
