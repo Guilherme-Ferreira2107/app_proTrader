@@ -15,7 +15,7 @@ import { Grid } from "@material-ui/core";
 
 // Style
 import "./styles.css";
-import { CardHistorico } from "./styles";
+import { CardHistorico, TitleHistorico, ValueHistorico } from "./styles";
 
 const Main = () => {
   const history = useHistory();
@@ -368,7 +368,7 @@ const Main = () => {
           </h4>
         </div>
 
-        <div className="container update-wallet">
+        <div className="container card update-wallet">
           <div className="container">
             <div className="container col-sm-6">
               <form className="form-inline">
@@ -413,9 +413,9 @@ const Main = () => {
         </div>
 
         <Loading loading={loading}>
-          <div className="container exhibit">
+          <div className="container card exhibit">
             <div className="col-sm-12">
-              <div className="col-sm-3">
+              <div className="col-sm-3 border-green1">
                 <label>Saldo disponível: </label>
                 <h4>
                   {valueCurrent
@@ -423,15 +423,15 @@ const Main = () => {
                     : "R$ 0,00"}
                 </h4>
               </div>
-              <div className="col-sm-3">
+              <div className="col-sm-3 border-green2">
                 <label>Lucro Diário</label>
                 <h4>{profitDaily ? formatNumber(profitDaily) : "R$ 0,00"}</h4>
               </div>
-              <div className="col-sm-3">
+              <div className="col-sm-3 border-green3">
                 <label>Lucro Semanal</label>
                 <h4>{profitWeekly ? formatNumber(profitWeekly) : "R$ 0,00"}</h4>
               </div>
-              <div className="col-sm-3">
+              <div className="col-sm-3 border-green4">
                 <label>Lucro Mensal</label>
                 <h4>
                   {profitMonthly ? formatNumber(profitMonthly) : "R$ 0,00"}
@@ -440,8 +440,9 @@ const Main = () => {
             </div>
           </div>
         </Loading>
+
         <Loading loading={loading}>
-          <div className="container exhibit">
+          <div className="container card exhibit">
             <Grid container spacing={4} xs={12}>
               <Grid item xs={8}>
                 <ReactApexChart
@@ -452,41 +453,47 @@ const Main = () => {
                   width="100%"
                 />
               </Grid>
-              <Grid item xs={4} className="cardHistorico">
+              <Grid item xs={4} className="card-historico">
                 <Grid
                   container
                   justify="space-between"
                   className="historico-title"
                 >
                   <Grid item>
-                    <b>HISTÓRICO</b>
+                    <h4>HISTÓRICO</h4>
                   </Grid>
                   <Grid item>
-                    <a href="/historic">Ver tudo ></a>
+                    <h4>
+                      <a href="/historic">Ver tudo</a>
+                    </h4>
                   </Grid>
                 </Grid>
                 <Grid container spacing={2}>
                   <Grid item xs={4}>
-                    Payout
+                    <TitleHistorico>Payout</TitleHistorico>
                   </Grid>
                   <Grid item xs={4}>
-                    Investimento
+                    <TitleHistorico>Investimento</TitleHistorico>
                   </Grid>
                   <Grid item xs={4}>
-                    Lucro
+                    <TitleHistorico>Lucro</TitleHistorico>
                   </Grid>
                 </Grid>
                 {listHistorico.map((item, idx) => (
                   <CardHistorico key={idx}>
                     <Grid container spacing={2}>
                       <Grid item xs={4}>
-                        {item.payout}%
+                        <ValueHistorico>{item.payout}%</ValueHistorico>
                       </Grid>
                       <Grid item xs={4}>
-                        R${item.investimento.toFixed(2)}
+                        <ValueHistorico>
+                          R${item.investimento.toFixed(2)}
+                        </ValueHistorico>
                       </Grid>
                       <Grid item xs={4}>
-                        R${item.retorno.toFixed(2)}
+                        <ValueHistorico>
+                          R${item.retorno.toFixed(2)}
+                        </ValueHistorico>
                       </Grid>
                     </Grid>
                   </CardHistorico>

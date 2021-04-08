@@ -33,13 +33,10 @@ const Header = () => {
           <div className="collapse navbar-collapse" id="myNavbar">
             <ul className="nav navbar-nav">
               <li>
-                <a href="/main">Home</a>
+                <a href="/main">Dashboard</a>
               </li>
               <li>
                 <a href="/calculation">Calculadora</a>
-              </li>
-              <li>
-                <a href="/performances">Performance</a>
               </li>
               <li>
                 <a href="/historic">Histórico</a>

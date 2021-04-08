@@ -23,16 +23,24 @@
 .main .exhibit {
   display: flex;
   align-items: center;
-  margin: 20px 10px 0;
+  margin: 30px 10px 0px 0;
   padding: 30px 0 30px 20px;
-  border: none;
-  border-radius: 5px;
-  background-color: #fff;
-  box-shadow: 5px 5px 18px #9291915b;
   color: #333;
 }
-.main .card-principal {
-  border-left: 5px solid #5cb85ce5;
+.main .border-green1 {
+  border-left: 5px solid #5cb85c;
+  padding-left: 10px;
+}
+.main .border-green2 {
+  border-left: 5px solid #5cb85cbf;
+  padding-left: 10px;
+}
+.main .border-green3 {
+  border-left: 5px solid #5cb85c80;
+  padding-left: 10px;
+}
+.main .border-green4 {
+  border-left: 5px solid #5cb85c64;
   padding-left: 10px;
 }
 .main .card-principal h2 {
@@ -44,31 +52,45 @@
 .main .container .btn {
   min-width: 100px;
 }
-.main .update-wallet {
-  margin: 30px auto;
-  padding: 30px 0 30px 20px;
+.card {
   border: none;
   border-radius: 5px;
   background-color: #fff;
   box-shadow: 5px 5px 18px #9291915b;
+}
+.main .update-wallet {
+  margin: 30px auto 0;
+  padding: 30px 0 30px 20px;
   color: #333;
 }
-.cardHistorico {
-  height: 350px;
+.card-historico {
   border: none;
   border-radius: 5px;
   background-color: #231225;
   box-shadow: 5px 5px 18px #9291915b;
+  height: 350px;
   color: #fff;
   padding: 20px;
   overflow-y: scroll;
 }
 .historico-title {
-  margin: 10px 0 20px;
+  margin: 10px 0;
+  font-weight: bold;
 }
-.cardHistorico::-webkit-scrollbar-thumb {
+.historico-title a {
+  padding: 10px;
+  background-color: #f5f5f511;
+  color: #f0f0f0;
+  text-decoration: none;
+  border-radius: 0.25rem;
+}
+.historico-title a:hover {
+  color: #333;
+  background-color: #f5f5f5;
+}
+.card-historico::-webkit-scrollbar-thumb {
   background: #f5f5f511;
 }
-.cardHistorico::-webkit-scrollbar {
+.card-historico::-webkit-scrollbar {
   background-color: #231225;
 }
