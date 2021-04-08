@@ -35,24 +35,24 @@ const Main = () => {
     {
       name: "Lucro",
       data: [
-        250,
+        250.05,
         348,
-        690,
-        883,
+        690.65,
+        883.84,
         167,
         93,
-        205,
-        -334,
+        205.8,
+        -334.9,
         0,
-        -15,
+        -15.3,
         34,
         68,
-        -100,
+        -100.12,
         89,
-        164,
+        164.58,
         278,
         333,
-        399,
+        399.89,
         465,
         322,
         50,
@@ -379,7 +379,7 @@ const Main = () => {
           </h4>
         </div>
 
-        <div className="container card update-wallet">
+        <div className="container card card1 update-wallet">
           <div className="container">
             <div className="container col-sm-6">
               <form className="form-inline">
@@ -424,7 +424,7 @@ const Main = () => {
         </div>
 
         <Loading loading={loading}>
-          <div className="container card exhibit">
+          <div className="container card card2 exhibit">
             <div className="col-sm-12">
               <div className="col-sm-3 border-green1">
                 <label>Saldo disponível: </label>
@@ -453,7 +453,7 @@ const Main = () => {
         </Loading>
 
         <Loading loading={loading}>
-          <div className="container card exhibit">
+          <div className="container card card3 exhibit">
             <Grid container spacing={4} xs={12}>
               <Grid item xs={8}>
                 <ReactApexChart
@@ -471,7 +471,7 @@ const Main = () => {
                   className="historico-title"
                 >
                   <Grid item>
-                    <h4>HISTÓRICO</h4>
+                    <h4>ORDENS RECENTES</h4>
                   </Grid>
                   <Grid item>
                     <h4>
@@ -514,7 +514,6 @@ const Main = () => {
           </div>
         </Loading>
       </div>
-
       <Footer />
       {showAlert && alert}
     </>

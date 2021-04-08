@@ -20,6 +20,50 @@
     border-radius: 100% 0 0 0;
   }
 }
+.card1 {
+  animation-name: card1;
+  animation-duration: 1.4s;
+}
+.card2 {
+  animation-name: card2;
+  animation-duration: 1.8s;
+}
+.card3 {
+  animation-name: card3;
+  animation-duration: 2.2s;
+}
+
+@keyframes card1 {
+  from {
+    margin-left: -150px;
+    opacity: 0;
+  }
+
+  to {
+    margin-left: 4.5%;
+    opacity: 1;
+  }
+}
+@keyframes card2 {
+  from {
+    margin-left: -150px;
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+@keyframes card3 {
+  from {
+    margin-left: -150px;
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
 .main .exhibit {
   display: flex;
   align-items: center;
