@@ -10,8 +10,12 @@ import Footer from "../../components/footer";
 import Loading from "../../components/loading";
 import Alert from "../../components/alert";
 
+// Material UI
+import { Grid } from "@material-ui/core";
+
 // Style
 import "./styles.css";
+import { CardHistorico } from "./styles";
 
 const Main = () => {
   const history = useHistory();
@@ -26,49 +30,129 @@ const Main = () => {
   const [loading, setLoading] = useState(false);
   const [addValor, setAddValor] = useState("");
   const [removeValor, setRemoveValor] = useState("");
+
   const series = [
     {
-      name: "Cases",
+      name: "Lucro",
       data: [
-        555,
-        12038,
-        69030,
-        88369,
-        167466,
-        932638,
-        2055423,
-        3343777,
-        3845718,
+        250,
+        348,
+        690,
+        883,
+        167,
+        93,
+        205,
+        -334,
+        0,
+        -15,
+        34,
+        68,
+        -100,
+        89,
+        164,
+        278,
+        333,
+        399,
+        465,
+        322,
+        50,
+        -66,
+        -400,
+        155,
+        200,
+        312,
+        554,
+        675,
+        700,
       ],
     },
-    {
-      name: "Recovered",
-      data: [28, 284, 9394, 42710, 76026, 191853, 501538, 1029651, 1255481],
-    },
-    {
-      name: "Deaths",
-      data: [17, 259, 1666, 2996, 6472, 49675, 140658, 238619, 269567],
-    },
   ];
+
   const options = {
+    chart: {
+      zoom: false,
+      foreColor: "#333",
+      animations: {
+        enabled: true,
+        easing: "easeinout",
+        speed: 800,
+        animateGradually: {
+          enabled: true,
+          delay: 150,
+        },
+        dynamicAnimation: {
+          enabled: true,
+          speed: 350,
+        },
+      },
+    },
     dataLabels: {
-      enabled: false,
+      enabled: true,
+      formatter: function (val, opts) {
+        return `R$ ${val.toFixed(2)}`;
+      },
+      style: {
+        colors: ["#231225"],
+      },
+      background: {
+        enabled: true,
+        padding: 8,
+        foreColor: "#fff",
+        borderRadius: 2,
+        borderWidth: 1,
+        borderColor: "#fff",
+        opacity: 0.9,
+      },
     },
     stroke: {
+      show: true,
       curve: "smooth",
+      colors: ["#231225"],
+      width: 2,
+    },
+    yaxis: {
+      width: "100%",
+      labels: {
+        show: true,
+        formatter(value) {
+          return `R$ ${value}`;
+        },
+      },
     },
     xaxis: {
       type: "datetime",
       categories: [
-        "1/22/20",
-        "2/1/20",
-        "2/15/20",
-        "3/1/20",
-        "3/15/20",
-        "4/1/20",
-        "4/15/20",
-        "5/1/20",
-        "5/7/20",
+        "2021/1/1",
+        "2021/1/2",
+        "2021/1/3",
+        "2021/1/4",
+        "2021/1/5",
+        "2021/1/6",
+        "2021/1/7",
+        "2021/1/8",
+        "2021/1/9",
+        "2021/1/10",
+        "2021/1/11",
+        "2021/1/12",
+        "2021/1/13",
+        "2021/1/14",
+        "2021/1/15",
+        "2021/1/16",
+        "2021/1/17",
+        "2021/1/18",
+        "2021/1/19",
+        "2021/1/20",
+        "2021/1/21",
+        "2021/1/22",
+        "2021/1/23",
+        "2021/1/24",
+        "2021/1/25",
+        "2021/1/26",
+        "2021/1/27",
+        "2021/1/28",
+        "2021/1/29",
+        "2021/1/30",
+        "2021/1/31",
       ],
     },
     tooltip: {
@@ -77,6 +161,44 @@ const Main = () => {
       },
     },
   };
+
+  const listHistorico = [
+    {
+      dia: "2021-04-08",
+      hora: "1201",
+      retorno: 200,
+      investimento: 870,
+      payout: 87,
+    },
+    {
+      dia: "2021-04-08",
+      hora: "1202",
+      retorno: -350,
+      investimento: 870,
+      payout: 87,
+    },
+    {
+      dia: "2021-04-08",
+      hora: "1203",
+      retorno: -350,
+      investimento: 870,
+      payout: 87,
+    },
+    {
+      dia: "2021-04-08",
+      hora: "1204",
+      retorno: 360,
+      investimento: 870,
+      payout: 87,
+    },
+    {
+      dia: "2021-04-08",
+      hora: "1205",
+      retorno: 365,
+      investimento: 870,
+      payout: 87,
+    },
+  ];
 
   // Recuperar dados
   const recuperarDados = useCallback(async () => {
@@ -278,13 +400,51 @@ const Main = () => {
         </Loading>
         <Loading loading={loading}>
           <div className="container exhibit">
-            <ReactApexChart
-              options={options}
-              series={series}
-              type="line"
-              height={350}
-              width="100%"
-            />
+            <Grid container spacing={4} xs={12}>
+              <Grid item xs={8}>
+                <ReactApexChart
+                  options={options}
+                  series={series}
+                  type="line"
+                  height={350}
+                  width="100%"
+                />
+              </Grid>
+              <Grid item xs={4} className="cardHistorico">
+                <Grid container justify="space-between">
+                  <Grid item>
+                    <b>HISTÓRICO</b>
+                  </Grid>
+                  <Grid item>Ver tudo ></Grid>
+                </Grid>
+                <Grid container spacing={2}>
+                  <Grid item xs={4}>
+                    Payout
+                  </Grid>
+                  <Grid item xs={4}>
+                    Investimento
+                  </Grid>
+                  <Grid item xs={4}>
+                    Lucro
+                  </Grid>
+                </Grid>
+                {listHistorico.map((item, idx) => (
+                  <CardHistorico key={idx}>
+                    <Grid container spacing={2}>
+                      <Grid item xs={4}>
+                        {item.payout}%
+                      </Grid>
+                      <Grid item xs={4}>
+                        R${item.investimento}
+                      </Grid>
+                      <Grid item xs={4}>
+                        R${item.retorno}
+                      </Grid>
+                    </Grid>
+                  </CardHistorico>
+                ))}
+              </Grid>
+            </Grid>
           </div>
         </Loading>
       </div>

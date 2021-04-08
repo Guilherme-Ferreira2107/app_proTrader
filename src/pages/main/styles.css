@@ -53,3 +53,13 @@
   box-shadow: 5px 5px 18px #9291915b;
   color: #333;
 }
+.cardHistorico {
+  height: 350px;
+  border: none;
+  border-radius: 5px;
+  background-color: #231225;
+  box-shadow: 5px 5px 18px #9291915b;
+  color: #fff;
+
+  padding: 20px;
+}

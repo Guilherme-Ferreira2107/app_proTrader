@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import _ from "lodash";
 import b64 from "base-64";
 import firebase from "firebase";
