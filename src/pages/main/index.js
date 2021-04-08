@@ -65,6 +65,7 @@ const Main = () => {
         675,
         700,
       ],
+      color: "#231225",
     },
   ];
 
@@ -155,7 +156,17 @@ const Main = () => {
         "2021/1/31",
       ],
     },
+    markers: {
+      size: 0,
+      colors: "#231225",
+      strokeColors: "#231225",
+      strokeWidth: 2,
+    },
     tooltip: {
+      theme: "dark",
+      marker: {
+        show: true,
+      },
       x: {
         format: "dd/MM/yyyy",
       },
