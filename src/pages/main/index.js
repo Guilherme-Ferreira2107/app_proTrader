@@ -21,9 +21,9 @@ const Main = () => {
   const history = useHistory();
   const [valueInitial, setValueInitial] = useState(0);
   const [valueCurrent, setValueCurrent] = useState(0);
-  const [profitDaily, setProfitDaily] = useState(0);
-  const [profitWeekly, setProfitWeekly] = useState(0);
-  const [profitMonthly, setProfitMonthly] = useState(0);
+  const [profitDaily /* setProfitDaily */] = useState(0);
+  const [profitWeekly /* setProfitWeekly */] = useState(0);
+  const [profitMonthly /* setProfitMonthly */] = useState(0);
   const [dadosUsuario, setDadosUsuario] = useState();
   const [showAlert, setShowAlert] = useState(false);
   const [alert, setAlert] = useState(<div />);
