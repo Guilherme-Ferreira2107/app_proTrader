@@ -43,7 +43,7 @@ const InitialApp = () => {
   useEffect(() => {
     let dados = JSON.parse(localStorage.getItem("@wallet-app/dadosUsuario"));
     setTimeout(() => {
-      if (!email && !nome && !dados[0]?.email) {
+      if (!email && !nome && !dados) {
         history.push("/login");
       } else {
         let dadosUsuario = [

@@ -1,12 +1,14 @@
 import React from "react";
 import "./style.scss";
 
-import { Link } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import Logo from "../../assets/images/logo.png";
 
 const Header = () => {
-  const _exitApp = () => {
+  const history = useHistory();
+  const exitApp = () => {
     localStorage.removeItem("@wallet-app/dadosUsuario");
+    history.push("/login");
   };
   const newEmail = "";
   return (
@@ -49,9 +51,8 @@ const Header = () => {
                 <a href="#main">{newEmail}</a>
               </li>
               <li>
-                <button className="btn-exit" onClick={_exitApp}>
-                  <Link to="/">Exit </Link>
-                  <span className="glyphicon glyphicon-log-in"></span>
+                <button className="btn-exit" onClick={exitApp}>
+                  Sair <span className="glyphicon glyphicon-log-in"></span>
                 </button>
               </li>
             </ul>

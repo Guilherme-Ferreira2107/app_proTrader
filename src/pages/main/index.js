@@ -1,8 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { mask } from "remask";
-
-// FormHooks
-import { useForm } from "react-hook-form";
+import { useHistory } from "react-router";
 
 // Components
 import Header from "../../components/header";
@@ -12,81 +10,48 @@ import Alert from "../../components/alert";
 
 // Style
 import "./styles.css";
-import { ModalInicial } from "./styles.js";
 
 const Main = () => {
-  const { register, handleSubmit } = useForm();
+  const history = useHistory();
   const [valueInitial, setValueInitial] = useState(0);
   const [valueCurrent, setValueCurrent] = useState(0);
-  const [profitTotal, setProfitTotal] = useState(0);
   const [profitDaily, setProfitDaily] = useState(0);
   const [profitWeekly, setProfitWeekly] = useState(0);
   const [profitMonthly, setProfitMonthly] = useState(0);
   const [dadosUsuario, setDadosUsuario] = useState();
-  const [enablePopup, setEnablePopup] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
   const [alert, setAlert] = useState(<div />);
   const [loading, setLoading] = useState(false);
   const [addValor, setAddValor] = useState("");
   const [removeValor, setRemoveValor] = useState("");
-  const [valorInicial, setValorInicial] = useState();
-  const patterns = ["999,999", "999.999,9999", "999.999.999,99"];
 
   // Recuperar dados
-  const recuperarDados = async () => {
+  const recuperarDados = useCallback(async () => {
     try {
       setLoading(true);
       let dados = JSON.parse(localStorage.getItem("@wallet-app/dadosUsuario"));
       setDadosUsuario(dados[0]);
     } catch (error) {
-      console.log(error);
+      history.push("/login");
     } finally {
       setLoading(false);
     }
-  };
+  }, [history]);
 
   useEffect(() => {
     recuperarDados();
-  }, []);
-
-  // Depositar valor inicial
-  const addValorInicial = (data) => {
-    let dados = JSON.parse(localStorage.getItem("@wallet-app/dadosUsuario"));
-    dados[0].saldoInicial = data.valorInicial;
-    try {
-      setLoading(true);
-      localStorage.setItem("@wallet-app/dadosUsuario", JSON.stringify(dados));
-      setValorInicial("");
-      setEnablePopup(false);
-      recuperarDados();
-      setShowAlert(true);
-      setAlert(
-        <Alert
-          message="Depósito inicial feito com Sucesso!"
-          value="Ok"
-          onClick={removeAlert}
-          type="sucesso"
-        />
-      );
-    } catch (error) {
-    } finally {
-      setLoading(false);
-    }
-  };
+  }, [recuperarDados]);
 
   useEffect(() => {
     setValueInitial(dadosUsuario?.saldoInicial);
   }, [dadosUsuario]);
 
   useEffect(() => {
-    if (valueInitial === 0) {
-      setEnablePopup(true);
-    } else {
-      setEnablePopup(false);
+    if (valueInitial > 0) {
       setValueCurrent(valueInitial);
     }
     valueInitial && recuperarDados();
-  }, [valueInitial]);
+  }, [recuperarDados, valueInitial]);
 
   // Adicionar saldo
   const addSaldo = (event) => {
@@ -178,65 +143,15 @@ const Main = () => {
   return (
     <>
       <Header />
-      {enablePopup && (
-        <ModalInicial>
-          <div>
-            <h3>Para começar, deposite em seu wallet um valor inicial!</h3>
-            <form onSubmit={handleSubmit(addValorInicial)}>
-              <input
-                className="inputValue"
-                name="valorInicial"
-                placeholder="R$ 1.000,00"
-                required
-                ref={register({
-                  required: "Depósito é obrigatório!",
-                })}
-                value={valorInicial}
-                onChange={(event) => setValorInicial(event.target.value)}
-              />
-              <input
-                className="button btn btn-success"
-                type="submit"
-                value="Depositar e começar!"
-              />
-            </form>
-          </div>
-        </ModalInicial>
-      )}
-      <div className={enablePopup ? "main opacity" : "main"}>
+      <div className="main">
         <div className="container">
           <h4>
             Olá <em>{dadosUsuario?.nome}</em>, seja bem vindo ao seu Trading
             System!
           </h4>
         </div>
-        <Loading loading={loading}>
-          <div className="container exhibit">
-            <div className="col-sm-4 card-principal">
-              <h2>Saldo disponível: </h2>
-              <h2>{valueCurrent && formatNumber(Number(valueCurrent))}</h2>
-            </div>
-            <div className="col-sm-8">
-              <div className="col-sm-4">
-                <label>Lucro Diário</label>
-                <h4>{profitDaily ? formatNumber(profitDaily) : "R$ 0,00"}</h4>
-              </div>
-              <div className="col-sm-4">
-                <label>Lucro Semanal</label>
-                <h4>{profitWeekly ? formatNumber(profitWeekly) : "R$ 0,00"}</h4>
-              </div>
-              <div className="col-sm-4">
-                <label>Lucro Mensal</label>
-                <h4>
-                  {profitMonthly ? formatNumber(profitMonthly) : "R$ 0,00"}
-                </h4>
-              </div>
-            </div>
-          </div>
-        </Loading>
+
         <div className="container update-wallet">
-          <h4>Preencha os campos abaixo para atualizar sua carteira</h4>
-          <br />
           <div className="container">
             <div className="container col-sm-6">
               <form className="form-inline">
@@ -279,6 +194,35 @@ const Main = () => {
             </div>
           </div>
         </div>
+
+        <Loading loading={loading}>
+          <div className="container exhibit">
+            <div className="col-sm-12">
+              <div className="col-sm-3">
+                <label>Saldo disponível: </label>
+                <h4>
+                  {valueCurrent
+                    ? formatNumber(Number(valueCurrent))
+                    : "R$ 0,00"}
+                </h4>
+              </div>
+              <div className="col-sm-3">
+                <label>Lucro Diário</label>
+                <h4>{profitDaily ? formatNumber(profitDaily) : "R$ 0,00"}</h4>
+              </div>
+              <div className="col-sm-3">
+                <label>Lucro Semanal</label>
+                <h4>{profitWeekly ? formatNumber(profitWeekly) : "R$ 0,00"}</h4>
+              </div>
+              <div className="col-sm-3">
+                <label>Lucro Mensal</label>
+                <h4>
+                  {profitMonthly ? formatNumber(profitMonthly) : "R$ 0,00"}
+                </h4>
+              </div>
+            </div>
+          </div>
+        </Loading>
       </div>
       <Footer />
       {showAlert && alert}
