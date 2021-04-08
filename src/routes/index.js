@@ -8,6 +8,7 @@ import Register from "../pages/user/register";
 import Recover from "../pages/user/recover";
 import Performances from "../pages/performances";
 import Historic from "../pages/historic";
+import Calculation from "../pages/calculation";
 
 const Routes = () => {
   return (
@@ -20,6 +21,7 @@ const Routes = () => {
         <Route path="/recover" exact component={Recover} />
         <Route path="/performances" exact component={Performances} />
         <Route path="/historic" exact component={Historic} />
+        <Route path="/calculation" exact component={Calculation} />
       </Switch>
     </BrowserRouter>
   );
