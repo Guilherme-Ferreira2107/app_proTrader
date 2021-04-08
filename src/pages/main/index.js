@@ -198,6 +198,48 @@ const Main = () => {
       investimento: 870,
       payout: 87,
     },
+    {
+      dia: "2021-04-08",
+      hora: "1205",
+      retorno: 365,
+      investimento: 870,
+      payout: 87,
+    },
+    {
+      dia: "2021-04-08",
+      hora: "1205",
+      retorno: 365,
+      investimento: 870,
+      payout: 87,
+    },
+    {
+      dia: "2021-04-08",
+      hora: "1205",
+      retorno: 365,
+      investimento: 870,
+      payout: 87,
+    },
+    {
+      dia: "2021-04-08",
+      hora: "1205",
+      retorno: 365,
+      investimento: 870,
+      payout: 87,
+    },
+    {
+      dia: "2021-04-08",
+      hora: "1205",
+      retorno: 365,
+      investimento: 870,
+      payout: 87,
+    },
+    {
+      dia: "2021-04-08",
+      hora: "1205",
+      retorno: 365,
+      investimento: 870,
+      payout: 87,
+    },
   ];
 
   // Recuperar dados
@@ -415,7 +457,9 @@ const Main = () => {
                   <Grid item>
                     <b>HISTÓRICO</b>
                   </Grid>
-                  <Grid item>Ver tudo ></Grid>
+                  <Grid item>
+                    <a href="/historic">Ver tudo ></a>
+                  </Grid>
                 </Grid>
                 <Grid container spacing={2}>
                   <Grid item xs={4}>
@@ -435,10 +479,10 @@ const Main = () => {
                         {item.payout}%
                       </Grid>
                       <Grid item xs={4}>
-                        R${item.investimento}
+                        R${item.investimento.toFixed(2)}
                       </Grid>
                       <Grid item xs={4}>
-                        R${item.retorno}
+                        R${item.retorno.toFixed(2)}
                       </Grid>
                     </Grid>
                   </CardHistorico>

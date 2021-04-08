@@ -60,6 +60,12 @@
   background-color: #231225;
   box-shadow: 5px 5px 18px #9291915b;
   color: #fff;
-
   padding: 20px;
+  overflow-y: scroll;
+}
+.cardHistorico::-webkit-scrollbar-thumb {
+  background: #f5f5f511;
+}
+.cardHistorico::-webkit-scrollbar {
+  background-color: #231225;
 }
