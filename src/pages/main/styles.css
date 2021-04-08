@@ -63,6 +63,9 @@
   padding: 20px;
   overflow-y: scroll;
 }
+.historico-title {
+  margin: 10px 0 20px;
+}
 .cardHistorico::-webkit-scrollbar-thumb {
   background: #f5f5f511;
 }

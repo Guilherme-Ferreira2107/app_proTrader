@@ -453,7 +453,11 @@ const Main = () => {
                 />
               </Grid>
               <Grid item xs={4} className="cardHistorico">
-                <Grid container justify="space-between">
+                <Grid
+                  container
+                  justify="space-between"
+                  className="historico-title"
+                >
                   <Grid item>
                     <b>HISTÓRICO</b>
                   </Grid>
