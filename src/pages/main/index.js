@@ -31,6 +31,7 @@ const Main = () => {
   const [addValor, setAddValor] = useState("");
   const [removeValor, setRemoveValor] = useState("");
 
+  // Gráfico
   const series = [
     {
       name: "Lucro",
@@ -384,7 +385,7 @@ const Main = () => {
             <div className="container col-sm-6">
               <form className="form-inline">
                 <div className="input-group">
-                  <span class="input-group-addon">R$</span>
+                  <span className="input-group-addon">R$</span>
                   <input
                     type="number"
                     name="adicionaValor"
@@ -404,7 +405,7 @@ const Main = () => {
             <div className="container col-sm-6">
               <form className="form-inline">
                 <div className="input-group">
-                  <span class="input-group-addon">R$</span>
+                  <span className="input-group-addon">R$</span>
                   <input
                     type="number"
                     className="form-control"
@@ -454,7 +455,7 @@ const Main = () => {
 
         <Loading loading={loading}>
           <div className="container card card3 exhibit">
-            <Grid container spacing={4} xs={12}>
+            <Grid container item spacing={4} xs={12}>
               <Grid item xs={8}>
                 <ReactApexChart
                   options={options}

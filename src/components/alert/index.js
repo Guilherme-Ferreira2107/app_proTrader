@@ -1,5 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
+import { Cor } from "../../assets/cores";
 
 import { Wrapper, AlertForm, AlertButton } from "./styles.js";
 
@@ -7,9 +8,9 @@ const Alert = (props) => {
   const { onClick, message, value, type } = props;
 
   const checkType = () => {
-    if (type === "sucesso") return "#5cb85ce5";
+    if (type === "sucesso") return Cor.Green90;
     else if (type === "erro") {
-      return "#ff0000";
+      return Cor.Red;
     }
   };
 

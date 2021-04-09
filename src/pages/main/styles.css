@@ -3,6 +3,7 @@
   pointer-events: none;
 }
 .main {
+  padding-top: 20px;
   min-height: 500px;
   background-color: #f0f0f094;
   border-radius: 100% 0 0 0;
@@ -32,7 +33,6 @@
   animation-name: card3;
   animation-duration: 2.2s;
 }
-
 @keyframes card1 {
   from {
     margin-left: -150px;
@@ -67,7 +67,7 @@
 .main .exhibit {
   display: flex;
   align-items: center;
-  margin: 30px 10px 0px 0;
+  margin: 15px 10px 15px 0;
   padding: 30px 0 30px 20px;
   color: #333;
 }
@@ -103,7 +103,7 @@
   box-shadow: 5px 5px 18px #9291915b;
 }
 .main .update-wallet {
-  margin: 30px auto 0;
+  margin: 15px auto 15px;
   padding: 30px 0 30px 20px;
   color: #333;
 }

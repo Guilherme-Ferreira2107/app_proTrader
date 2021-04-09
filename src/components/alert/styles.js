@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { Cor } from "../../assets/cores";
 
 export const Wrapper = styled.div`
   width: calc(100% - 10px);
@@ -34,23 +35,23 @@ export const Wrapper = styled.div`
 `;
 
 export const AlertForm = styled.p`
-  color: #fff;
+  color: ${Cor.White};
   font-size: 18px;
 `;
 
 export const AlertButton = styled.button`
   font-size: 18px;
-  color: #333;
+  color: ${Cor.DarkGrey};
   padding: 10px;
   background: none;
-  color: #fff;
-  border: 1px solid #fff;
+  color: ${Cor.White};
+  border: 1px solid ${Cor.White};
   border-radius: 0.25rem;
   outline: none;
   transition: 0.25s;
 
   &:hover {
     background: ${(props) => props.type};
-    color: #fff;
+    color: ${Cor.White};
   }
 `;
