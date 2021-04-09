@@ -23,17 +23,17 @@ const Historic = () => {
       sortable: true,
     },
     {
-      name: "Investimento",
+      name: "Investimento (R$)",
       selector: "investimento",
       sortable: true,
     },
     {
-      name: "Payout",
+      name: "Payout (%)",
       selector: "payout",
       sortable: true,
     },
     {
-      name: "Lucro",
+      name: "Lucro (R$)",
       selector: "retorno",
       sortable: true,
     },

@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { Cor } from "../../assets/cores";
 
 export const CardHistorico = styled.div`
   display: flex;
@@ -12,4 +13,6 @@ export const TitleHistorico = styled.h4`
 
 export const ValueHistorico = styled.p`
   display: flex;
+  padding: 5px;
+  border-bottom: 1px solid ${Cor.White7};
 `;

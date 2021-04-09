@@ -120,6 +120,10 @@
 .historico-title {
   margin: 10px 0;
   font-weight: bold;
+  background: #5c156420;
+  padding: 5px;
+  border: none;
+  border-radius: 0.25rem;
 }
 .historico-title a {
   padding: 10px;
