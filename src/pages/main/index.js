@@ -16,6 +16,7 @@ import { Grid } from "@material-ui/core";
 // Style
 import "./styles.css";
 import { CardHistorico, TitleHistorico, ValueHistorico } from "./styles";
+import { Cor } from "../../assets/cores";
 
 const Main = () => {
   const history = useHistory();
@@ -71,6 +72,14 @@ const Main = () => {
   ];
 
   const options = {
+    title: {
+      text: "DESEMPENHO",
+      style: {
+        fontSize: "16px",
+        fontFamily: "Helvetica Neue, Helvetica, Arial, sans-serif",
+        color: Cor.Purple,
+      },
+    },
     chart: {
       zoom: false,
       foreColor: "#333",

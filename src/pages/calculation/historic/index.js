@@ -126,7 +126,7 @@ const Historic = () => {
   ];
 
   return (
-    <WrapperHistoric>
+    <WrapperHistoric className="container card">
       <Grid container item xs={12}>
         <Title>Histórico</Title>
       </Grid>
