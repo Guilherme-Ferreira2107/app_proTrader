@@ -1,17 +1,17 @@
 import React from "react";
-import "./styles.css";
+
+// Componentes
 import Header from "../../components/header";
 import Footer from "../../components/footer";
+import Historic from "./historic";
+import Calc from "./calcs";
 
 const Calculation = () => {
   return (
     <>
       <Header />
-      <div className="performances">
-        <div className="container">
-          <p>Calculation</p>
-        </div>
-      </div>
+      <Calc />
+      <Historic />
       <Footer />
     </>
   );

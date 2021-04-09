@@ -6,10 +6,6 @@ import { WrapperHistoric, Title, customStyles } from "./styles.js";
 // Material UI
 import { Grid } from "@material-ui/core";
 
-// Componentes
-import Header from "../../components/header";
-import Footer from "../../components/footer";
-
 // Tabela
 import DataTable from "react-data-table-component";
 import { SwapVert } from "@material-ui/icons";
@@ -130,23 +126,19 @@ const Historic = () => {
   ];
 
   return (
-    <>
-      <Header />
-      <WrapperHistoric>
-        <Grid container item xs={12}>
-          <Title>Histórico</Title>
-        </Grid>
-        <Grid container item xs={12} className="table">
-          <DataTable
-            columns={columns}
-            data={listHistorico}
-            customStyles={customStyles}
-            sortIcon={sortIcon}
-          />
-        </Grid>
-      </WrapperHistoric>
-      <Footer />
-    </>
+    <WrapperHistoric>
+      <Grid container item xs={12}>
+        <Title>Histórico</Title>
+      </Grid>
+      <Grid container item xs={12} className="table">
+        <DataTable
+          columns={columns}
+          data={listHistorico}
+          customStyles={customStyles}
+          sortIcon={sortIcon}
+        />
+      </Grid>
+    </WrapperHistoric>
   );
 };
 export default Historic;

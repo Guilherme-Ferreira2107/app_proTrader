@@ -38,9 +38,6 @@ const Header = () => {
               <li>
                 <a href="/calculation">Calculadora</a>
               </li>
-              <li>
-                <a href="/historic">Histórico</a>
-              </li>
             </ul>
 
             <ul className="nav navbar-nav navbar-right">

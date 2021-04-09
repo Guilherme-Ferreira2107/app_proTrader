@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { Cor } from "../../assets/cores";
+import { Cor } from "../../../assets/cores";
 
 export const WrapperHistoric = styled.div`
   padding: 0px 15px;
@@ -37,6 +37,12 @@ export const WrapperHistoric = styled.div`
   .rdt_TableCol_Sortable {
     font-size: 16px;
     font-weight: bold;
+    color: ${Cor.White};
+
+    &:focus,
+    :hover {
+      color: ${Cor.White};
+    }
   }
 `;
 
