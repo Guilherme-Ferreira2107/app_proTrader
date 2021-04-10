@@ -73,9 +73,10 @@ const Main = () => {
 
   const options = {
     title: {
-      text: "DESEMPENHO",
+      text: "Desempenho diário",
       style: {
         fontSize: "16px",
+        fontWeight: "normal",
         fontFamily: "Helvetica Neue, Helvetica, Arial, sans-serif",
         color: Cor.Purple,
       },

@@ -3,24 +3,41 @@ import { Cor } from "../../../assets/cores";
 
 export const Wrapper = styled.div`
   padding: 15px;
-  background-color: ${Cor.Whit58};
-  border-radius: 100% 0 0 0;
 
   & .container {
     margin: 10px 0;
   }
   & .calculos {
     padding-top: 20px;
+    padding-bottom: 20px;
   }
-  & .card1 {
+  & .card-border1 {
     margin: 5px 0;
-    border-left: 5px solid #5cb85c;
+    border-left: 5px solid ${Cor.Green90};
     padding-left: 10px;
   }
-  & .card2 {
+  & .card-border2 {
     margin: 5px 0;
-    border-left: 5px solid #5cb85c64;
+    border-left: 5px solid ${Cor.Green50};
     padding-left: 10px;
+  }
+
+  .resultado {
+    margin: 20px 0 0;
+    font-size: 18px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    align-content: center;
+
+    p {
+      margin: 0;
+    }
+
+    button {
+      width: 100px;
+      margin: 0 10px;
+    }
   }
 `;
 

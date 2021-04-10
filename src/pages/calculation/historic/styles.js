@@ -2,24 +2,8 @@ import styled from "styled-components";
 import { Cor } from "../../../assets/cores";
 
 export const WrapperHistoric = styled.div`
-  padding: 0px 15px;
-  margin-bottom: 20px;
-  background-color: ${Cor.White58};
-  border-radius: 0 0 0 100%;
-  animation-name: historic-background;
-  animation-duration: 3s;
-
-  @keyframes historic-background {
-    from {
-      background-color: ${Cor.White7};
-      border-radius: 0 100% 100% 100%;
-    }
-
-    to {
-      background-color: ${Cor.White58};
-      border-radius: 0 0 0 100%;
-    }
-  }
+  padding: 0px 15px 20px;
+  margin: 20px;
 
   .table {
     height: 350px;
