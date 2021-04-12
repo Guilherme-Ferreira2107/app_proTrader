@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useState } from "react";
 import { useHistory } from "react-router";
 
 // Styles
-import { Wrapper, Title, FormCalculation, Btn } from "./styles.js";
+import { Wrapper, FormCalculation, Btn } from "./styles.js";
 import { Cor } from "../../../assets/cores.js";
 
 // FormHooks
@@ -11,6 +11,12 @@ import { useForm } from "react-hook-form";
 // Material UI
 import { Grid } from "@material-ui/core";
 
+// Services
+import {
+  atualizarDadosLocais,
+  recuperarDadosLocais,
+} from "../../../services/authService.js";
+
 // Componentes
 import Input from "../../../components/input";
 import Loading from "../../../components/loading";
@@ -18,7 +24,6 @@ import Submit from "../../../components/submit";
 import Label from "../../../components/label";
 import Alert from "../../../components/alert";
 import Select from "../../../components/select";
-import { CropFree } from "@material-ui/icons";
 
 const Calcs = () => {
   const history = useHistory();
@@ -35,10 +40,14 @@ const Calcs = () => {
   const [resultado, setResultado] = useState("");
   const [addValor, setAddValor] = useState("");
   const [typeCalculator, setTypeCalculator] = useState("fixo");
+  const [qtdaSoros, setQtdaSoros] = useState(1);
+
+  useEffect(() => {
+    console.log(dadosUsuario[0]);
+  }, [dadosUsuario]);
 
   useEffect(() => {
     // console.log(
-    //   dadosUsuario,
     //   profitDaily,
     //   setProfitDaily,
     //   setValueCurrent,
@@ -47,7 +56,6 @@ const Calcs = () => {
     //   addValor
     // );
   }, [
-    dadosUsuario,
     profitDaily,
     setProfitDaily,
     setValueCurrent,
@@ -56,6 +64,7 @@ const Calcs = () => {
     addValor,
   ]);
 
+  // Manipuladores
   const inputChangeInvestimento = (event) => {
     setInputInvestimento(event.target.value);
   };
@@ -64,6 +73,7 @@ const Calcs = () => {
     setInputPayout(event.target.value);
   };
 
+  // Processar Cálculo
   const handlerSend = (data) => {
     console.log(data);
     setLoading(true);
@@ -78,14 +88,19 @@ const Calcs = () => {
   const recuperarDados = useCallback(async () => {
     try {
       setLoading(true);
-      let dados = JSON.parse(localStorage.getItem("@wallet-app/dadosUsuario"));
-      setDadosUsuario(dados[0]);
+      let dados = recuperarDadosLocais();
+      setDadosUsuario(dados);
+      setValueCurrent(dados[0].saldoAtual);
     } catch (error) {
       history.push("/login");
     } finally {
       setLoading(false);
     }
   }, [history]);
+
+  useEffect(() => {
+    recuperarDados();
+  }, [recuperarDados]);
 
   // Formatar números
   const formatNumber = (value) => {
@@ -97,6 +112,7 @@ const Calcs = () => {
     return conversao ? conversao : "0,00";
   };
 
+  // Registrar resultado
   const copy = (text) => {
     var textArea = document.createElement("textarea");
     textArea.value = text;
@@ -107,7 +123,7 @@ const Calcs = () => {
       setShowAlert(true);
       setAlert(
         <Alert
-          message={`Valor copiado! R$ ${text.toFixed(2)}`}
+          message={`Valor copiado! ${text}`}
           value="Ok"
           onClick={removeAlert}
           type="sucesso"
@@ -132,15 +148,15 @@ const Calcs = () => {
     document.body.removeChild(textArea);
   };
 
-  const success = (event) => {
-    console.log(event);
+  // Registrar vitória
+  const success = () => {
     if (resultado) {
       let retorno = parseFloat(valueCurrent) + parseFloat(resultado);
-      let dados = JSON.parse(localStorage.getItem("@wallet-app/dadosUsuario"));
-      dados[0].saldoInicial = retorno;
+      let dados = recuperarDadosLocais();
+      dados[0].saldoAtual = retorno.toFixed(2);
       try {
         setLoading(true);
-        localStorage.setItem("@wallet-app/dadosUsuario", JSON.stringify(dados));
+        atualizarDadosLocais(dados);
         recuperarDados();
         setShowAlert(true);
         setAlert(
@@ -159,15 +175,15 @@ const Calcs = () => {
     }
   };
 
-  const loss = (event) => {
-    console.log(event);
+  // Registrar perda
+  const loss = () => {
     if (resultado) {
       let retorno = parseFloat(valueCurrent) - parseFloat(resultado);
-      let dados = JSON.parse(localStorage.getItem("@wallet-app/dadosUsuario"));
-      dados[0].saldoInicial = retorno;
+      let dados = recuperarDadosLocais();
+      dados[0].saldoAtual = retorno.toFixed(2);
       try {
         setLoading(true);
-        localStorage.setItem("@wallet-app/dadosUsuario", JSON.stringify(dados));
+        atualizarDadosLocais(dados);
         recuperarDados();
         setShowAlert(true);
         setAlert(
@@ -191,15 +207,17 @@ const Calcs = () => {
   };
 
   const listaResultadoOrdem = () => {
-    let ordem = inputInvestimento;
-    let retorno = resultado;
+    let ordem = inputInvestimento
+      ? formatNumber(Number(inputInvestimento))
+      : "R$ 0,00";
+    let retorno = resultado ? formatNumber(resultado) : "R$ 0,00";
     return (
       <Grid container spacing={2} className="resultado">
         <Grid item xs={6}>
           <Label size="14px" weight="bold">
-            Ordem: R$ {ordem}
+            Ordem: {ordem}
           </Label>
-          <Label size="18px">Resultado: R$ {retorno}</Label>
+          <Label size="18px">Resultado: {retorno}</Label>
         </Grid>
         <Grid item xs={2}>
           <Btn className="copy btn btn-info" onClick={() => copy(retorno)}>
@@ -226,12 +244,10 @@ const Calcs = () => {
   const listagemResultadosSoros = () => {
     let ordem = inputInvestimento;
     let retorno = resultado;
-    let qtda = 3;
     let listaDeResultado = [];
-    let typeCalculator = "Soros";
 
     // montar lista
-    for (let i = 0; i < qtda; i++) {
+    for (let i = 0; i < qtdaSoros; i++) {
       listaDeResultado.push(
         <Grid container spacing={2} className="resultado">
           <Grid item xs={6}>
@@ -266,9 +282,9 @@ const Calcs = () => {
     return listaDeResultado && listaDeResultado.map((item) => item);
   };
 
-  const checkStyleColor = () => {
-    if (valueCurrent > 0) return Cor.Green;
-    if (valueCurrent < 0) return Cor.Red;
+  const checkStyleColor = (value) => {
+    if (value > 0) return Cor.Green;
+    if (value < 0) return Cor.Red;
   };
 
   return (
@@ -277,14 +293,17 @@ const Calcs = () => {
         <Grid container item xs={3}>
           <Grid item xs={6}>
             <Label weight="bold">Saldo disponível: </Label>
-            <Label size="20px" color={checkStyleColor}>
+            <Label size="20px" color={checkStyleColor(valueCurrent)}>
               {formatNumber(Number(valueCurrent))}
             </Label>
           </Grid>
           <Grid item xs={6}>
             <Label weight="bold">Lucro diário: </Label>
-            <Label size="20px" color={checkStyleColor}>
-              {formatNumber(Number(valueCurrent))}
+            <Label
+              size="20px"
+              color={checkStyleColor(dadosUsuario[0]?.lucroDia)}
+            >
+              {formatNumber(Number(dadosUsuario[0]?.lucroDia))}
             </Label>
           </Grid>
         </Grid>
@@ -296,7 +315,7 @@ const Calcs = () => {
           <Grid container item xs={6}>
             <FormCalculation onSubmit={handleSubmit(handlerSend)}>
               <Grid container spacing={2}>
-                <Grid item xs={12}>
+                <Grid item xs={6}>
                   <Select
                     for="typeCalculator"
                     label="Tipo de ordem"
@@ -312,6 +331,25 @@ const Calcs = () => {
                       { value: "soros", label: "Soros" },
                       { value: "martingale", label: "Martingale" },
                     ]}
+                  />
+                </Grid>
+                <Grid item xs={6}>
+                  <Select
+                    for="qtdaNiveis"
+                    label="Quantidade de ordens"
+                    labelColor={Cor.White}
+                    name="qtdaNiveis"
+                    id="qtdaNiveis"
+                    ref={register({
+                      required: "Níveis de cálculo é obrigatório!",
+                    })}
+                    onChange={(e) => setQtdaSoros(e.target.value)}
+                    options={[
+                      { value: 1, label: 1 },
+                      { value: 2, label: 2 },
+                      { value: 3, label: 3 },
+                    ]}
+                    disabled={typeCalculator === "fixo"}
                   />
                 </Grid>
                 <Grid item xs={6}>
