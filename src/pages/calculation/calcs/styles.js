@@ -4,32 +4,31 @@ import { Cor } from "../../../assets/cores";
 export const Wrapper = styled.div`
   padding: 15px;
 
-  & .container {
-    margin: 10px 0;
-  }
-  & .calculos {
-    padding-top: 20px;
-    padding-bottom: 20px;
-  }
-  & .card-border1 {
-    margin: 5px 0;
-    border-left: 5px solid ${Cor.Green90};
-    padding-left: 10px;
+  .infoSaldo {
+    margin: 10px;
 
-    h4 {
-      color: ${Cor.Green90};
-      font-weight: bold;
+    p {
+      padding: 0;
+      margin: 0;
     }
   }
-  & .card-border2 {
-    margin: 5px 0;
-    border-left: 5px solid ${Cor.Green75};
-    padding-left: 10px;
 
-    h4 {
-      color: ${Cor.Green75};
-      font-weight: bold;
-    }
+  select {
+    position: relative;
+    width: 100%;
+    height: 40px;
+    padding: 0 15px;
+    margin-top: 5px;
+    line-height: 38px;
+    color: ${Cor.White};
+    font-size: 14px;
+    background: transparent;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    border-color: ${Cor.White};
+    border-radius: 0.25rem;
+    cursor: pointer;
   }
 
   .resultado {
@@ -42,10 +41,20 @@ export const Wrapper = styled.div`
       padding: 0;
       margin: 0;
     }
+  }
 
-    button {
-      width: 100%;
-      margin: 0 10px;
+  option {
+    color: ${Cor.Purple};
+    font-size: 16px;
+  }
+
+  .icon {
+    position: absolute;
+    margin-left: -30px;
+    margin-top: 14px;
+
+    &.MuiSvgIcon-root {
+      color: ${Cor.White};
     }
   }
 `;
@@ -55,6 +64,7 @@ export const FormCalculation = styled.form`
   align-items: center;
   background-color: ${Cor.Purple};
   padding: 20px;
+  margin: 20px;
   border-radius: 0.25rem;
 `;
 export const Title = styled.h2``;
