@@ -104,7 +104,7 @@ const Main = () => {
         return `R$ ${val.toFixed(2)}`;
       },
       style: {
-        colors: ["#231225"],
+        colors: ["#333"],
       },
       background: {
         enabled: true,
@@ -390,7 +390,7 @@ const Main = () => {
           </h4>
         </div>
 
-        <div className="container card card1 update-wallet">
+        <div className="container card update-wallet">
           <div className="container">
             <div className="container col-sm-6">
               <form className="form-inline">
@@ -435,11 +435,11 @@ const Main = () => {
         </div>
 
         <Loading loading={loading}>
-          <div className="container card card2 exhibit">
+          <div className="container card exhibit">
             <div className="col-sm-12">
               <div className="col-sm-3 border-green1">
                 <label>Saldo disponível: </label>
-                <h4>
+                <h4 className="green1">
                   {valueCurrent
                     ? formatNumber(Number(valueCurrent))
                     : "R$ 0,00"}
@@ -447,15 +447,19 @@ const Main = () => {
               </div>
               <div className="col-sm-3 border-green2">
                 <label>Lucro Diário</label>
-                <h4>{profitDaily ? formatNumber(profitDaily) : "R$ 0,00"}</h4>
+                <h4 className="green2">
+                  {profitDaily ? formatNumber(profitDaily) : "R$ 0,00"}
+                </h4>
               </div>
               <div className="col-sm-3 border-green3">
                 <label>Lucro Semanal</label>
-                <h4>{profitWeekly ? formatNumber(profitWeekly) : "R$ 0,00"}</h4>
+                <h4 className="green3">
+                  {profitWeekly ? formatNumber(profitWeekly) : "R$ 0,00"}
+                </h4>
               </div>
               <div className="col-sm-3 border-green4">
                 <label>Lucro Mensal</label>
-                <h4>
+                <h4 className="green4">
                   {profitMonthly ? formatNumber(profitMonthly) : "R$ 0,00"}
                 </h4>
               </div>
@@ -464,7 +468,7 @@ const Main = () => {
         </Loading>
 
         <Loading loading={loading}>
-          <div className="container card card3 exhibit">
+          <div className="container card exhibit">
             <Grid container item spacing={4} xs={12}>
               <Grid item xs={8}>
                 <ReactApexChart
@@ -486,7 +490,7 @@ const Main = () => {
                   </Grid>
                   <Grid item>
                     <h4>
-                      <a href="/historic">Ver tudo</a>
+                      <a href="/calculation">Ver tudo</a>
                     </h4>
                   </Grid>
                 </Grid>

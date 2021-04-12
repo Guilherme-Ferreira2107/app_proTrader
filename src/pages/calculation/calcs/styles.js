@@ -15,11 +15,21 @@ export const Wrapper = styled.div`
     margin: 5px 0;
     border-left: 5px solid ${Cor.Green90};
     padding-left: 10px;
+
+    h4 {
+      color: ${Cor.Green90};
+      font-weight: bold;
+    }
   }
   & .card-border2 {
     margin: 5px 0;
-    border-left: 5px solid ${Cor.Green50};
+    border-left: 5px solid ${Cor.Green75};
     padding-left: 10px;
+
+    h4 {
+      color: ${Cor.Green75};
+      font-weight: bold;
+    }
   }
 
   .resultado {
@@ -29,6 +39,11 @@ export const Wrapper = styled.div`
     display: flex;
     align-items: center;
     align-content: center;
+
+    span {
+      font-size: 12px;
+      font-weight: normal;
+    }
 
     p {
       margin: 0;
@@ -42,3 +57,9 @@ export const Wrapper = styled.div`
 `;
 
 export const Title = styled.h2``;
+
+export const FormCalculation = styled.form`
+  display: flex;
+  align-content: center;
+  align-items: center;
+`;

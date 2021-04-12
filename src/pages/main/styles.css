@@ -21,49 +21,6 @@
     border-radius: 100% 0 0 0;
   }
 }
-.card1 {
-  animation-name: card1;
-  animation-duration: 1.4s;
-}
-.card2 {
-  animation-name: card2;
-  animation-duration: 1.8s;
-}
-.card3 {
-  animation-name: card3;
-  animation-duration: 2.2s;
-}
-@keyframes card1 {
-  from {
-    margin-left: -150px;
-    opacity: 0;
-  }
-
-  to {
-    margin-left: 4.5%;
-    opacity: 1;
-  }
-}
-@keyframes card2 {
-  from {
-    margin-left: -150px;
-    opacity: 0;
-  }
-
-  to {
-    opacity: 1;
-  }
-}
-@keyframes card3 {
-  from {
-    margin-left: -150px;
-    opacity: 0;
-  }
-
-  to {
-    opacity: 1;
-  }
-}
 .main .exhibit {
   display: flex;
   align-items: center;
@@ -84,8 +41,28 @@
   padding-left: 10px;
 }
 .main .border-green4 {
-  border-left: 5px solid #5cb85c64;
+  border-left: 5px solid #5cb85c;
   padding-left: 10px;
+}
+.main .border-green1 .green1 {
+  color: #5cb85c;
+  font-weight: bold;
+  font-size: 20px;
+}
+.main .border-green2 .green2 {
+  color: #5cb85cbf;
+  font-weight: bold;
+  font-size: 20px;
+}
+.main .border-green3 .green3 {
+  color: #5cb85c80;
+  font-weight: bold;
+  font-size: 20px;
+}
+.main .border-green4 .green4 {
+  color: #5cb85c;
+  font-weight: bold;
+  font-size: 20px;
 }
 .main .card-principal h2 {
   padding: 0;
@@ -105,7 +82,7 @@
 .main .update-wallet {
   margin: 15px auto 15px;
   padding: 30px 0 30px 20px;
-  color: #333;
+  color: #fff;
 }
 .card-historico {
   border: none;

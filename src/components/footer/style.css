@@ -1,17 +1,18 @@
 .footer {
-    background-color: #101010;
-    color: #fff;
-    margin: 0 auto;
-    text-align: left;
-    padding: 50px 0 50px 0 ;
+  background-color: #101010;
+  color: #fff;
+  margin: 0 auto;
+  text-align: left;
+  padding: 50px 0 50px 0;
 }
-.footer p, .footer a {  
-    color: #9d9d9d;
-    text-decoration: none;
-    margin-top: 12px;
-    margin-bottom: 12px;
-    font-size: 14px;
+.footer p,
+.footer a {
+  color: #9d9d9d;
+  text-decoration: none;
+  margin-top: 12px;
+  margin-bottom: 12px;
+  font-size: 14px;
 }
 .footer p:hover {
-    color: #fff;
+  color: #fff;
 }
