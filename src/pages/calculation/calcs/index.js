@@ -18,6 +18,7 @@ import Submit from "../../../components/submit";
 import Label from "../../../components/label";
 import Alert from "../../../components/alert";
 import Select from "../../../components/select";
+import { CropFree } from "@material-ui/icons";
 
 const Calcs = () => {
   const history = useHistory();
@@ -33,17 +34,18 @@ const Calcs = () => {
   const [inputPayout, setInputPayout] = useState("");
   const [resultado, setResultado] = useState("");
   const [addValor, setAddValor] = useState("");
+  const [typeCalculator, setTypeCalculator] = useState("fixo");
 
   useEffect(() => {
-    console.log(
-      dadosUsuario,
-      profitDaily,
-      setProfitDaily,
-      setValueCurrent,
-      inputRetorno,
-      setInputRetorno,
-      addValor
-    );
+    // console.log(
+    //   dadosUsuario,
+    //   profitDaily,
+    //   setProfitDaily,
+    //   setValueCurrent,
+    //   inputRetorno,
+    //   setInputRetorno,
+    //   addValor
+    // );
   }, [
     dadosUsuario,
     profitDaily,
@@ -264,24 +266,31 @@ const Calcs = () => {
     return listaDeResultado && listaDeResultado.map((item) => item);
   };
 
+  const checkStyleColor = () => {
+    if (valueCurrent > 0) return Cor.Green;
+    if (valueCurrent < 0) return Cor.Red;
+  };
+
   return (
     <Wrapper>
-      <Grid container className="container card calculos">
-        <Grid container justify="space-between">
-          <Grid item xs={9}>
-            <Title>Calculadora</Title>
+      <Grid container justify="flex-end" className="infoSaldo">
+        <Grid container item xs={3}>
+          <Grid item xs={6}>
+            <Label weight="bold">Saldo disponível: </Label>
+            <Label size="20px" color={checkStyleColor}>
+              {formatNumber(Number(valueCurrent))}
+            </Label>
           </Grid>
-          <Grid container item xs={3}>
-            <Grid item xs={6}>
-              <Label weight="bold">Saldo disponível: </Label>
-              <Label size="20px">{formatNumber(Number(valueCurrent))}</Label>
-            </Grid>
-            <Grid item xs={6}>
-              <Label weight="bold">Lucro diário: </Label>
-              <Label size="20px">{formatNumber(Number(valueCurrent))}</Label>
-            </Grid>
+          <Grid item xs={6}>
+            <Label weight="bold">Lucro diário: </Label>
+            <Label size="20px" color={checkStyleColor}>
+              {formatNumber(Number(valueCurrent))}
+            </Label>
           </Grid>
         </Grid>
+      </Grid>
+
+      <Grid container className="container card calculos">
         <Grid container spacing={4}>
           {/* Calculadora */}
           <Grid container item xs={6}>
@@ -291,11 +300,13 @@ const Calcs = () => {
                   <Select
                     for="typeCalculator"
                     label="Tipo de ordem"
+                    labelColor={Cor.White}
                     name="typeCalculator"
                     id="typeCalculator"
                     ref={register({
                       required: "Tipo de cálculo é obrigatório!",
                     })}
+                    onChange={(e) => setTypeCalculator(e.target.value)}
                     options={[
                       { value: "fixo", label: "Fixo" },
                       { value: "soros", label: "Soros" },
@@ -341,9 +352,9 @@ const Calcs = () => {
           </Grid>
 
           {/* Listagem de resultados */}
-          <Grid container item xs={6}>
+          <Grid container item xs={6} alignContent="flex-start">
             {listaResultadoOrdem()}
-            {listagemResultadosSoros()}
+            {typeCalculator !== "fixo" && listagemResultadosSoros()}
           </Grid>
         </Grid>
       </Grid>
