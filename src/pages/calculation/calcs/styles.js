@@ -41,6 +41,10 @@ export const Wrapper = styled.div`
       padding: 0;
       margin: 0;
     }
+
+    button {
+      width: 100%;
+    }
   }
 
   option {

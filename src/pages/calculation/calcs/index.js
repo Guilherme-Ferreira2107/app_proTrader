@@ -32,37 +32,16 @@ const Calcs = () => {
   const [showAlert, setShowAlert] = useState(false);
   const [alert, setAlert] = useState(<div />);
   const [dadosUsuario, setDadosUsuario] = useState([]);
-  const [profitDaily, setProfitDaily] = useState(152.46);
   const [valueCurrent, setValueCurrent] = useState(0);
-  const [inputRetorno, setInputRetorno] = useState("");
   const [inputInvestimento, setInputInvestimento] = useState("");
   const [inputPayout, setInputPayout] = useState("");
   const [resultado, setResultado] = useState("");
-  const [addValor, setAddValor] = useState("");
   const [typeCalculator, setTypeCalculator] = useState("fixo");
   const [qtdaSoros, setQtdaSoros] = useState(1);
 
   useEffect(() => {
     console.log(dadosUsuario[0]);
   }, [dadosUsuario]);
-
-  useEffect(() => {
-    // console.log(
-    //   profitDaily,
-    //   setProfitDaily,
-    //   setValueCurrent,
-    //   inputRetorno,
-    //   setInputRetorno,
-    //   addValor
-    // );
-  }, [
-    profitDaily,
-    setProfitDaily,
-    setValueCurrent,
-    inputRetorno,
-    setInputRetorno,
-    addValor,
-  ]);
 
   // Manipuladores
   const inputChangeInvestimento = (event) => {
@@ -75,7 +54,6 @@ const Calcs = () => {
 
   // Processar Cálculo
   const handlerSend = (data) => {
-    console.log(data);
     setLoading(true);
     setTimeout(() => {
       let resultado = data.investimento * (data.payout / 100);
@@ -171,7 +149,6 @@ const Calcs = () => {
       } finally {
         setLoading(false);
       }
-      setAddValor("");
     }
   };
 
@@ -198,14 +175,15 @@ const Calcs = () => {
       } finally {
         setLoading(false);
       }
-      setAddValor("");
     }
   };
 
+  //  Remover alerta
   const removeAlert = () => {
     setShowAlert(false);
   };
 
+  //  Listagem de odem
   const listaResultadoOrdem = () => {
     let ordem = inputInvestimento
       ? formatNumber(Number(inputInvestimento))
@@ -213,18 +191,18 @@ const Calcs = () => {
     let retorno = resultado ? formatNumber(resultado) : "R$ 0,00";
     return (
       <Grid container spacing={2} className="resultado">
-        <Grid item xs={6}>
+        <Grid item xs={12} md={6}>
           <Label size="14px" weight="bold">
             Ordem: {ordem}
           </Label>
           <Label size="18px">Resultado: {retorno}</Label>
         </Grid>
-        <Grid item xs={2}>
+        <Grid item xs={4} md={2}>
           <Btn className="copy btn btn-info" onClick={() => copy(retorno)}>
             Copiar
           </Btn>
         </Grid>
-        <Grid item xs={2}>
+        <Grid item xs={4} md={2}>
           <Btn
             className="copy btn btn-success"
             onClick={() => success(retorno)}
@@ -232,7 +210,7 @@ const Calcs = () => {
             Vitória
           </Btn>
         </Grid>
-        <Grid item xs={2}>
+        <Grid item xs={4} md={2}>
           <Btn className="copy btn btn-danger" onClick={() => loss(ordem)}>
             Derrota
           </Btn>
@@ -241,6 +219,7 @@ const Calcs = () => {
     );
   };
 
+  //  Listagem de soros
   const listagemResultadosSoros = () => {
     let ordem = inputInvestimento;
     let retorno = resultado;
@@ -282,22 +261,45 @@ const Calcs = () => {
     return listaDeResultado && listaDeResultado.map((item) => item);
   };
 
+  //  Alterar cor de lucro diário
   const checkStyleColor = (value) => {
     if (value > 0) return Cor.Green;
     if (value < 0) return Cor.Red;
   };
 
+  //  Controlar quantidade de ordens
+  const qtdaOptions = () => {
+    let listagem = [];
+    if (typeCalculator === "soros")
+      listagem.push(
+        { value: 1, label: 1 },
+        { value: 2, label: 2 },
+        { value: 3, label: 3 },
+        { value: 4, label: 4 },
+        { value: 5, label: 5 }
+      );
+    else
+      listagem.push(
+        { value: 1, label: 1 },
+        { value: 2, label: 2 },
+        { value: 3, label: 3 }
+      );
+
+    return listagem;
+  };
+
   return (
     <Wrapper>
       <Grid container justify="flex-end" className="infoSaldo">
-        <Grid container item xs={3}>
-          <Grid item xs={6}>
+        <Grid container item xs={12} md={3}>
+          {/* Saldo e Lucro */}
+          <Grid item xs={6} md={6}>
             <Label weight="bold">Saldo disponível: </Label>
-            <Label size="20px" color={checkStyleColor(valueCurrent)}>
+            <Label size="20px" color={Cor.Blue}>
               {formatNumber(Number(valueCurrent))}
             </Label>
           </Grid>
-          <Grid item xs={6}>
+          <Grid item xs={6} md={6}>
             <Label weight="bold">Lucro diário: </Label>
             <Label
               size="20px"
@@ -312,10 +314,10 @@ const Calcs = () => {
       <Grid container className="container card calculos">
         <Grid container spacing={4}>
           {/* Calculadora */}
-          <Grid container item xs={6}>
+          <Grid container item xs={12} md={6}>
             <FormCalculation onSubmit={handleSubmit(handlerSend)}>
               <Grid container spacing={2}>
-                <Grid item xs={6}>
+                <Grid item xs={12} md={6}>
                   <Select
                     for="typeCalculator"
                     label="Tipo de ordem"
@@ -333,7 +335,7 @@ const Calcs = () => {
                     ]}
                   />
                 </Grid>
-                <Grid item xs={6}>
+                <Grid item xs={12} md={6}>
                   <Select
                     for="qtdaNiveis"
                     label="Quantidade de ordens"
@@ -344,15 +346,11 @@ const Calcs = () => {
                       required: "Níveis de cálculo é obrigatório!",
                     })}
                     onChange={(e) => setQtdaSoros(e.target.value)}
-                    options={[
-                      { value: 1, label: 1 },
-                      { value: 2, label: 2 },
-                      { value: 3, label: 3 },
-                    ]}
+                    options={qtdaOptions()}
                     disabled={typeCalculator === "fixo"}
                   />
                 </Grid>
-                <Grid item xs={6}>
+                <Grid item xs={12} md={6}>
                   <Input
                     label="Ordem (R$)"
                     labelColor={Cor.White}
@@ -366,7 +364,7 @@ const Calcs = () => {
                     onChange={inputChangeInvestimento}
                   />
                 </Grid>
-                <Grid item xs={6}>
+                <Grid item xs={12} md={6}>
                   <Input
                     label="Payout (%)"
                     labelColor={Cor.White}
@@ -390,7 +388,7 @@ const Calcs = () => {
           </Grid>
 
           {/* Listagem de resultados */}
-          <Grid container item xs={6} alignContent="flex-start">
+          <Grid container item xs={12} md={6} alignContent="flex-start">
             {listaResultadoOrdem()}
             {typeCalculator !== "fixo" && listagemResultadosSoros()}
           </Grid>
