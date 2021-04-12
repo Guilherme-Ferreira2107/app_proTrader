@@ -9,9 +9,7 @@ const Alert = (props) => {
 
   const checkType = () => {
     if (type === "sucesso") return Cor.Green90;
-    else if (type === "erro") {
-      return Cor.Red;
-    }
+    if (type === "erro") return Cor.Red;
   };
 
   return (
