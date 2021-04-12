@@ -2,12 +2,13 @@ import React, { useCallback, useEffect, useState } from "react";
 import { useHistory } from "react-router";
 
 // Styles
-import { Wrapper, Title, FormCalculation } from "./styles.js";
+import { Wrapper, Title, FormCalculation, Btn } from "./styles.js";
+import { Cor } from "../../../assets/cores.js";
 
 // FormHooks
 import { useForm } from "react-hook-form";
 
-//  Material UI
+// Material UI
 import { Grid } from "@material-ui/core";
 
 // Componentes
@@ -16,6 +17,7 @@ import Loading from "../../../components/loading";
 import Submit from "../../../components/submit";
 import Label from "../../../components/label";
 import Alert from "../../../components/alert";
+import Select from "../../../components/select";
 
 const Calcs = () => {
   const history = useHistory();
@@ -24,7 +26,7 @@ const Calcs = () => {
   const [showAlert, setShowAlert] = useState(false);
   const [alert, setAlert] = useState(<div />);
   const [dadosUsuario, setDadosUsuario] = useState([]);
-  const [profitDaily /* setProfitDaily */] = useState(152.46);
+  const [profitDaily, setProfitDaily] = useState(152.46);
   const [valueCurrent, setValueCurrent] = useState(0);
   const [inputRetorno, setInputRetorno] = useState("");
   const [inputInvestimento, setInputInvestimento] = useState("");
@@ -33,16 +35,24 @@ const Calcs = () => {
   const [addValor, setAddValor] = useState("");
 
   useEffect(() => {
-    // console.log("dadosUsuario: ", dadosUsuario);
-  }, [dadosUsuario]);
-
-  const inputChangeValCurrent = (event) => {
-    setValueCurrent(event.target.value);
-  };
-
-  const inputChangeRetorno = (event) => {
-    setInputRetorno(event.target.value);
-  };
+    console.log(
+      dadosUsuario,
+      profitDaily,
+      setProfitDaily,
+      setValueCurrent,
+      inputRetorno,
+      setInputRetorno,
+      addValor
+    );
+  }, [
+    dadosUsuario,
+    profitDaily,
+    setProfitDaily,
+    setValueCurrent,
+    inputRetorno,
+    setInputRetorno,
+    addValor,
+  ]);
 
   const inputChangeInvestimento = (event) => {
     setInputInvestimento(event.target.value);
@@ -53,10 +63,13 @@ const Calcs = () => {
   };
 
   const handlerSend = (data) => {
+    console.log(data);
     setLoading(true);
-    let resultado = data.investimento * (data.payout / 100);
-    setResultado(resultado);
-    setLoading(false);
+    setTimeout(() => {
+      let resultado = data.investimento * (data.payout / 100);
+      setResultado(resultado);
+      setLoading(false);
+    }, 500);
   };
 
   // Recuperar dados
@@ -79,7 +92,7 @@ const Calcs = () => {
       currency: "BRL",
       maximumFractionDigits: 2,
     });
-    return conversao;
+    return conversao ? conversao : "0,00";
   };
 
   const copy = (text) => {
@@ -117,12 +130,8 @@ const Calcs = () => {
     document.body.removeChild(textArea);
   };
 
-  const removeAlert = () => {
-    setShowAlert(false);
-  };
-
   const success = (event) => {
-    event.preventDefault();
+    console.log(event);
     if (resultado) {
       let retorno = parseFloat(valueCurrent) + parseFloat(resultado);
       let dados = JSON.parse(localStorage.getItem("@wallet-app/dadosUsuario"));
@@ -149,7 +158,7 @@ const Calcs = () => {
   };
 
   const loss = (event) => {
-    event.preventDefault();
+    console.log(event);
     if (resultado) {
       let retorno = parseFloat(valueCurrent) - parseFloat(resultado);
       let dados = JSON.parse(localStorage.getItem("@wallet-app/dadosUsuario"));
@@ -175,71 +184,129 @@ const Calcs = () => {
     }
   };
 
-  const [retornoMartingale, setRetornoMartingale] = useState("0.00");
+  const removeAlert = () => {
+    setShowAlert(false);
+  };
 
-  useEffect(() => {
-    let retorno = inputInvestimento * 2;
-    let retornoPayout = retorno * inputPayout;
-    setRetornoMartingale();
-  }, [inputInvestimento, inputPayout, resultado]);
+  const listaResultadoOrdem = () => {
+    let ordem = inputInvestimento;
+    let retorno = resultado;
+    return (
+      <Grid container spacing={2} className="resultado">
+        <Grid item xs={6}>
+          <Label size="14px" weight="bold">
+            Ordem: R$ {ordem}
+          </Label>
+          <Label size="18px">Resultado: R$ {retorno}</Label>
+        </Grid>
+        <Grid item xs={2}>
+          <Btn className="copy btn btn-info" onClick={() => copy(retorno)}>
+            Copiar
+          </Btn>
+        </Grid>
+        <Grid item xs={2}>
+          <Btn
+            className="copy btn btn-success"
+            onClick={() => success(retorno)}
+          >
+            Vitória
+          </Btn>
+        </Grid>
+        <Grid item xs={2}>
+          <Btn className="copy btn btn-danger" onClick={() => loss(ordem)}>
+            Derrota
+          </Btn>
+        </Grid>
+      </Grid>
+    );
+  };
+
+  const listagemResultadosSoros = () => {
+    let ordem = inputInvestimento;
+    let retorno = resultado;
+    let qtda = 3;
+    let listaDeResultado = [];
+    let typeCalculator = "Soros";
+
+    // montar lista
+    for (let i = 0; i < qtda; i++) {
+      listaDeResultado.push(
+        <Grid container spacing={2} className="resultado">
+          <Grid item xs={6}>
+            <Label size="14px" weight="bold">
+              {typeCalculator} {i}: R$ {ordem}
+            </Label>
+            <Label size="18px">Resultado: R$ {retorno}</Label>
+          </Grid>
+          <Grid item xs={2}>
+            <Btn className="copy btn btn-info" onClick={() => copy(retorno)}>
+              Copiar
+            </Btn>
+          </Grid>
+          <Grid item xs={2}>
+            <Btn
+              className="copy btn btn-success"
+              onClick={() => success(retorno)}
+            >
+              Vitória
+            </Btn>
+          </Grid>
+          <Grid item xs={2}>
+            <Btn className="copy btn btn-danger" onClick={() => loss(ordem)}>
+              Derrota
+            </Btn>
+          </Grid>
+        </Grid>
+      );
+    }
+
+    // listar resultados
+    return listaDeResultado && listaDeResultado.map((item) => item);
+  };
 
   return (
     <Wrapper>
-      <Loading loading={loading}></Loading>
-
       <Grid container className="container card calculos">
         <Grid container justify="space-between">
-          <Grid item xs={6}>
+          <Grid item xs={9}>
             <Title>Calculadora</Title>
           </Grid>
-          <Grid container item xs={6}>
+          <Grid container item xs={3}>
             <Grid item xs={6}>
-              <label>Saldo disponível: </label>
-              <h4>
-                {valueCurrent ? formatNumber(Number(valueCurrent)) : "R$ 0,00"}
-              </h4>
+              <Label weight="bold">Saldo disponível: </Label>
+              <Label size="20px">{formatNumber(Number(valueCurrent))}</Label>
             </Grid>
             <Grid item xs={6}>
-              <label>Lucro diário: </label>
-              <h4>
-                {valueCurrent ? formatNumber(Number(valueCurrent)) : "R$ 0,00"}
-              </h4>
+              <Label weight="bold">Lucro diário: </Label>
+              <Label size="20px">{formatNumber(Number(valueCurrent))}</Label>
             </Grid>
           </Grid>
         </Grid>
         <Grid container spacing={4}>
+          {/* Calculadora */}
           <Grid container item xs={6}>
             <FormCalculation onSubmit={handleSubmit(handlerSend)}>
               <Grid container spacing={2}>
-                <Grid item xs={6}>
-                  <Input
-                    label="Saldo (R$)"
-                    name="saldo"
-                    type="number"
-                    value={valueCurrent}
+                <Grid item xs={12}>
+                  <Select
+                    for="typeCalculator"
+                    label="Tipo de ordem"
+                    name="typeCalculator"
+                    id="typeCalculator"
                     ref={register({
-                      required: "Investimento é obrigatório!",
+                      required: "Tipo de cálculo é obrigatório!",
                     })}
-                    onChange={inputChangeValCurrent}
+                    options={[
+                      { value: "fixo", label: "Fixo" },
+                      { value: "soros", label: "Soros" },
+                      { value: "martingale", label: "Martingale" },
+                    ]}
                   />
                 </Grid>
-                <Grid item xs={6}>
-                  <Input
-                    label="Retorno (%)"
-                    name="retorno"
-                    placeholder="1%"
-                    type="number"
-                    value={inputRetorno}
-                    ref={register({
-                      required: "Payout é obrigatório!",
-                    })}
-                    onChange={inputChangeRetorno}
-                  />
-                </Grid>
-
                 <Grid item xs={6}>
                   <Input
                     label="Ordem (R$)"
+                    labelColor={Cor.White}
                     name="investimento"
                     placeholder="R$ 100,00"
                     type="number"
@@ -253,6 +320,7 @@ const Calcs = () => {
                 <Grid item xs={6}>
                   <Input
                     label="Payout (%)"
+                    labelColor={Cor.White}
                     name="payout"
                     placeholder="87%"
                     type="number"
@@ -264,118 +332,18 @@ const Calcs = () => {
                   />
                 </Grid>
                 <Grid item xs={12}>
-                  <Loading loading={loading}>
+                  <Loading loading={loading} color={Cor.Yellow}>
                     <Submit type="submit" name="Calcular" value="Calcular" />
                   </Loading>
                 </Grid>
               </Grid>
             </FormCalculation>
           </Grid>
+
+          {/* Listagem de resultados */}
           <Grid container item xs={6}>
-            <Grid container className="resultado">
-              <Grid item xs={6}>
-                <Label>
-                  Ordem: R$ {inputInvestimento ? inputInvestimento : "0,00"}
-                </Label>
-                <span>
-                  Resultado: R$ {resultado ? resultado.toFixed(2) : "0,00"}
-                </span>
-              </Grid>
-              <Grid item xs={2}>
-                <button
-                  className="copy btn btn-info"
-                  onClick={() => copy(resultado)}
-                >
-                  Copiar
-                </button>
-              </Grid>
-              <Grid item xs={2}>
-                <button className="copy btn btn-success" onClick={success}>
-                  Vitória
-                </button>
-              </Grid>
-              <Grid item xs={2}>
-                <button className="copy btn btn-danger" onClick={loss}>
-                  Derrota
-                </button>
-              </Grid>
-            </Grid>
-            <Grid container className="resultado">
-              <Grid item xs={6}>
-                <Label>
-                  Martingale: R${" "}
-                  {inputInvestimento ? inputInvestimento * 2 : "0,00"}
-                </Label>
-                <span>Resultado: R$ {retornoMartingale}</span>
-              </Grid>
-              <Grid item xs={2}>
-                <button className="copy btn btn-info" onClick={copy}>
-                  Copiar
-                </button>
-              </Grid>
-              <Grid item xs={2}>
-                <button className="copy btn btn-success" onClick={success}>
-                  Vitória
-                </button>
-              </Grid>
-              <Grid item xs={2}>
-                <button className="copy btn btn-danger" onClick={loss}>
-                  Derrota
-                </button>
-              </Grid>
-            </Grid>
-            <Grid container className="resultado">
-              <Grid item xs={6}>
-                <Label>
-                  Martingale 2: R${" "}
-                  {inputInvestimento ? inputInvestimento : "0,00"}
-                </Label>
-                <span>
-                  Resultado: R$ {resultado ? resultado.toFixed(2) : "0,00"}
-                </span>
-              </Grid>
-              <Grid item xs={2}>
-                <button className="copy btn btn-info" onClick={copy}>
-                  Copiar
-                </button>
-              </Grid>
-              <Grid item xs={2}>
-                <button className="copy btn btn-success" onClick={success}>
-                  Vitória
-                </button>
-              </Grid>
-              <Grid item xs={2}>
-                <button className="copy btn btn-danger" onClick={loss}>
-                  Derrota
-                </button>
-              </Grid>
-            </Grid>
-            <Grid container className="resultado">
-              <Grid item xs={6}>
-                <Label>
-                  Martingale 3: R${" "}
-                  {inputInvestimento ? inputInvestimento : "0,00"}
-                </Label>
-                <span>
-                  Resultado: R$ {resultado ? resultado.toFixed(2) : "0,00"}
-                </span>
-              </Grid>
-              <Grid item xs={2}>
-                <button className="copy btn btn-info" onClick={copy}>
-                  Copiar
-                </button>
-              </Grid>
-              <Grid item xs={2}>
-                <button className="copy btn btn-success" onClick={success}>
-                  Vitória
-                </button>
-              </Grid>
-              <Grid item xs={2}>
-                <button className="copy btn btn-danger" onClick={loss}>
-                  Derrota
-                </button>
-              </Grid>
-            </Grid>
+            {listaResultadoOrdem()}
+            {listagemResultadosSoros()}
           </Grid>
         </Grid>
       </Grid>

@@ -34,32 +34,28 @@ export const Wrapper = styled.div`
 
   .resultado {
     margin: 20px 0 0;
-    font-size: 18px;
-    font-weight: bold;
     display: flex;
     align-items: center;
     align-content: center;
 
-    span {
-      font-size: 12px;
-      font-weight: normal;
-    }
-
     p {
+      padding: 0;
       margin: 0;
     }
 
     button {
-      width: 100px;
+      width: 100%;
       margin: 0 10px;
     }
   }
 `;
-
-export const Title = styled.h2``;
-
 export const FormCalculation = styled.form`
   display: flex;
   align-content: center;
   align-items: center;
+  background-color: ${Cor.Purple};
+  padding: 20px;
+  border-radius: 0.25rem;
 `;
+export const Title = styled.h2``;
+export const Btn = styled.button``;

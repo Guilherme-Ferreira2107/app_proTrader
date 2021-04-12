@@ -4,10 +4,10 @@ import PropTypes from "prop-types";
 import { Wrapper, LabelForm, InputForm } from "./styles.js";
 
 const Input = React.forwardRef((props, ref) => {
-  const { type, label, placeholder, name, value, onChange } = props;
+  const { type, label, placeholder, name, value, onChange, labelColor } = props;
   return (
     <Wrapper>
-      <LabelForm>{label}</LabelForm>
+      <LabelForm labelColor={labelColor}>{label}</LabelForm>
       <InputForm
         type={type}
         placeholder={placeholder}
