@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import _ from "lodash";
 import b64 from "base-64";
 import firebase from "firebase";
@@ -15,14 +15,42 @@ import { useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { updateNome } from "../../store/modulos/users/actions";
 
+// Services
+import {
+  atualizarDadosLocais,
+  recuperarDadosLocais,
+} from "../../services/authService";
+
 const InitialApp = () => {
   const dispatch = useDispatch();
   const history = useHistory();
   const email = useSelector((state) => state.email);
   const nome = useSelector((state) => state.nome);
   const emailEncode = b64.encode(email);
+  const [dadosInciais, setDadosInciais] = useState([]);
 
-  // Recuperar dados
+  useEffect(() => {
+    setDadosInciais([
+      {
+        nome: nome,
+        email: email,
+        saldoAtual: 0,
+        saldoInicial: 0,
+        lucroDia: 0,
+        lucroSemana: 0,
+        lucroMes: 0,
+        carteira: [
+          {
+            hora: "",
+            ordemValor: 0,
+            resultado: 0,
+          },
+        ],
+      },
+    ]);
+  }, [email, nome]);
+
+  // Recuperar dados firebase
   useEffect(() => {
     try {
       firebase
@@ -41,37 +69,16 @@ const InitialApp = () => {
   }, [dispatch, emailEncode]);
 
   useEffect(() => {
-    let dados = JSON.parse(localStorage.getItem("@wallet-app/dadosUsuario"));
+    let dados = recuperarDadosLocais();
     setTimeout(() => {
       if (!email && !nome && !dados) {
         history.push("/login");
       } else {
-        let dadosUsuario = [
-          {
-            nome: nome,
-            email: email,
-            saldoAtual: 0,
-            saldoInicial: 0,
-            lucroDia: 0,
-            lucroSemana: 0,
-            lucroMes: 0,
-            carteira: [
-              {
-                hora: "",
-                ordemValor: 0,
-                resultado: 0,
-              },
-            ],
-          },
-        ];
-        localStorage.setItem(
-          "@wallet-app/dadosUsuario",
-          JSON.stringify(dadosUsuario)
-        );
+        atualizarDadosLocais(dadosInciais);
         history.push("/main");
       }
     }, [1000]);
-  }, [email, nome, history]);
+  }, [email, nome, history, dadosInciais]);
 
   return (
     <Wrapper>

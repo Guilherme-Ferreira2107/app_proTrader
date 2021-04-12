@@ -18,3 +18,18 @@ export const registerUser = async (email, password) => {
 export const recoverPassword = async (email) => {
   return firebase.auth().sendPasswordResetEmail(email);
 };
+
+// Recuperar dados localstorage
+export const recuperarDadosLocais = () => {
+  const response = JSON.parse(localStorage.getItem("@wallet-app/dadosUsuario"));
+  return response;
+};
+
+// Atualizar dados localstorage
+export const atualizarDadosLocais = async (data) => {
+  const response = localStorage.setItem(
+    "@wallet-app/dadosUsuario",
+    JSON.stringify(data)
+  );
+  return response;
+};
