@@ -1,18 +1,33 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-import { Wrapper, LabelForm, InputForm } from "./styles.js";
+import { Wrapper, LabelForm } from "./styles.js";
 import { ExpandMore } from "@material-ui/icons";
 
 const Select = React.forwardRef((props, ref) => {
-  const { name, id, forLabel, labelColor, label, options, onChange } = props;
+  const {
+    name,
+    id,
+    forLabel,
+    labelColor,
+    label,
+    options,
+    onChange,
+    disabled,
+  } = props;
 
   return (
     <Wrapper>
       <LabelForm for={forLabel} labelColor={labelColor}>
         {label}
       </LabelForm>
-      <select name={name} id={id} ref={ref} onChange={onChange}>
+      <select
+        name={name}
+        id={id}
+        ref={ref}
+        onChange={onChange}
+        disabled={disabled}
+      >
         {options.map((item, idx) => (
           <option key={idx} value={item.value}>
             {item.label}

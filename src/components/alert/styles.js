@@ -3,8 +3,8 @@ import { Cor } from "../../assets/cores";
 
 export const Wrapper = styled.div`
   width: calc(100% - 10px);
-  max-width: 600px;
-  padding: 20px 0;
+  max-width: 500px;
+  padding: 5px 0;
   display: flex;
   flex-wrap: wrap;
   justify-content: space-around;
@@ -37,12 +37,13 @@ export const Wrapper = styled.div`
 export const AlertForm = styled.p`
   color: ${Cor.White};
   font-size: 18px;
+  margin: 0;
 `;
 
 export const AlertButton = styled.button`
   font-size: 18px;
   color: ${Cor.DarkGrey};
-  padding: 10px;
+  padding: 0 10px;
   background: none;
   color: ${Cor.White};
   border: 1px solid ${Cor.White};

@@ -18,9 +18,14 @@ import "./styles.css";
 import { CardHistorico, TitleHistorico, ValueHistorico } from "./styles";
 import { Cor } from "../../assets/cores";
 
+//Services
+import {
+  atualizarDadosLocais,
+  recuperarDadosLocais,
+} from "../../services/authService";
+
 const Main = () => {
   const history = useHistory();
-  const [valueInitial, setValueInitial] = useState(0);
   const [valueCurrent, setValueCurrent] = useState(0);
   const [profitDaily /* setProfitDaily */] = useState(152.46);
   const [profitWeekly /* setProfitWeekly */] = useState(985.12);
@@ -31,6 +36,10 @@ const Main = () => {
   const [loading, setLoading] = useState(false);
   const [addValor, setAddValor] = useState("");
   const [removeValor, setRemoveValor] = useState("");
+
+  useEffect(() => {
+    console.log("dadosUsuario", dadosUsuario);
+  }, [dadosUsuario]);
 
   // Gráfico
   const series = [
@@ -268,8 +277,9 @@ const Main = () => {
   const recuperarDados = useCallback(async () => {
     try {
       setLoading(true);
-      let dados = JSON.parse(localStorage.getItem("@wallet-app/dadosUsuario"));
+      let dados = recuperarDadosLocais();
       setDadosUsuario(dados[0]);
+      setValueCurrent(dados[0].saldoAtual);
     } catch (error) {
       history.push("/login");
     } finally {
@@ -281,27 +291,16 @@ const Main = () => {
     recuperarDados();
   }, [recuperarDados]);
 
-  useEffect(() => {
-    setValueInitial(dadosUsuario?.saldoInicial);
-  }, [dadosUsuario]);
-
-  useEffect(() => {
-    if (valueInitial > 0) {
-      setValueCurrent(valueInitial);
-    }
-    valueInitial && recuperarDados();
-  }, [recuperarDados, valueInitial]);
-
   // Adicionar saldo
   const addSaldo = (event) => {
     event.preventDefault();
     if (addValor) {
-      let resultado = parseFloat(valueInitial) + parseFloat(addValor);
-      let dados = JSON.parse(localStorage.getItem("@wallet-app/dadosUsuario"));
-      dados[0].saldoInicial = resultado;
+      let resultado = parseFloat(valueCurrent) + parseFloat(addValor);
+      let dados = recuperarDadosLocais();
+      dados[0].saldoAtual = resultado;
       try {
         setLoading(true);
-        localStorage.setItem("@wallet-app/dadosUsuario", JSON.stringify(dados));
+        atualizarDadosLocais(dados);
         recuperarDados();
         setShowAlert(true);
         setAlert(
@@ -324,18 +323,13 @@ const Main = () => {
   const saqueSaldo = (event) => {
     event.preventDefault();
     if (removeValor) {
-      if (removeValor <= parseFloat(valueInitial)) {
-        let resultado = parseFloat(valueInitial) - parseFloat(removeValor);
-        let dados = JSON.parse(
-          localStorage.getItem("@wallet-app/dadosUsuario")
-        );
-        dados[0].saldoInicial = resultado;
+      if (removeValor <= parseFloat(valueCurrent)) {
+        let resultado = parseFloat(valueCurrent) - parseFloat(removeValor);
+        let dados = recuperarDadosLocais();
+        dados[0].saldoAtual = resultado;
         try {
           setLoading(true);
-          localStorage.setItem(
-            "@wallet-app/dadosUsuario",
-            JSON.stringify(dados)
-          );
+          atualizarDadosLocais(dados);
           recuperarDados();
           setShowAlert(true);
           setAlert(
