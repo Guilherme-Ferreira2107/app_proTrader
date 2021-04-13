@@ -24,6 +24,7 @@ import Submit from "../../../components/submit";
 import Label from "../../../components/label";
 import Alert from "../../../components/alert";
 import Select from "../../../components/select";
+import moment from "moment";
 
 const Calcs = () => {
   const history = useHistory();
@@ -38,10 +39,6 @@ const Calcs = () => {
   const [resultado, setResultado] = useState("");
   const [typeCalculator, setTypeCalculator] = useState("fixo");
   const [qtdaSoros, setQtdaSoros] = useState(1);
-
-  useEffect(() => {
-    console.log(dadosUsuario[0]);
-  }, [dadosUsuario]);
 
   // Manipuladores
   const inputChangeInvestimento = (event) => {
@@ -82,7 +79,8 @@ const Calcs = () => {
 
   // Formatar números
   const formatNumber = (value) => {
-    const conversao = value.toLocaleString("pt-br", {
+    const valor = parseFloat(value).toFixed(2);
+    const conversao = valor.toLocaleString("pt-br", {
       style: "currency",
       currency: "BRL",
       maximumFractionDigits: 2,
@@ -96,42 +94,52 @@ const Calcs = () => {
     textArea.value = text;
     document.body.appendChild(textArea);
     textArea.select();
+    let tratarValor = formatNumber(text);
     try {
       document.execCommand("copy");
       setShowAlert(true);
       setAlert(
         <Alert
-          message={`Valor copiado! ${text}`}
+          message={`Valor copiado! ${tratarValor}`}
           value="Ok"
-          onClick={removeAlert}
+          onClick={() => setShowAlert(false)}
           type="sucesso"
         />
       );
       setTimeout(() => {
-        removeAlert();
+        setShowAlert(false);
       }, 2000);
     } catch (err) {
       setAlert(
         <Alert
           message="Falha ao copiar!"
           value="Ok"
-          onClick={removeAlert}
+          onClick={() => setShowAlert(false)}
           type="error"
         />
       );
       setTimeout(() => {
-        removeAlert();
+        setShowAlert(false);
       }, 2000);
     }
     document.body.removeChild(textArea);
   };
 
   // Registrar vitória
-  const success = () => {
-    if (resultado) {
+  const success = (value, resultado) => {
+    let register = {};
+    if (value) {
       let retorno = parseFloat(valueCurrent) + parseFloat(resultado);
       let dados = recuperarDadosLocais();
+      register = {
+        data: moment().format("yyyy-MM-DD hh:mm:ss"),
+        investimento: parseFloat(value).toFixed(2),
+        payout: inputPayout,
+        lucro: parseFloat(resultado).toFixed(2),
+      };
       dados[0].saldoAtual = retorno.toFixed(2);
+      dados[0].carteira.push(register);
+      dados[0].lucroDia = checarRegistros(dados);
       try {
         setLoading(true);
         atualizarDadosLocais(dados);
@@ -141,23 +149,34 @@ const Calcs = () => {
           <Alert
             message="Registrado com sucesso!"
             value="Ok"
-            onClick={removeAlert}
+            onClick={() => setShowAlert(false)}
             type="sucesso"
           />
         );
       } catch (error) {
       } finally {
         setLoading(false);
+        setTimeout(() => {
+          setShowAlert(false);
+        }, 2000);
       }
     }
   };
 
   // Registrar perda
-  const loss = () => {
-    if (resultado) {
-      let retorno = parseFloat(valueCurrent) - parseFloat(resultado);
+  const loss = (value, resultado) => {
+    let register = {};
+    if (value) {
+      let retorno = parseFloat(valueCurrent) - parseFloat(value);
       let dados = recuperarDadosLocais();
+      register = {
+        data: moment().format("yyyy-MM-DD hh:mm:ss"),
+        investimento: parseFloat(value).toFixed(2),
+        payout: inputPayout,
+        lucro: parseFloat(-value).toFixed(2),
+      };
       dados[0].saldoAtual = retorno.toFixed(2);
+      dados[0].carteira.push(register);
       try {
         setLoading(true);
         atualizarDadosLocais(dados);
@@ -167,20 +186,25 @@ const Calcs = () => {
           <Alert
             message="Registrado com sucesso!"
             value="Ok"
-            onClick={removeAlert}
+            onClick={() => setShowAlert(false)}
             type="sucesso"
           />
         );
       } catch (error) {
       } finally {
         setLoading(false);
+        setTimeout(() => {
+          setShowAlert(false);
+        }, 2000);
       }
     }
   };
 
-  //  Remover alerta
-  const removeAlert = () => {
-    setShowAlert(false);
+  // Primeira letra maiscula
+  const convertTextToTitleCase = (value) => {
+    let firstLetter = value[value.length - 1].toUpperCase();
+    let restLetter = value.slice(1);
+    return firstLetter + restLetter;
   };
 
   //  Listagem de odem
@@ -198,20 +222,23 @@ const Calcs = () => {
           <Label size="18px">Resultado: {retorno}</Label>
         </Grid>
         <Grid item xs={4} md={2}>
-          <Btn className="copy btn btn-info" onClick={() => copy(retorno)}>
+          <Btn className="copy btn btn-info" onClick={() => copy(ordem)}>
             Copiar
           </Btn>
         </Grid>
         <Grid item xs={4} md={2}>
           <Btn
             className="copy btn btn-success"
-            onClick={() => success(retorno)}
+            onClick={() => success(inputInvestimento, retorno)}
           >
             Vitória
           </Btn>
         </Grid>
         <Grid item xs={4} md={2}>
-          <Btn className="copy btn btn-danger" onClick={() => loss(ordem)}>
+          <Btn
+            className="copy btn btn-danger"
+            onClick={() => loss(inputInvestimento, ordem)}
+          >
             Derrota
           </Btn>
         </Grid>
@@ -224,32 +251,63 @@ const Calcs = () => {
     let ordem = inputInvestimento;
     let retorno = resultado;
     let listaDeResultado = [];
+    let armazenaSoros = [];
+    let armazenaResultado = [];
 
     // montar lista
     for (let i = 0; i < qtdaSoros; i++) {
+      const ordemAtualSoros = () => {
+        if (!ordem) return formatNumber(0.0);
+        if (armazenaSoros.length === 0) {
+          let calculaInicial = ordem * (i + 1) + retorno;
+          return calculaInicial;
+        } else {
+          let calcula = armazenaSoros[i - 1] + armazenaResultado[i - 1];
+          return calcula;
+        }
+      };
+
+      armazenaSoros.push(ordemAtualSoros());
+
+      const resultadoSoros = () => {
+        if (!ordem) return formatNumber(0.0);
+        return armazenaSoros[i] * (inputPayout / 100);
+      };
+
+      armazenaResultado.push(resultadoSoros());
+
       listaDeResultado.push(
         <Grid container spacing={2} className="resultado">
-          <Grid item xs={6}>
+          <Grid item xs={12} md={6}>
             <Label size="14px" weight="bold">
-              {typeCalculator} {i}: R$ {ordem}
+              {convertTextToTitleCase(typeCalculator)} {i + 1}: R${" "}
+              {parseFloat(armazenaSoros[i]).toFixed(2)}
             </Label>
-            <Label size="18px">Resultado: R$ {retorno}</Label>
+            <Label size="18px">
+              Resultado: R$ {parseFloat(armazenaResultado[i]).toFixed(2)}
+            </Label>
           </Grid>
-          <Grid item xs={2}>
-            <Btn className="copy btn btn-info" onClick={() => copy(retorno)}>
+          <Grid item xs={4} md={2}>
+            <Btn
+              className="copy btn btn-info"
+              onClick={() => copy(parseFloat(armazenaSoros[i]).toFixed(2))}
+            >
               Copiar
             </Btn>
           </Grid>
-          <Grid item xs={2}>
+          <Grid item xs={4} md={2}>
             <Btn
               className="copy btn btn-success"
-              onClick={() => success(retorno)}
+              onClick={() => success(armazenaSoros[i], armazenaResultado[i])}
             >
               Vitória
             </Btn>
           </Grid>
-          <Grid item xs={2}>
-            <Btn className="copy btn btn-danger" onClick={() => loss(ordem)}>
+          <Grid item xs={4} md={2}>
+            <Btn
+              className="copy btn btn-danger"
+              onClick={() => loss(armazenaSoros[i], armazenaResultado[i])}
+            >
               Derrota
             </Btn>
           </Grid>
@@ -288,6 +346,25 @@ const Calcs = () => {
     return listagem;
   };
 
+  const checarRegistros = (value) => {
+    let valorInicial = 0;
+    let hoje = moment().format("yyyy-MM-DD");
+    if (value) {
+      let registrosDoDia = value[0].carteira.filter((item) => {
+        return moment(item?.data).format("yyyy-MM-DD") === hoje;
+      });
+      let soma = registrosDoDia.reduce(
+        (acumulador, valorAtual) => acumulador + parseFloat(valorAtual.lucro),
+        valorInicial
+      );
+      return soma;
+    }
+  };
+
+  useEffect(() => {
+    console.log(dadosUsuario);
+  }, [dadosUsuario]);
+
   return (
     <Wrapper>
       <Grid container justify="flex-end" className="infoSaldo">
@@ -319,7 +396,7 @@ const Calcs = () => {
               <Grid container spacing={2}>
                 <Grid item xs={12} md={6}>
                   <Select
-                    for="typeCalculator"
+                    htmlFor="typeCalculator"
                     label="Tipo de ordem"
                     labelColor={Cor.White}
                     name="typeCalculator"
@@ -331,13 +408,13 @@ const Calcs = () => {
                     options={[
                       { value: "fixo", label: "Fixo" },
                       { value: "soros", label: "Soros" },
-                      { value: "martingale", label: "Martingale" },
+                      // { value: "martingale", label: "Martingale" },
                     ]}
                   />
                 </Grid>
                 <Grid item xs={12} md={6}>
                   <Select
-                    for="qtdaNiveis"
+                    htmlFor="qtdaNiveis"
                     label="Quantidade de ordens"
                     labelColor={Cor.White}
                     name="qtdaNiveis"

@@ -18,7 +18,7 @@ const Select = React.forwardRef((props, ref) => {
 
   return (
     <Wrapper>
-      <LabelForm for={forLabel} labelColor={labelColor}>
+      <LabelForm htmlFor={forLabel} labelColor={labelColor}>
         {label}
       </LabelForm>
       <select

@@ -39,13 +39,7 @@ const InitialApp = () => {
         lucroDia: 0,
         lucroSemana: 0,
         lucroMes: 0,
-        carteira: [
-          {
-            hora: "",
-            ordemValor: 0,
-            resultado: 0,
-          },
-        ],
+        carteira: [],
       },
     ]);
   }, [email, nome]);
