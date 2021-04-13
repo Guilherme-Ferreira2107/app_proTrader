@@ -177,6 +177,7 @@ const Calcs = () => {
       };
       dados[0].saldoAtual = retorno.toFixed(2);
       dados[0].carteira.push(register);
+      dados[0].lucroDia = checarRegistros(dados);
       try {
         setLoading(true);
         atualizarDadosLocais(dados);

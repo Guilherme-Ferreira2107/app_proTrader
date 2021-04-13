@@ -8,7 +8,6 @@ import ReactApexChart from "react-apexcharts";
 // Components
 import Header from "../../components/header";
 import Footer from "../../components/footer";
-import Loading from "../../components/loading";
 import Alert from "../../components/alert";
 import Label from "../../components/label";
 
