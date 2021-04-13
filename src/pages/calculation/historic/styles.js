@@ -6,7 +6,7 @@ export const WrapperHistoric = styled.div`
   margin: 20px;
 
   .table {
-    height: 350px;
+    max-height: 350px;
     overflow-y: scroll;
   }
   .table::-webkit-scrollbar-thumb {

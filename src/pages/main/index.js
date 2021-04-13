@@ -1,4 +1,5 @@
 import React, { useCallback, useEffect, useState } from "react";
+import moment from "moment";
 import { useHistory } from "react-router";
 
 // ApexChart
@@ -9,6 +10,7 @@ import Header from "../../components/header";
 import Footer from "../../components/footer";
 import Loading from "../../components/loading";
 import Alert from "../../components/alert";
+import Label from "../../components/label";
 
 // Material UI
 import { Grid } from "@material-ui/core";
@@ -23,66 +25,67 @@ import {
   atualizarDadosLocais,
   recuperarDadosLocais,
 } from "../../services/authService";
+import InputGroup from "../../components/inputGroup";
 
 const Main = () => {
   const history = useHistory();
   const [valueCurrent, setValueCurrent] = useState(0);
-  const [profitDaily /* setProfitDaily */] = useState(152.46);
-  const [profitWeekly /* setProfitWeekly */] = useState(985.12);
-  const [profitMonthly /* setProfitMonthly */] = useState(3499.75);
   const [dadosUsuario, setDadosUsuario] = useState();
   const [showAlert, setShowAlert] = useState(false);
   const [alert, setAlert] = useState(<div />);
   const [loading, setLoading] = useState(false);
-  const [addValor, setAddValor] = useState("");
-  const [removeValor, setRemoveValor] = useState("");
+  const [depositaValor, setDepositaValor] = useState("");
+  const [saque, setSaque] = useState("");
+  const [listaHistorico, setListaHistorico] = useState([]);
+  const [listSeries, setListSeries] = useState([]);
+  const [listOptionsData, setListOptionsData] = useState([]);
 
+  // Carregar lista de ordens
   useEffect(() => {
-    console.log("dadosUsuario", dadosUsuario);
+    if (dadosUsuario) setListaHistorico(dadosUsuario?.carteira);
   }, [dadosUsuario]);
+
+  // Filtrar Série de gráfico
+  const filtrarSeries = useCallback((value) => {
+    let mes = moment().format("MM");
+
+    if (value) {
+      let registrosDoDia = value.filter((item) => {
+        return moment(item?.data).format("MM") === mes;
+      });
+      let filtro = registrosDoDia.map((item) => item?.lucro);
+      return filtro;
+    }
+  }, []);
+
+  // Filtrar Série de gráfico
+  const filtrarDatas = useCallback((value) => {
+    let mes = moment().format("MM");
+
+    if (value) {
+      let registrosDoDia = value.filter((item) => {
+        return moment(item?.data).format("MM") === mes;
+      });
+      let filtro = registrosDoDia.map((item) => {
+        console.log(item.data);
+        return item.data;
+      });
+      return filtro;
+    }
+  }, []);
 
   // Gráfico
   const series = [
     {
       name: "Lucro",
-      data: [
-        250.05,
-        348,
-        690.65,
-        883.84,
-        167,
-        93,
-        205.8,
-        -334.9,
-        0,
-        -15.3,
-        34,
-        68,
-        -100.12,
-        89,
-        164.58,
-        278,
-        333,
-        399.89,
-        465,
-        322,
-        50,
-        -66,
-        -400,
-        155,
-        200,
-        312,
-        554,
-        675,
-        700,
-      ],
+      data: listSeries,
       color: "#231225",
     },
   ];
 
   const options = {
     title: {
-      text: "Desempenho diário",
+      text: "Desempenho anual",
       style: {
         fontSize: "16px",
         fontWeight: "normal",
@@ -142,39 +145,7 @@ const Main = () => {
     },
     xaxis: {
       type: "datetime",
-      categories: [
-        "2021/1/1",
-        "2021/1/2",
-        "2021/1/3",
-        "2021/1/4",
-        "2021/1/5",
-        "2021/1/6",
-        "2021/1/7",
-        "2021/1/8",
-        "2021/1/9",
-        "2021/1/10",
-        "2021/1/11",
-        "2021/1/12",
-        "2021/1/13",
-        "2021/1/14",
-        "2021/1/15",
-        "2021/1/16",
-        "2021/1/17",
-        "2021/1/18",
-        "2021/1/19",
-        "2021/1/20",
-        "2021/1/21",
-        "2021/1/22",
-        "2021/1/23",
-        "2021/1/24",
-        "2021/1/25",
-        "2021/1/26",
-        "2021/1/27",
-        "2021/1/28",
-        "2021/1/29",
-        "2021/1/30",
-        "2021/1/31",
-      ],
+      categories: listOptionsData,
     },
     markers: {
       size: 0,
@@ -193,99 +164,21 @@ const Main = () => {
     },
   };
 
-  const listHistorico = [
-    {
-      dia: "2021-04-08",
-      hora: "1201",
-      retorno: 200,
-      investimento: 870,
-      payout: 87,
-    },
-    {
-      dia: "2021-04-08",
-      hora: "1202",
-      retorno: -350,
-      investimento: 870,
-      payout: 87,
-    },
-    {
-      dia: "2021-04-08",
-      hora: "1203",
-      retorno: -350,
-      investimento: 870,
-      payout: 87,
-    },
-    {
-      dia: "2021-04-08",
-      hora: "1204",
-      retorno: 360,
-      investimento: 870,
-      payout: 87,
-    },
-    {
-      dia: "2021-04-08",
-      hora: "1205",
-      retorno: 365,
-      investimento: 870,
-      payout: 87,
-    },
-    {
-      dia: "2021-04-08",
-      hora: "1205",
-      retorno: 365,
-      investimento: 870,
-      payout: 87,
-    },
-    {
-      dia: "2021-04-08",
-      hora: "1205",
-      retorno: 365,
-      investimento: 870,
-      payout: 87,
-    },
-    {
-      dia: "2021-04-08",
-      hora: "1205",
-      retorno: 365,
-      investimento: 870,
-      payout: 87,
-    },
-    {
-      dia: "2021-04-08",
-      hora: "1205",
-      retorno: 365,
-      investimento: 870,
-      payout: 87,
-    },
-    {
-      dia: "2021-04-08",
-      hora: "1205",
-      retorno: 365,
-      investimento: 870,
-      payout: 87,
-    },
-    {
-      dia: "2021-04-08",
-      hora: "1205",
-      retorno: 365,
-      investimento: 870,
-      payout: 87,
-    },
-  ];
-
   // Recuperar dados
   const recuperarDados = useCallback(async () => {
     try {
       setLoading(true);
       let dados = recuperarDadosLocais();
       setDadosUsuario(dados[0]);
-      setValueCurrent(dados[0].saldoAtual);
+      setValueCurrent(dados[0]?.saldoAtual);
+      setListSeries(filtrarSeries(dados[0]?.carteira));
+      setListOptionsData(filtrarDatas(dados[0]?.carteira));
     } catch (error) {
       history.push("/login");
     } finally {
       setLoading(false);
     }
-  }, [history]);
+  }, [history, filtrarSeries, filtrarDatas]);
 
   useEffect(() => {
     recuperarDados();
@@ -294,8 +187,8 @@ const Main = () => {
   // Adicionar saldo
   const addSaldo = (event) => {
     event.preventDefault();
-    if (addValor) {
-      let resultado = parseFloat(valueCurrent) + parseFloat(addValor);
+    if (depositaValor) {
+      let resultado = parseFloat(valueCurrent) + parseFloat(depositaValor);
       let dados = recuperarDadosLocais();
       dados[0].saldoAtual = resultado;
       try {
@@ -315,16 +208,16 @@ const Main = () => {
       } finally {
         setLoading(false);
       }
-      setAddValor("");
+      setDepositaValor("");
     }
   };
 
   // Saque saldo
   const saqueSaldo = (event) => {
     event.preventDefault();
-    if (removeValor) {
-      if (removeValor <= parseFloat(valueCurrent)) {
-        let resultado = parseFloat(valueCurrent) - parseFloat(removeValor);
+    if (saque) {
+      if (saque <= parseFloat(valueCurrent)) {
+        let resultado = parseFloat(valueCurrent) - parseFloat(saque);
         let dados = recuperarDadosLocais();
         dados[0].saldoAtual = resultado;
         try {
@@ -355,13 +248,14 @@ const Main = () => {
           />
         );
       }
-      setRemoveValor("");
+      setSaque("");
     }
   };
 
   // Formatar números
   const formatNumber = (value) => {
-    const conversao = value.toLocaleString("pt-br", {
+    const valor = parseFloat(value);
+    const conversao = valor.toLocaleString("pt-br", {
       style: "currency",
       currency: "BRL",
       maximumFractionDigits: 2,
@@ -376,153 +270,144 @@ const Main = () => {
   return (
     <>
       <Header />
-      <div className="main">
-        <div className="container">
-          <h4>
+      <Grid container className="main">
+        <Grid container className="container welcome">
+          <Label>
             Olá <em>{dadosUsuario?.nome}</em>, seja bem vindo ao seu Trading
             System!
-          </h4>
-        </div>
+          </Label>
+        </Grid>
 
-        <div className="container card update-wallet">
-          <div className="container">
-            <div className="container col-sm-6">
-              <form className="form-inline">
-                <div className="input-group">
-                  <span className="input-group-addon">R$</span>
-                  <input
-                    type="number"
-                    name="adicionaValor"
-                    className="form-control"
-                    placeholder="1.000,00"
-                    value={addValor}
-                    onChange={(event) => setAddValor(event.target.value)}
-                  />
-                  <div className="input-group-btn">
-                    <button onClick={addSaldo} className="btn btn-success">
-                      Deposite
-                    </button>
-                  </div>
-                </div>
-              </form>
-            </div>
-            <div className="container col-sm-6">
-              <form className="form-inline">
-                <div className="input-group">
-                  <span className="input-group-addon">R$</span>
-                  <input
-                    type="number"
-                    className="form-control"
-                    placeholder="-1.000,00"
-                    value={removeValor}
-                    onChange={(event) => setRemoveValor(event.target.value)}
-                  />
-                  <div className="input-group-btn">
-                    <button onClick={saqueSaldo} className="btn btn-danger">
-                      Saque
-                    </button>
-                  </div>
-                </div>
-              </form>
-            </div>
-          </div>
-        </div>
+        {/* DEPOSITO E SAQUE */}
+        <Grid
+          container
+          spacing={2}
+          className="container card-arredondado update-wallet"
+        >
+          <Grid item xs={12} md={6}>
+            <InputGroup
+              typeAddon="R$"
+              type="number"
+              className="form-control"
+              value="depositaValor"
+              placeholder="1.000,00"
+              name="adicionaValor"
+              onChange={(event) => setDepositaValor(event.target.value)}
+              onClick={addSaldo}
+              valueButton="Deposite"
+              theme="btn-success"
+            />
+          </Grid>
+          <Grid item xs={12} md={6}>
+            <InputGroup
+              typeAddon="R$"
+              type="number"
+              className="form-control"
+              value="depositaValor"
+              placeholder="-1.000,00"
+              name="saqueValor"
+              onChange={(event) => setSaque(event.target.value)}
+              onClick={saqueSaldo}
+              valueButton="Saque"
+              theme="btn-danger"
+            />
+          </Grid>
+        </Grid>
 
-        <Loading loading={loading}>
-          <div className="container card exhibit">
-            <div className="col-sm-12">
-              <div className="col-sm-3 border-green1">
-                <label>Saldo disponível: </label>
-                <h4 className="green1">
-                  {valueCurrent
-                    ? formatNumber(Number(valueCurrent))
-                    : "R$ 0,00"}
-                </h4>
-              </div>
-              <div className="col-sm-3 border-green2">
-                <label>Lucro Diário</label>
-                <h4 className="green2">
-                  {profitDaily ? formatNumber(profitDaily) : "R$ 0,00"}
-                </h4>
-              </div>
-              <div className="col-sm-3 border-green3">
-                <label>Lucro Semanal</label>
-                <h4 className="green3">
-                  {profitWeekly ? formatNumber(profitWeekly) : "R$ 0,00"}
-                </h4>
-              </div>
-              <div className="col-sm-3 border-green4">
-                <label>Lucro Mensal</label>
-                <h4 className="green4">
-                  {profitMonthly ? formatNumber(profitMonthly) : "R$ 0,00"}
-                </h4>
-              </div>
-            </div>
-          </div>
-        </Loading>
+        {/* SALDOS */}
+        <Grid
+          container
+          spacing={2}
+          className="container card-arredondado exhibit"
+        >
+          <Grid item xs={6} md={3} className="border-g1">
+            <Label weight="bold">Saldo disponível: </Label>
+            <Label size="20px" color="#5cb85c">
+              {formatNumber(Number(valueCurrent))}
+            </Label>
+          </Grid>
+          <Grid item xs={6} md={3} className="border-g2">
+            <Label weight="bold">Lucro Diário</Label>
+            <Label size="20px" color="#6B8E23">
+              {formatNumber(dadosUsuario?.lucroDia)}
+            </Label>
+          </Grid>
+          <Grid item xs={6} md={3} className="border-g3">
+            <Label weight="bold">Lucro Semanal</Label>
+            <Label size="20px" color="#3cb371">
+              {formatNumber(dadosUsuario?.lucroSemana)}
+            </Label>
+          </Grid>
+          <Grid item xs={6} md={3} className="border-g4">
+            <Label weight="bold">Lucro Mensal</Label>
+            <Label size="20px" color="#006400">
+              {formatNumber(dadosUsuario?.lucroMes)}
+            </Label>
+          </Grid>
+        </Grid>
 
-        <Loading loading={loading}>
-          <div className="container card exhibit">
-            <Grid container item spacing={4} xs={12}>
-              <Grid item xs={8}>
-                <ReactApexChart
-                  options={options}
-                  series={series}
-                  type="line"
-                  height={350}
-                  width="100%"
-                />
+        {/* GRAFICO E ORDENS RECENTES */}
+        <Grid
+          container
+          item
+          spacing={4}
+          xs={12}
+          className="container card-arredondado exhibit"
+        >
+          <Grid item xs={12} md={8}>
+            <ReactApexChart
+              options={options}
+              series={series}
+              type="line"
+              height={350}
+              width="100%"
+            />
+          </Grid>
+          <Grid item xs={12} md={4} className="card-historico">
+            <Grid container justify="space-between" className="historico-title">
+              <Grid item>
+                <h4>ORDENS RECENTES</h4>
               </Grid>
-              <Grid item xs={4} className="card-historico">
-                <Grid
-                  container
-                  justify="space-between"
-                  className="historico-title"
-                >
-                  <Grid item>
-                    <h4>ORDENS RECENTES</h4>
-                  </Grid>
-                  <Grid item>
-                    <h4>
-                      <a href="/calculation">Ver tudo</a>
-                    </h4>
-                  </Grid>
-                </Grid>
-                <Grid container spacing={2}>
-                  <Grid item xs={4}>
-                    <TitleHistorico>Payout</TitleHistorico>
-                  </Grid>
-                  <Grid item xs={4}>
-                    <TitleHistorico>Investimento</TitleHistorico>
-                  </Grid>
-                  <Grid item xs={4}>
-                    <TitleHistorico>Lucro</TitleHistorico>
-                  </Grid>
-                </Grid>
-                {listHistorico.map((item, idx) => (
-                  <CardHistorico key={idx}>
-                    <Grid container spacing={2}>
-                      <Grid item xs={4}>
-                        <ValueHistorico>{item.payout}%</ValueHistorico>
-                      </Grid>
-                      <Grid item xs={4}>
-                        <ValueHistorico>
-                          R${item.investimento.toFixed(2)}
-                        </ValueHistorico>
-                      </Grid>
-                      <Grid item xs={4}>
-                        <ValueHistorico>
-                          R${item.retorno.toFixed(2)}
-                        </ValueHistorico>
-                      </Grid>
-                    </Grid>
-                  </CardHistorico>
-                ))}
+              <Grid item>
+                <h4>
+                  <a href="/calculation">Ver tudo</a>
+                </h4>
               </Grid>
             </Grid>
-          </div>
-        </Loading>
-      </div>
+            <Grid container spacing={2}>
+              <Grid item xs={4}>
+                <TitleHistorico>Payout</TitleHistorico>
+              </Grid>
+              <Grid item xs={4}>
+                <TitleHistorico>Investimento</TitleHistorico>
+              </Grid>
+              <Grid item xs={4}>
+                <TitleHistorico>Lucro</TitleHistorico>
+              </Grid>
+            </Grid>
+            {listaHistorico &&
+              listaHistorico.map((item, idx) => (
+                <CardHistorico key={idx}>
+                  <Grid container spacing={2}>
+                    <Grid item xs={4}>
+                      <ValueHistorico>{item?.payout}%</ValueHistorico>
+                    </Grid>
+                    <Grid item xs={4}>
+                      <ValueHistorico>
+                        R${parseFloat(item?.investimento).toFixed(2)}
+                      </ValueHistorico>
+                    </Grid>
+                    <Grid item xs={4}>
+                      <ValueHistorico>
+                        R${parseFloat(item?.lucro).toFixed(2)}
+                      </ValueHistorico>
+                    </Grid>
+                  </Grid>
+                </CardHistorico>
+              ))}
+          </Grid>
+        </Grid>
+      </Grid>
       <Footer />
       {showAlert && alert}
     </>

@@ -385,7 +385,7 @@ const Calcs = () => {
         </Grid>
       </Grid>
 
-      <Grid container className="container card calculos">
+      <Grid container className="container card-arredondado calculos">
         <Grid container spacing={4}>
           {/* Calculadora */}
           <Grid container item xs={12} md={6}>

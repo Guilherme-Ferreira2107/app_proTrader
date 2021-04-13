@@ -62,7 +62,7 @@ const Historic = () => {
   }, [recuperarDados]);
 
   return (
-    <WrapperHistoric className="card">
+    <WrapperHistoric className="card-arredondado">
       <Grid container justify="space-between">
         <Grid item>
           <Title>Histórico</Title>

@@ -1,10 +1,4 @@
-.opacity {
-  filter: blur(5px);
-  pointer-events: none;
-}
 .main {
-  padding-top: 20px;
-  min-height: 500px;
   background-color: #f0f0f094;
   border-radius: 100% 0 0 0;
   animation-name: main-background;
@@ -21,27 +15,32 @@
     border-radius: 100% 0 0 0;
   }
 }
+.main .welcome {
+  margin-top: 20px;
+}
 .main .exhibit {
-  display: flex;
-  align-items: center;
-  margin: 15px 10px 15px 0;
-  padding: 30px 0 30px 20px;
+  margin: 20px;
+  padding: 20px;
   color: #333;
 }
-.main .border-green1 {
+.main .exhibit p {
+  padding: 0;
+  margin: 0;
+}
+.main .border-g1 {
   border-left: 5px solid #5cb85c;
   padding-left: 10px;
 }
-.main .border-green2 {
-  border-left: 5px solid #5cb85cbf;
+.main .border-g2 {
+  border-left: 5px solid #6b8e23;
   padding-left: 10px;
 }
-.main .border-green3 {
-  border-left: 5px solid #5cb85c80;
+.main .border-g3 {
+  border-left: 5px solid #3cb371;
   padding-left: 10px;
 }
-.main .border-green4 {
-  border-left: 5px solid #5cb85c;
+.main .border-g4 {
+  border-left: 5px solid #006400;
   padding-left: 10px;
 }
 .main .border-green1 .green1 {
@@ -73,16 +72,16 @@
 .main .container .btn {
   min-width: 100px;
 }
-.card {
+.card-arredondado {
   border: none;
   border-radius: 5px;
   background-color: #fff;
   box-shadow: 5px 5px 18px #9291915b;
 }
 .main .update-wallet {
-  margin: 15px auto 15px;
-  padding: 30px 0 30px 20px;
+  margin: 20px;
   color: #fff;
+  padding: 20px;
 }
 .card-historico {
   border: none;
@@ -97,7 +96,6 @@
 .historico-title {
   margin: 10px 0;
   font-weight: bold;
-  background: #5c156420;
   padding: 5px;
   border: none;
   border-radius: 0.25rem;
