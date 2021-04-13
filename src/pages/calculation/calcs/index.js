@@ -346,6 +346,7 @@ const Calcs = () => {
     return listagem;
   };
 
+  // Lucro dia
   const checarRegistros = (value) => {
     let valorInicial = 0;
     let hoje = moment().format("yyyy-MM-DD");
@@ -360,10 +361,6 @@ const Calcs = () => {
       return soma;
     }
   };
-
-  useEffect(() => {
-    console.log(dadosUsuario);
-  }, [dadosUsuario]);
 
   return (
     <Wrapper>

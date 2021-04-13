@@ -68,8 +68,12 @@ export const FormCalculation = styled.form`
   align-items: center;
   background-color: ${Cor.Purple};
   padding: 20px;
-  margin: 20px;
+  margin: 20px 0px 0px;
   border-radius: 0.25rem;
+
+  @media (min-width: 400px) {
+    margin: 20px;
+  }
 `;
 export const Title = styled.h2``;
 export const Btn = styled.button``;

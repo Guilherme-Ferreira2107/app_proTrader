@@ -61,3 +61,7 @@ export const customStyles = {
     },
   },
 };
+
+export const Btn = styled.button`
+  margin: 15px 0px;
+`;
