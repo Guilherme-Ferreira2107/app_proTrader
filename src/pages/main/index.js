@@ -33,7 +33,6 @@ const Main = () => {
   const [dadosUsuario, setDadosUsuario] = useState();
   const [showAlert, setShowAlert] = useState(false);
   const [alert, setAlert] = useState(<div />);
-  const [loading, setLoading] = useState(false);
   const [depositaValor, setDepositaValor] = useState("");
   const [saque, setSaque] = useState("");
   const [listaHistorico, setListaHistorico] = useState([]);
@@ -167,7 +166,6 @@ const Main = () => {
   // Recuperar dados
   const recuperarDados = useCallback(async () => {
     try {
-      setLoading(true);
       let dados = recuperarDadosLocais();
       setDadosUsuario(dados[0]);
       setValueCurrent(dados[0]?.saldoAtual);
@@ -176,7 +174,6 @@ const Main = () => {
     } catch (error) {
       history.push("/login");
     } finally {
-      setLoading(false);
     }
   }, [history, filtrarSeries, filtrarDatas]);
 
@@ -192,7 +189,6 @@ const Main = () => {
       let dados = recuperarDadosLocais();
       dados[0].saldoAtual = resultado;
       try {
-        setLoading(true);
         atualizarDadosLocais(dados);
         recuperarDados();
         setShowAlert(true);
@@ -206,7 +202,6 @@ const Main = () => {
         );
       } catch (error) {
       } finally {
-        setLoading(false);
       }
       setDepositaValor("");
     }
@@ -221,7 +216,6 @@ const Main = () => {
         let dados = recuperarDadosLocais();
         dados[0].saldoAtual = resultado;
         try {
-          setLoading(true);
           atualizarDadosLocais(dados);
           recuperarDados();
           setShowAlert(true);
@@ -235,7 +229,6 @@ const Main = () => {
           );
         } catch (error) {
         } finally {
-          setLoading(false);
         }
       } else {
         setShowAlert(true);
