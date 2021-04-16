@@ -315,25 +315,31 @@ const Main = () => {
           <Grid item xs={6} md={3} className="border-g1">
             <Label weight="bold">Saldo disponível: </Label>
             <Label size="20px" color="#5cb85c">
-              {formatNumber(Number(valueCurrent))}
+              {valueCurrent ? formatNumber(Number(valueCurrent)) : "R$ 0,00"}
             </Label>
           </Grid>
           <Grid item xs={6} md={3} className="border-g2">
             <Label weight="bold">Lucro Diário</Label>
             <Label size="20px" color="#6B8E23">
-              {formatNumber(dadosUsuario?.lucroDia)}
+              {dadosUsuario?.lucroDia
+                ? formatNumber(dadosUsuario?.lucroDia)
+                : "R$ 0,00"}
             </Label>
           </Grid>
           <Grid item xs={6} md={3} className="border-g3">
             <Label weight="bold">Lucro Semanal</Label>
             <Label size="20px" color="#3cb371">
-              {formatNumber(dadosUsuario?.lucroSemana)}
+              {dadosUsuario?.lucroSemana
+                ? formatNumber(dadosUsuario?.lucroSemana)
+                : "R$ 0,00"}
             </Label>
           </Grid>
           <Grid item xs={6} md={3} className="border-g4">
             <Label weight="bold">Lucro Mensal</Label>
             <Label size="20px" color="#006400">
-              {formatNumber(dadosUsuario?.lucroMes)}
+              {dadosUsuario?.lucroMes
+                ? formatNumber(dadosUsuario?.lucroMes)
+                : "R$ 0,00"}
             </Label>
           </Grid>
         </Grid>
