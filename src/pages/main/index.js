@@ -384,30 +384,29 @@ const Main = () => {
                     <TitleHistorico>Lucro</TitleHistorico>
                   </Grid>
                 </Grid>
-                {listaHistorico &&
-                  listaHistorico.map((item, idx) => (
-                    <CardHistorico key={idx}>
-                      <Grid container spacing={2}>
-                        <Grid item xs={4}>
-                          <ValueHistorico>
-                            R${parseFloat(item?.investimento).toFixed(2)}
-                          </ValueHistorico>
-                        </Grid>
-                        <Grid item xs={4}>
-                          <ValueHistorico>{item?.payout}%</ValueHistorico>
-                        </Grid>
-                        <Grid item xs={4}>
-                          <ValueHistorico
-                            className={
-                              parseFloat(item?.lucro) > 0 ? "pos" : "neg"
-                            }
-                          >
-                            R${parseFloat(item?.lucro).toFixed(2)}
-                          </ValueHistorico>
-                        </Grid>
+                {listaHistorico.map((item, idx) => (
+                  <CardHistorico key={idx}>
+                    <Grid container spacing={2}>
+                      <Grid item xs={4}>
+                        <ValueHistorico>
+                          R${parseFloat(item?.investimento).toFixed(2)}
+                        </ValueHistorico>
                       </Grid>
-                    </CardHistorico>
-                  ))}
+                      <Grid item xs={4}>
+                        <ValueHistorico>{item?.payout}%</ValueHistorico>
+                      </Grid>
+                      <Grid item xs={4}>
+                        <ValueHistorico
+                          className={
+                            parseFloat(item?.lucro) > 0 ? "pos" : "neg"
+                          }
+                        >
+                          R${parseFloat(item?.lucro).toFixed(2)}
+                        </ValueHistorico>
+                      </Grid>
+                    </Grid>
+                  </CardHistorico>
+                ))}
               </Grid>
             </>
           ) : (

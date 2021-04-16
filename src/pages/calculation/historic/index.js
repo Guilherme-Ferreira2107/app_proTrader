@@ -3,6 +3,7 @@ import { useHistory } from "react-router";
 
 // Styles
 import { WrapperHistoric, Title, customStyles, Btn } from "./styles.js";
+import { Cor } from "../../../assets/cores.js";
 
 // Material UI
 import { Grid } from "@material-ui/core";
@@ -61,6 +62,17 @@ const Historic = () => {
     recuperarDados();
   }, [recuperarDados]);
 
+  const conditionalRowStyles = [
+    {
+      when: (row) => row.lucro,
+      style: (row) => ({
+        "& div": {
+          color: row.lucro > 0 ? Cor.Green90 : Cor.Red75,
+        },
+      }),
+    },
+  ];
+
   return (
     <WrapperHistoric className="card-arredondado">
       <Grid container justify="space-between">
@@ -80,6 +92,7 @@ const Historic = () => {
           customStyles={customStyles}
           sortIcon={sortIcon}
           progressPending={loading}
+          conditionalRowStyles={conditionalRowStyles}
         />
       </Grid>
     </WrapperHistoric>

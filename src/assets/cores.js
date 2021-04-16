@@ -16,6 +16,7 @@ const Cor = {
   Green75: "#5cb85cbf",
   Green50: "#5cb85c64",
   Red: "#ff0000",
+  Red75: "#ff0000bf",
   Blue: "#0047ab",
 };
 
