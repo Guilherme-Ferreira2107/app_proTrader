@@ -109,7 +109,7 @@ const Main = () => {
       },
     },
     dataLabels: {
-      enabled: true,
+      enabled: false,
       formatter: function (val, opts) {
         return `R$ ${val.toFixed(2)}`;
       },
@@ -142,7 +142,7 @@ const Main = () => {
       },
     },
     xaxis: {
-      type: "datetime",
+      //type: "datetime",
       categories: listOptionsData,
     },
     markers: {
@@ -157,7 +157,7 @@ const Main = () => {
         show: true,
       },
       x: {
-        format: "dd/MM/yyyy",
+        format: "hh:mm",
       },
     },
   };
@@ -177,14 +177,10 @@ const Main = () => {
   }, [history, filtrarSeries, filtrarDatas]);
 
   useEffect(() => {
-    recuperarDados();
-  }, [recuperarDados]);
-
-  useEffect(() => {
     setTimeout(() => {
       recuperarDados();
     }, 1000);
-  }, []);
+  }, [recuperarDados]);
 
   // Adicionar saldo
   const addSaldo = () => {
@@ -212,8 +208,7 @@ const Main = () => {
   };
 
   // Saque saldo
-  const saqueSaldo = (event) => {
-    event.preventDefault();
+  const saqueSaldo = () => {
     if (saque) {
       if (saque <= parseFloat(valueCurrent)) {
         let resultado = parseFloat(valueCurrent) - parseFloat(saque);
