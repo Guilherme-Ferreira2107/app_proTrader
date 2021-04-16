@@ -15,4 +15,12 @@ export const ValueHistorico = styled.p`
   display: flex;
   padding: 5px;
   border-bottom: 1px solid ${Cor.White7};
+
+  &.pos {
+    color: ${Cor.Green};
+  }
+
+  &.neg {
+    color: ${Cor.Red};
+  }
 `;

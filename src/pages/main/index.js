@@ -375,10 +375,10 @@ const Main = () => {
                 </Grid>
                 <Grid container spacing={2}>
                   <Grid item xs={4}>
-                    <TitleHistorico>Payout</TitleHistorico>
+                    <TitleHistorico>Investimento</TitleHistorico>
                   </Grid>
                   <Grid item xs={4}>
-                    <TitleHistorico>Investimento</TitleHistorico>
+                    <TitleHistorico>Payout</TitleHistorico>
                   </Grid>
                   <Grid item xs={4}>
                     <TitleHistorico>Lucro</TitleHistorico>
@@ -389,15 +389,19 @@ const Main = () => {
                     <CardHistorico key={idx}>
                       <Grid container spacing={2}>
                         <Grid item xs={4}>
-                          <ValueHistorico>{item?.payout}%</ValueHistorico>
-                        </Grid>
-                        <Grid item xs={4}>
                           <ValueHistorico>
                             R${parseFloat(item?.investimento).toFixed(2)}
                           </ValueHistorico>
                         </Grid>
                         <Grid item xs={4}>
-                          <ValueHistorico>
+                          <ValueHistorico>{item?.payout}%</ValueHistorico>
+                        </Grid>
+                        <Grid item xs={4}>
+                          <ValueHistorico
+                            className={
+                              parseFloat(item?.lucro) > 0 ? "pos" : "neg"
+                            }
+                          >
                             R${parseFloat(item?.lucro).toFixed(2)}
                           </ValueHistorico>
                         </Grid>
