@@ -65,11 +65,13 @@ const InitialApp = () => {
   useEffect(() => {
     let dados = recuperarDadosLocais();
     setTimeout(() => {
-      if (!email && !nome && !dados) {
-        history.push("/login");
+      if (!email && !nome && !dados[0].nome) {
+        return history.push("/login");
+      } else if (dados[0].nome) {
+        return history.push("/main");
       } else {
         atualizarDadosLocais(dadosInciais);
-        history.push("/main");
+        return history.push("/main");
       }
     }, [1000]);
   }, [email, nome, history, dadosInciais]);
