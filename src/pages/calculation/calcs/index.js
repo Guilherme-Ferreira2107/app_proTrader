@@ -65,7 +65,7 @@ const Calcs = () => {
       setLoading(true);
       let dados = recuperarDadosLocais();
       setDadosUsuario(dados);
-      setValueCurrent(dados[0].saldoAtual);
+      setValueCurrent(dados[0]?.saldoAtual);
     } catch (error) {
       history.push("/login");
     } finally {

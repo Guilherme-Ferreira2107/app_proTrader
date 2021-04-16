@@ -66,7 +66,6 @@ const Main = () => {
         return moment(item?.data).format("MM") === mes;
       });
       let filtro = registrosDoDia.map((item) => {
-        console.log(item.data);
         return item.data;
       });
       return filtro;
@@ -181,9 +180,14 @@ const Main = () => {
     recuperarDados();
   }, [recuperarDados]);
 
+  useEffect(() => {
+    setTimeout(() => {
+      recuperarDados();
+    }, 1000);
+  }, []);
+
   // Adicionar saldo
-  const addSaldo = (event) => {
-    event.preventDefault();
+  const addSaldo = () => {
     if (depositaValor) {
       let resultado = parseFloat(valueCurrent) + parseFloat(depositaValor);
       let dados = recuperarDadosLocais();
