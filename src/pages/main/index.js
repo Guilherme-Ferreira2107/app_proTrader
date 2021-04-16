@@ -10,6 +10,7 @@ import Header from "../../components/header";
 import Footer from "../../components/footer";
 import Alert from "../../components/alert";
 import Label from "../../components/label";
+import NoData from "../../components/noData";
 
 // Material UI
 import { Grid } from "@material-ui/core";
@@ -233,7 +234,7 @@ const Main = () => {
         setShowAlert(true);
         setAlert(
           <Alert
-            message="Saldo indisponível! Verifique seu saldo disponível"
+            message="Seu saldo não é suficiente! Verifique seu saldo disponível"
             value="Ok"
             onClick={removeAlert}
             type="erro"
@@ -281,7 +282,7 @@ const Main = () => {
               typeAddon="R$"
               type="number"
               className="form-control"
-              value="depositaValor"
+              value={depositaValor}
               placeholder="1.000,00"
               name="adicionaValor"
               onChange={(event) => setDepositaValor(event.target.value)}
@@ -295,7 +296,7 @@ const Main = () => {
               typeAddon="R$"
               type="number"
               className="form-control"
-              value="depositaValor"
+              value={saque}
               placeholder="-1.000,00"
               name="saqueValor"
               onChange={(event) => setSaque(event.target.value)}
@@ -346,58 +347,68 @@ const Main = () => {
           xs={12}
           className="container card-arredondado exhibit"
         >
-          <Grid item xs={12} md={8}>
-            <ReactApexChart
-              options={options}
-              series={series}
-              type="line"
-              height={350}
-              width="100%"
-            />
-          </Grid>
-          <Grid item xs={12} md={4} className="card-historico">
-            <Grid container justify="space-between" className="historico-title">
-              <Grid item>
-                <h4>ORDENS RECENTES</h4>
+          {listaHistorico.length ? (
+            <>
+              <Grid item xs={12} md={8}>
+                <ReactApexChart
+                  options={options}
+                  series={series}
+                  type="line"
+                  height={350}
+                  width="100%"
+                />
               </Grid>
-              <Grid item>
-                <h4>
-                  <a href="/calculation">Ver tudo</a>
-                </h4>
-              </Grid>
-            </Grid>
-            <Grid container spacing={2}>
-              <Grid item xs={4}>
-                <TitleHistorico>Payout</TitleHistorico>
-              </Grid>
-              <Grid item xs={4}>
-                <TitleHistorico>Investimento</TitleHistorico>
-              </Grid>
-              <Grid item xs={4}>
-                <TitleHistorico>Lucro</TitleHistorico>
-              </Grid>
-            </Grid>
-            {listaHistorico &&
-              listaHistorico.map((item, idx) => (
-                <CardHistorico key={idx}>
-                  <Grid container spacing={2}>
-                    <Grid item xs={4}>
-                      <ValueHistorico>{item?.payout}%</ValueHistorico>
-                    </Grid>
-                    <Grid item xs={4}>
-                      <ValueHistorico>
-                        R${parseFloat(item?.investimento).toFixed(2)}
-                      </ValueHistorico>
-                    </Grid>
-                    <Grid item xs={4}>
-                      <ValueHistorico>
-                        R${parseFloat(item?.lucro).toFixed(2)}
-                      </ValueHistorico>
-                    </Grid>
+              <Grid item xs={12} md={4} className="card-historico">
+                <Grid
+                  container
+                  justify="space-between"
+                  className="historico-title"
+                >
+                  <Grid item>
+                    <h4>ORDENS RECENTES</h4>
                   </Grid>
-                </CardHistorico>
-              ))}
-          </Grid>
+                  <Grid item>
+                    <h4>
+                      <a href="/calculation">Ver tudo</a>
+                    </h4>
+                  </Grid>
+                </Grid>
+                <Grid container spacing={2}>
+                  <Grid item xs={4}>
+                    <TitleHistorico>Payout</TitleHistorico>
+                  </Grid>
+                  <Grid item xs={4}>
+                    <TitleHistorico>Investimento</TitleHistorico>
+                  </Grid>
+                  <Grid item xs={4}>
+                    <TitleHistorico>Lucro</TitleHistorico>
+                  </Grid>
+                </Grid>
+                {listaHistorico &&
+                  listaHistorico.map((item, idx) => (
+                    <CardHistorico key={idx}>
+                      <Grid container spacing={2}>
+                        <Grid item xs={4}>
+                          <ValueHistorico>{item?.payout}%</ValueHistorico>
+                        </Grid>
+                        <Grid item xs={4}>
+                          <ValueHistorico>
+                            R${parseFloat(item?.investimento).toFixed(2)}
+                          </ValueHistorico>
+                        </Grid>
+                        <Grid item xs={4}>
+                          <ValueHistorico>
+                            R${parseFloat(item?.lucro).toFixed(2)}
+                          </ValueHistorico>
+                        </Grid>
+                      </Grid>
+                    </CardHistorico>
+                  ))}
+              </Grid>
+            </>
+          ) : (
+            <NoData>Histórico indisponível no momento!</NoData>
+          )}
         </Grid>
       </Grid>
       <Footer />
