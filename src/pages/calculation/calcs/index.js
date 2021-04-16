@@ -140,6 +140,8 @@ const Calcs = () => {
       dados[0].saldoAtual = retorno.toFixed(2);
       dados[0].carteira.push(register);
       dados[0].lucroDia = checarRegistros(dados);
+      dados[0].lucroSemana = checarRegistros(dados);
+      dados[0].lucroMes = checarRegistros(dados);
       try {
         setLoading(true);
         atualizarDadosLocais(dados);
@@ -178,6 +180,8 @@ const Calcs = () => {
       dados[0].saldoAtual = retorno.toFixed(2);
       dados[0].carteira.push(register);
       dados[0].lucroDia = checarRegistros(dados);
+      dados[0].lucroSemana = checarRegistros(dados);
+      dados[0].lucroMes = checarRegistros(dados);
       try {
         setLoading(true);
         atualizarDadosLocais(dados);

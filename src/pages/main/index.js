@@ -179,7 +179,7 @@ const Main = () => {
   useEffect(() => {
     setTimeout(() => {
       recuperarDados();
-    }, 1000);
+    }, 500);
   }, [recuperarDados]);
 
   // Adicionar saldo
