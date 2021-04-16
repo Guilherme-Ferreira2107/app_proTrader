@@ -347,7 +347,7 @@ const Main = () => {
           xs={12}
           className="container card-arredondado exhibit"
         >
-          {listaHistorico.length ? (
+          {listaHistorico.length > 0 ? (
             <>
               <Grid item xs={12} md={8}>
                 <ReactApexChart
@@ -407,7 +407,10 @@ const Main = () => {
               </Grid>
             </>
           ) : (
-            <NoData>Histórico indisponível no momento!</NoData>
+            <NoData size="18px">
+              Histórico indisponível no momento! Verifique suas ordens em{" "}
+              <a href="/calculation">Calculadora</a>!
+            </NoData>
           )}
         </Grid>
       </Grid>
