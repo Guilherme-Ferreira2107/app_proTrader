@@ -67,7 +67,7 @@ const Historic = () => {
       when: (row) => row.lucro,
       style: (row) => ({
         "& div": {
-          color: row.lucro > 0 ? Cor.Green90 : Cor.Red75,
+          color: row.lucro > 0 ? Cor.Green90 : Cor.RedLigth,
         },
       }),
     },
