@@ -23,7 +23,7 @@ import { Cor } from "../../assets/cores";
 //Services
 import {
   atualizarDadosLocais,
-  recuperarDadosLocais,
+  recuperarDadosLocais
 } from "../../services/authService";
 import InputGroup from "../../components/inputGroup";
 
@@ -45,27 +45,27 @@ const Main = () => {
   }, [dadosUsuario]);
 
   // Filtrar Série de gráfico
-  const filtrarSeries = useCallback((value) => {
+  const filtrarSeries = useCallback(value => {
     let mes = moment().format("MM");
 
     if (value) {
-      let registrosDoDia = value.filter((item) => {
+      let registrosDoDia = value.filter(item => {
         return moment(item?.data).format("MM") === mes;
       });
-      let filtro = registrosDoDia.map((item) => item?.lucro);
+      let filtro = registrosDoDia.map(item => item?.lucro);
       return filtro;
     }
   }, []);
 
   // Filtrar Série de gráfico
-  const filtrarDatas = useCallback((value) => {
+  const filtrarDatas = useCallback(value => {
     let mes = moment().format("MM");
 
     if (value) {
-      let registrosDoDia = value.filter((item) => {
+      let registrosDoDia = value.filter(item => {
         return moment(item?.data).format("MM") === mes;
       });
-      let filtro = registrosDoDia.map((item) => {
+      let filtro = registrosDoDia.map(item => {
         return item.data;
       });
       return filtro;
@@ -77,8 +77,8 @@ const Main = () => {
     {
       name: "Lucro",
       data: listSeries,
-      color: "#231225",
-    },
+      color: "#231225"
+    }
   ];
 
   const options = {
@@ -88,8 +88,8 @@ const Main = () => {
         fontSize: "16px",
         fontWeight: "normal",
         fontFamily: "Helvetica Neue, Helvetica, Arial, sans-serif",
-        color: Cor.Purple,
-      },
+        color: Cor.Purple
+      }
     },
     chart: {
       zoom: false,
@@ -100,21 +100,21 @@ const Main = () => {
         speed: 800,
         animateGradually: {
           enabled: true,
-          delay: 150,
+          delay: 150
         },
         dynamicAnimation: {
           enabled: true,
-          speed: 350,
-        },
-      },
+          speed: 350
+        }
+      }
     },
     dataLabels: {
       enabled: false,
-      formatter: function (val, opts) {
+      formatter: function(val, opts) {
         return `R$ ${val.toFixed(2)}`;
       },
       style: {
-        colors: ["#333"],
+        colors: ["#333"]
       },
       background: {
         enabled: true,
@@ -123,14 +123,14 @@ const Main = () => {
         borderRadius: 2,
         borderWidth: 1,
         borderColor: "#fff",
-        opacity: 0.9,
-      },
+        opacity: 0.9
+      }
     },
     stroke: {
       show: true,
       curve: "smooth",
       colors: ["#231225"],
-      width: 2,
+      width: 2
     },
     yaxis: {
       width: "100%",
@@ -138,28 +138,28 @@ const Main = () => {
         show: true,
         formatter(value) {
           return `R$ ${value}`;
-        },
-      },
+        }
+      }
     },
     xaxis: {
       //type: "datetime",
-      categories: listOptionsData,
+      categories: listOptionsData
     },
     markers: {
       size: 0,
       colors: "#231225",
       strokeColors: "#231225",
-      strokeWidth: 2,
+      strokeWidth: 2
     },
     tooltip: {
       theme: "dark",
       marker: {
-        show: true,
+        show: true
       },
       x: {
-        format: "hh:mm",
-      },
-    },
+        format: "hh:mm"
+      }
+    }
   };
 
   // Recuperar dados
@@ -245,12 +245,12 @@ const Main = () => {
   };
 
   // Formatar números
-  const formatNumber = (value) => {
+  const formatNumber = value => {
     const valor = parseFloat(value);
     const conversao = valor.toLocaleString("pt-br", {
       style: "currency",
       currency: "BRL",
-      maximumFractionDigits: 2,
+      maximumFractionDigits: 2
     });
     return conversao;
   };
@@ -284,7 +284,7 @@ const Main = () => {
               value={depositaValor}
               placeholder="1.000,00"
               name="adicionaValor"
-              onChange={(event) => setDepositaValor(event.target.value)}
+              onChange={event => setDepositaValor(event.target.value)}
               onClick={addSaldo}
               valueButton="Deposite"
               theme="btn-success"
@@ -298,7 +298,7 @@ const Main = () => {
               value={saque}
               placeholder="-1.000,00"
               name="saqueValor"
-              onChange={(event) => setSaque(event.target.value)}
+              onChange={event => setSaque(event.target.value)}
               onClick={saqueSaldo}
               valueButton="Saque"
               theme="btn-danger"
@@ -314,13 +314,13 @@ const Main = () => {
         >
           <Grid item xs={6} md={3} className="border-g1">
             <Label weight="bold">Saldo disponível: </Label>
-            <Label size="20px" color="#5cb85c">
+            <Label size="20px" color={Cor.Green}>
               {valueCurrent ? formatNumber(Number(valueCurrent)) : "R$ 0,00"}
             </Label>
           </Grid>
           <Grid item xs={6} md={3} className="border-g2">
             <Label weight="bold">Lucro Diário</Label>
-            <Label size="20px" color="#6B8E23">
+            <Label size="20px" color={Cor.GreenMusgo}>
               {dadosUsuario?.lucroDia
                 ? formatNumber(dadosUsuario?.lucroDia)
                 : "R$ 0,00"}
@@ -328,7 +328,7 @@ const Main = () => {
           </Grid>
           <Grid item xs={6} md={3} className="border-g3">
             <Label weight="bold">Lucro Semanal</Label>
-            <Label size="20px" color="#3cb371">
+            <Label size="20px" color={Cor.GreenOcean}>
               {dadosUsuario?.lucroSemana
                 ? formatNumber(dadosUsuario?.lucroSemana)
                 : "R$ 0,00"}
@@ -336,7 +336,7 @@ const Main = () => {
           </Grid>
           <Grid item xs={6} md={3} className="border-g4">
             <Label weight="bold">Lucro Mensal</Label>
-            <Label size="20px" color="#006400">
+            <Label size="20px" color={Cor.GreenTree}>
               {dadosUsuario?.lucroMes
                 ? formatNumber(dadosUsuario?.lucroMes)
                 : "R$ 0,00"}

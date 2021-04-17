@@ -15,10 +15,13 @@ const Cor = {
   Green90: "#5cb85ce6",
   Green75: "#5cb85cbf",
   Green50: "#5cb85c64",
+  GreenMusgo: "#6B8E23",
+  GreenOcean: "#3cb371",
+  GreenTree: "#006400",
   Red: "#ff0000",
   Red75: "#ff0000bf",
   RedLigth: "#ff9090 ",
-  Blue: "#0047ab",
+  Blue: "#0047ab"
 };
 
 export { Cor };
