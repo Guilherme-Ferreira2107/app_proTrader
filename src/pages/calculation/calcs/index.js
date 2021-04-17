@@ -14,7 +14,7 @@ import { Grid } from "@material-ui/core";
 // Services
 import {
   atualizarDadosLocais,
-  recuperarDadosLocais,
+  recuperarDadosLocais
 } from "../../../services/authService.js";
 
 // Componentes
@@ -36,24 +36,28 @@ const Calcs = () => {
   const [valueCurrent, setValueCurrent] = useState(0);
   const [inputInvestimento, setInputInvestimento] = useState("");
   const [inputPayout, setInputPayout] = useState("");
+  const [payout, setPayout] = useState();
   const [resultado, setResultado] = useState("");
   const [typeCalculator, setTypeCalculator] = useState("fixo");
   const [qtdaSoros, setQtdaSoros] = useState(1);
+  const [ordem, setOrdem] = useState();
 
   // Manipuladores
-  const inputChangeInvestimento = (event) => {
+  const inputChangeInvestimento = event => {
     setInputInvestimento(event.target.value);
   };
 
-  const inputChangePayout = (event) => {
+  const inputChangePayout = event => {
     setInputPayout(event.target.value);
   };
 
   // Processar Cálculo
-  const handlerSend = (data) => {
+  const handlerSend = data => {
     setLoading(true);
     setTimeout(() => {
       let resultado = data.investimento * (data.payout / 100);
+      setOrdem(data.investimento);
+      setPayout(data.payout);
       setResultado(resultado);
       setLoading(false);
     }, 500);
@@ -78,18 +82,18 @@ const Calcs = () => {
   }, [recuperarDados]);
 
   // Formatar números
-  const formatNumber = (value) => {
+  const formatNumber = value => {
     const valor = parseFloat(value).toFixed(2);
     const conversao = valor.toLocaleString("pt-br", {
       style: "currency",
       currency: "BRL",
-      maximumFractionDigits: 2,
+      maximumFractionDigits: 2
     });
     return conversao ? conversao : "0,00";
   };
 
   // Registrar resultado
-  const copy = (text) => {
+  const copy = text => {
     var textArea = document.createElement("textarea");
     textArea.value = text;
     document.body.appendChild(textArea);
@@ -135,7 +139,7 @@ const Calcs = () => {
         data: moment().format("yyyy-MM-DD hh:mm:ss"),
         investimento: parseFloat(value).toFixed(2),
         payout: inputPayout,
-        lucro: parseFloat(resultado).toFixed(2),
+        lucro: parseFloat(resultado).toFixed(2)
       };
       dados[0].saldoAtual = retorno.toFixed(2);
       dados[0].carteira.push(register);
@@ -166,7 +170,7 @@ const Calcs = () => {
   };
 
   // Registrar perda
-  const loss = (value, resultado) => {
+  const loss = value => {
     let register = {};
     if (value) {
       let retorno = parseFloat(valueCurrent) - parseFloat(value);
@@ -175,7 +179,7 @@ const Calcs = () => {
         data: moment().format("yyyy-MM-DD hh:mm:ss"),
         investimento: parseFloat(value).toFixed(2),
         payout: inputPayout,
-        lucro: parseFloat(-value).toFixed(2),
+        lucro: parseFloat(-value).toFixed(2)
       };
       dados[0].saldoAtual = retorno.toFixed(2);
       dados[0].carteira.push(register);
@@ -206,7 +210,7 @@ const Calcs = () => {
   };
 
   // Primeira letra maiscula
-  const convertTextToTitleCase = (value) => {
+  const convertTextToTitleCase = value => {
     let firstLetter = value[value.length - 1].toUpperCase();
     let restLetter = value.slice(1);
     return firstLetter + restLetter;
@@ -214,20 +218,18 @@ const Calcs = () => {
 
   //  Listagem de odem
   const listaResultadoOrdem = () => {
-    let ordem = inputInvestimento
-      ? formatNumber(Number(inputInvestimento))
-      : "R$ 0,00";
+    let investido = ordem ? formatNumber(Number(ordem)) : "R$ 0,00";
     let retorno = resultado ? formatNumber(resultado) : "R$ 0,00";
     return (
       <Grid container spacing={2} className="resultado">
         <Grid item xs={12} md={6}>
           <Label size="14px" weight="bold">
-            Ordem: {ordem}
+            Ordem: {investido}
           </Label>
           <Label size="18px">Resultado: {retorno}</Label>
         </Grid>
         <Grid item xs={4} md={2}>
-          <Btn className="copy btn btn-info" onClick={() => copy(ordem)}>
+          <Btn className="copy btn btn-info" onClick={() => copy(investido)}>
             Copiar
           </Btn>
         </Grid>
@@ -253,7 +255,7 @@ const Calcs = () => {
 
   //  Listagem de soros
   const listagemResultadosSoros = () => {
-    let ordem = inputInvestimento;
+    let investido = ordem;
     let retorno = resultado;
     let listaDeResultado = [];
     let armazenaSoros = [];
@@ -262,9 +264,9 @@ const Calcs = () => {
     // montar lista
     for (let i = 0; i < qtdaSoros; i++) {
       const ordemAtualSoros = () => {
-        if (!ordem) return formatNumber(0.0);
+        if (!investido) return formatNumber(0.0);
         if (armazenaSoros.length === 0) {
-          let calculaInicial = ordem * (i + 1) + retorno;
+          let calculaInicial = investido * (i + 1) + retorno;
           return calculaInicial;
         } else {
           let calcula = armazenaSoros[i - 1] + armazenaResultado[i - 1];
@@ -275,8 +277,8 @@ const Calcs = () => {
       armazenaSoros.push(ordemAtualSoros());
 
       const resultadoSoros = () => {
-        if (!ordem) return formatNumber(0.0);
-        return armazenaSoros[i] * (inputPayout / 100);
+        if (!investido) return formatNumber(0.0);
+        return armazenaSoros[i] * (payout / 100);
       };
 
       armazenaResultado.push(resultadoSoros());
@@ -321,11 +323,11 @@ const Calcs = () => {
     }
 
     // listar resultados
-    return listaDeResultado && listaDeResultado.map((item) => item);
+    return listaDeResultado && listaDeResultado.map(item => item);
   };
 
   //  Alterar cor de lucro diário
-  const checkStyleColor = (value) => {
+  const checkStyleColor = value => {
     if (value > 0) return Cor.Green;
     if (value < 0) return Cor.Red;
   };
@@ -352,11 +354,11 @@ const Calcs = () => {
   };
 
   // Lucro dia
-  const checarRegistros = (value) => {
+  const checarRegistros = value => {
     let valorInicial = 0;
     let hoje = moment().format("yyyy-MM-DD");
     if (value) {
-      let registrosDoDia = value[0].carteira.filter((item) => {
+      let registrosDoDia = value[0].carteira.filter(item => {
         return moment(item?.data).format("yyyy-MM-DD") === hoje;
       });
       let soma = registrosDoDia.reduce(
@@ -404,12 +406,12 @@ const Calcs = () => {
                     name="typeCalculator"
                     id="typeCalculator"
                     ref={register({
-                      required: "Tipo de cálculo é obrigatório!",
+                      required: "Tipo de cálculo é obrigatório!"
                     })}
-                    onChange={(e) => setTypeCalculator(e.target.value)}
+                    onChange={e => setTypeCalculator(e.target.value)}
                     options={[
                       { value: "fixo", label: "Fixo" },
-                      { value: "soros", label: "Soros" },
+                      { value: "soros", label: "Soros" }
                       // { value: "martingale", label: "Martingale" },
                     ]}
                   />
@@ -422,9 +424,9 @@ const Calcs = () => {
                     name="qtdaNiveis"
                     id="qtdaNiveis"
                     ref={register({
-                      required: "Níveis de cálculo é obrigatório!",
+                      required: "Níveis de cálculo é obrigatório!"
                     })}
-                    onChange={(e) => setQtdaSoros(e.target.value)}
+                    onChange={e => setQtdaSoros(e.target.value)}
                     options={qtdaOptions()}
                     disabled={typeCalculator === "fixo"}
                   />
@@ -438,7 +440,7 @@ const Calcs = () => {
                     type="number"
                     value={inputInvestimento}
                     ref={register({
-                      required: "Investimento é obrigatório!",
+                      required: "Investimento é obrigatório!"
                     })}
                     onChange={inputChangeInvestimento}
                   />
@@ -452,7 +454,7 @@ const Calcs = () => {
                     type="number"
                     value={inputPayout}
                     ref={register({
-                      required: "Payout é obrigatório!",
+                      required: "Payout é obrigatório!"
                     })}
                     onChange={inputChangePayout}
                   />
