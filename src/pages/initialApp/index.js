@@ -18,14 +18,14 @@ import { updateNome } from "../../store/modulos/users/actions";
 // Services
 import {
   atualizarDadosLocais,
-  recuperarDadosLocais,
+  recuperarDadosLocais
 } from "../../services/authService";
 
 const InitialApp = () => {
   const dispatch = useDispatch();
   const history = useHistory();
-  const email = useSelector((state) => state.email);
-  const nome = useSelector((state) => state.nome);
+  const email = useSelector(state => state.email);
+  const nome = useSelector(state => state.nome);
   const emailEncode = b64.encode(email);
   const [dadosInciais, setDadosInciais] = useState([]);
 
@@ -39,8 +39,8 @@ const InitialApp = () => {
         lucroDia: 0,
         lucroSemana: 0,
         lucroMes: 0,
-        carteira: [],
-      },
+        carteira: []
+      }
     ]);
   }, [email, nome]);
 
@@ -51,11 +51,11 @@ const InitialApp = () => {
         .database()
         .ref(`user/${emailEncode}`)
         .once("value")
-        .then((snapshot) => {
+        .then(snapshot => {
           const resultado = _.values(snapshot.val());
           dispatch(updateNome(resultado[0]?.nome));
         })
-        .catch((error) => console.log(error));
+        .catch(error => console.log(error));
     } catch (error) {
       console.log(error);
     } finally {
@@ -65,9 +65,9 @@ const InitialApp = () => {
   useEffect(() => {
     let dados = recuperarDadosLocais();
     setTimeout(() => {
-      if (!email && !nome && !dados[0].nome) {
+      if (!email && !nome && !dados) {
         return history.push("/login");
-      } else if (dados[0].nome) {
+      } else if (dados) {
         return history.push("/main");
       } else {
         atualizarDadosLocais(dadosInciais);
