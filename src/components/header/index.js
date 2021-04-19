@@ -42,9 +42,6 @@ const Header = () => {
 
             <ul className="nav navbar-nav navbar-right">
               <li>
-                <a href="#main">{newEmail}</a>
-              </li>
-              <li>
                 <button className="btn-exit" onClick={exitApp}>
                   Sair <span className="glyphicon glyphicon-log-in"></span>
                 </button>

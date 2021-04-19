@@ -38,30 +38,31 @@ export const customStyles = {
       background: Cor.Purple,
       marginLeft: "3px",
       fontSize: "16px",
-      color: "white",
-    },
+      color: "white"
+    }
   },
   rows: {
     style: {
       marginBottom: "1px",
-      marginTop: "1px",
-    },
+      marginTop: "1px"
+    }
   },
   Pagination: {
     styles: {
-      color: Cor.Ice,
-    },
+      color: Cor.Ice
+    }
   },
   cells: {
     style: {
       marginLeft: "3px",
       background: Cor.Purple90,
       fontSize: "14px",
-      color: "white",
-    },
-  },
+      color: "white"
+    }
+  }
 };
 
 export const Btn = styled.button`
   margin: 15px 0px;
+  padding-bottom: 0px;
 `;

@@ -52,7 +52,7 @@ const Calcs = () => {
   };
 
   // Processar Cálculo
-  const handlerSend = data => {
+  const calcularOrdem = data => {
     setLoading(true);
     setTimeout(() => {
       let resultado = data.investimento * (data.payout / 100);
@@ -211,7 +211,7 @@ const Calcs = () => {
 
   // Primeira letra maiscula
   const convertTextToTitleCase = value => {
-    let firstLetter = value[value.length - 1].toUpperCase();
+    let firstLetter = value[0].toUpperCase();
     let restLetter = value.slice(1);
     return firstLetter + restLetter;
   };
@@ -326,6 +326,81 @@ const Calcs = () => {
     return listaDeResultado && listaDeResultado.map(item => item);
   };
 
+  //  Listagem de martingale
+  const listagemResultadosMarting = () => {
+    let investido = ordem;
+    let retorno = resultado;
+    let listaDeResultado = [];
+    let armazenaMartingale = [];
+    let armazenaResultado = [];
+
+    // montar lista
+    for (let i = 0; i < qtdaSoros; i++) {
+      const ordemAtualMartingale = () => {
+        if (!investido) return formatNumber(0.0);
+        if (armazenaMartingale.length === 0) {
+          let resultado = parseFloat(investido) + parseFloat(retorno);
+          return resultado;
+        } else {
+          let calcula = armazenaMartingale[i - 1] + armazenaResultado[i - 1];
+          return calcula;
+        }
+      };
+
+      armazenaMartingale.push(ordemAtualMartingale());
+
+      const resultadoMartingale = () => {
+        if (!investido) return formatNumber(0.0);
+        return (100 * armazenaMartingale[i]) / payout;
+      };
+
+      armazenaResultado.push(resultadoMartingale());
+
+      listaDeResultado.push(
+        <Grid container spacing={2} className="resultado">
+          <Grid item xs={12} md={6}>
+            <Label size="14px" weight="bold">
+              {convertTextToTitleCase(typeCalculator)} {i + 1}: R${" "}
+              {parseFloat(armazenaResultado[i]).toFixed(2)}
+            </Label>
+            <Label size="18px">
+              Resultado: R$ {parseFloat(armazenaMartingale[i]).toFixed(2)}
+            </Label>
+          </Grid>
+          <Grid item xs={4} md={2}>
+            <Btn
+              className="copy btn btn-info"
+              onClick={() => copy(parseFloat(armazenaResultado[i]).toFixed(2))}
+            >
+              Copiar
+            </Btn>
+          </Grid>
+          <Grid item xs={4} md={2}>
+            <Btn
+              className="copy btn btn-success"
+              onClick={() =>
+                success(armazenaResultado[i], armazenaMartingale[i])
+              }
+            >
+              Vitória
+            </Btn>
+          </Grid>
+          <Grid item xs={4} md={2}>
+            <Btn
+              className="copy btn btn-danger"
+              onClick={() => loss(armazenaResultado[i], armazenaMartingale[i])}
+            >
+              Derrota
+            </Btn>
+          </Grid>
+        </Grid>
+      );
+    }
+
+    // listar resultados
+    return listaDeResultado && listaDeResultado.map(item => item);
+  };
+
   //  Alterar cor de lucro diário
   const checkStyleColor = value => {
     if (value > 0) return Cor.Green;
@@ -335,7 +410,7 @@ const Calcs = () => {
   //  Controlar quantidade de ordens
   const qtdaOptions = () => {
     let listagem = [];
-    if (typeCalculator === "soros")
+    if (typeCalculator === "soros" || typeCalculator === "martingale") {
       listagem.push(
         { value: 1, label: 1 },
         { value: 2, label: 2 },
@@ -343,12 +418,9 @@ const Calcs = () => {
         { value: 4, label: 4 },
         { value: 5, label: 5 }
       );
-    else
-      listagem.push(
-        { value: 1, label: 1 },
-        { value: 2, label: 2 },
-        { value: 3, label: 3 }
-      );
+    } else {
+      listagem.push({ value: 1, label: 1 });
+    }
 
     return listagem;
   };
@@ -392,11 +464,11 @@ const Calcs = () => {
         </Grid>
       </Grid>
 
-      <Grid container className="container card-arredondado calculos">
+      <Grid container className="container card-arredondado">
         <Grid container spacing={4}>
           {/* Calculadora */}
           <Grid container item xs={12} md={6}>
-            <FormCalculation onSubmit={handleSubmit(handlerSend)}>
+            <FormCalculation onSubmit={handleSubmit(calcularOrdem)}>
               <Grid container spacing={2}>
                 <Grid item xs={12} md={6}>
                   <Select
@@ -411,8 +483,8 @@ const Calcs = () => {
                     onChange={e => setTypeCalculator(e.target.value)}
                     options={[
                       { value: "fixo", label: "Fixo" },
-                      { value: "soros", label: "Soros" }
-                      // { value: "martingale", label: "Martingale" },
+                      { value: "soros", label: "Soros" },
+                      { value: "martingale", label: "Martingale" }
                     ]}
                   />
                 </Grid>
@@ -433,7 +505,11 @@ const Calcs = () => {
                 </Grid>
                 <Grid item xs={12} md={6}>
                   <Input
-                    label="Ordem (R$)"
+                    label={
+                      typeCalculator === "martingale"
+                        ? "Retorno (R$)"
+                        : "Ordem (R$)"
+                    }
                     labelColor={Cor.White}
                     name="investimento"
                     placeholder="R$ 100,00"
@@ -469,9 +545,17 @@ const Calcs = () => {
           </Grid>
 
           {/* Listagem de resultados */}
-          <Grid container item xs={12} md={6} alignContent="flex-start">
+          <Grid
+            container
+            item
+            xs={12}
+            md={6}
+            alignContent="flex-start"
+            className="listagem-resultados"
+          >
             {listaResultadoOrdem()}
-            {typeCalculator !== "fixo" && listagemResultadosSoros()}
+            {typeCalculator === "soros" && listagemResultadosSoros()}
+            {typeCalculator === "martingale" && listagemResultadosMarting()}
           </Grid>
         </Grid>
       </Grid>

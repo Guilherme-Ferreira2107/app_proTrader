@@ -83,7 +83,7 @@ const Main = () => {
 
   const options = {
     title: {
-      text: "Desempenho anual",
+      text: "Desempenho",
       style: {
         fontSize: "16px",
         fontWeight: "normal",

@@ -31,8 +31,23 @@ export const Wrapper = styled.div`
     cursor: pointer;
   }
 
+  .listagem-resultados {
+    border: 0px solid red;
+    margin-top: 36px;
+    margin-bottom: 16px;
+    height: 250px;
+    overflow-y: scroll;
+
+    &::-webkit-scrollbar-thumb {
+      background: #23122511;
+    }
+    &::-webkit-scrollbar {
+      background-color: #fff;
+    }
+  }
+
   .resultado {
-    margin: 20px 0 0;
+    margin: 5px 0 0;
     display: flex;
     align-items: center;
     align-content: center;
