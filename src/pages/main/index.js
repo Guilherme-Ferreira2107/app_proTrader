@@ -17,7 +17,12 @@ import { Grid } from "@material-ui/core";
 
 // Style
 import "./styles.css";
-import { CardHistorico, TitleHistorico, ValueHistorico } from "./styles";
+import {
+  Wrapper,
+  CardHistorico,
+  TitleHistorico,
+  ValueHistorico
+} from "./styles";
 import { Cor } from "../../assets/cores";
 
 //Services
@@ -262,166 +267,168 @@ const Main = () => {
   return (
     <>
       <Header />
-      <Grid container className="main">
-        <Grid container className="container welcome">
-          <Label>
-            Olá <em>{dadosUsuario?.nome}</em>, seja bem vindo ao seu Trading
-            System!
-          </Label>
-        </Grid>
+      <Wrapper className="main">
+        <Grid container>
+          <Grid container className="container welcome">
+            <Label>
+              Olá <em>{dadosUsuario?.nome}</em>, seja bem vindo ao seu Trading
+              System!
+            </Label>
+          </Grid>
 
-        {/* DEPOSITO E SAQUE */}
-        <Grid
-          container
-          spacing={2}
-          className="container card-arredondado update-wallet"
-        >
-          <Grid item xs={12} md={6}>
-            <InputGroup
-              typeAddon="R$"
-              type="number"
-              className="form-control"
-              value={depositaValor}
-              placeholder="1.000,00"
-              name="adicionaValor"
-              onChange={event => setDepositaValor(event.target.value)}
-              onClick={addSaldo}
-              valueButton="Deposite"
-              theme="btn-success"
-            />
+          {/* DEPOSITO E SAQUE */}
+          <Grid
+            container
+            spacing={2}
+            className="container card-arredondado update-wallet"
+          >
+            <Grid item xs={12} md={6}>
+              <InputGroup
+                typeAddon="R$"
+                type="number"
+                className="form-control"
+                value={depositaValor}
+                placeholder="1.000,00"
+                name="adicionaValor"
+                onChange={event => setDepositaValor(event.target.value)}
+                onClick={addSaldo}
+                valueButton="Deposite"
+                theme="btn-success"
+              />
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <InputGroup
+                typeAddon="R$"
+                type="number"
+                className="form-control"
+                value={saque}
+                placeholder="-1.000,00"
+                name="saqueValor"
+                onChange={event => setSaque(event.target.value)}
+                onClick={saqueSaldo}
+                valueButton="Saque"
+                theme="btn-danger"
+              />
+            </Grid>
           </Grid>
-          <Grid item xs={12} md={6}>
-            <InputGroup
-              typeAddon="R$"
-              type="number"
-              className="form-control"
-              value={saque}
-              placeholder="-1.000,00"
-              name="saqueValor"
-              onChange={event => setSaque(event.target.value)}
-              onClick={saqueSaldo}
-              valueButton="Saque"
-              theme="btn-danger"
-            />
-          </Grid>
-        </Grid>
 
-        {/* SALDOS */}
-        <Grid
-          container
-          spacing={2}
-          className="container card-arredondado exhibit"
-        >
-          <Grid item xs={6} md={3} className="border-g1">
-            <Label weight="bold">Saldo disponível: </Label>
-            <Label size="20px" color={Cor.Green}>
-              {valueCurrent ? formatNumber(Number(valueCurrent)) : "R$ 0,00"}
-            </Label>
+          {/* SALDOS */}
+          <Grid
+            container
+            spacing={2}
+            className="container card-arredondado exhibit"
+          >
+            <Grid item xs={6} md={3} className="border-g1">
+              <Label weight="bold">Saldo disponível: </Label>
+              <Label size="20px" color={Cor.Green}>
+                {valueCurrent ? formatNumber(Number(valueCurrent)) : "R$ 0,00"}
+              </Label>
+            </Grid>
+            <Grid item xs={6} md={3} className="border-g2">
+              <Label weight="bold">Lucro Diário</Label>
+              <Label size="20px" color={Cor.GreenMusgo}>
+                {dadosUsuario?.lucroDia
+                  ? formatNumber(dadosUsuario?.lucroDia)
+                  : "R$ 0,00"}
+              </Label>
+            </Grid>
+            <Grid item xs={6} md={3} className="border-g3">
+              <Label weight="bold">Lucro Semanal</Label>
+              <Label size="20px" color={Cor.GreenOcean}>
+                {dadosUsuario?.lucroSemana
+                  ? formatNumber(dadosUsuario?.lucroSemana)
+                  : "R$ 0,00"}
+              </Label>
+            </Grid>
+            <Grid item xs={6} md={3} className="border-g4">
+              <Label weight="bold">Lucro Mensal</Label>
+              <Label size="20px" color={Cor.GreenTree}>
+                {dadosUsuario?.lucroMes
+                  ? formatNumber(dadosUsuario?.lucroMes)
+                  : "R$ 0,00"}
+              </Label>
+            </Grid>
           </Grid>
-          <Grid item xs={6} md={3} className="border-g2">
-            <Label weight="bold">Lucro Diário</Label>
-            <Label size="20px" color={Cor.GreenMusgo}>
-              {dadosUsuario?.lucroDia
-                ? formatNumber(dadosUsuario?.lucroDia)
-                : "R$ 0,00"}
-            </Label>
-          </Grid>
-          <Grid item xs={6} md={3} className="border-g3">
-            <Label weight="bold">Lucro Semanal</Label>
-            <Label size="20px" color={Cor.GreenOcean}>
-              {dadosUsuario?.lucroSemana
-                ? formatNumber(dadosUsuario?.lucroSemana)
-                : "R$ 0,00"}
-            </Label>
-          </Grid>
-          <Grid item xs={6} md={3} className="border-g4">
-            <Label weight="bold">Lucro Mensal</Label>
-            <Label size="20px" color={Cor.GreenTree}>
-              {dadosUsuario?.lucroMes
-                ? formatNumber(dadosUsuario?.lucroMes)
-                : "R$ 0,00"}
-            </Label>
-          </Grid>
-        </Grid>
 
-        {/* GRAFICO E ORDENS RECENTES */}
-        <Grid
-          container
-          item
-          spacing={4}
-          xs={12}
-          className="container card-arredondado exhibit"
-        >
-          {listaHistorico.length > 0 ? (
-            <>
-              <Grid item xs={12} md={8}>
-                <ReactApexChart
-                  options={options}
-                  series={series}
-                  type="line"
-                  height={350}
-                  width="100%"
-                />
-              </Grid>
-              <Grid item xs={12} md={4} className="card-historico">
-                <Grid
-                  container
-                  justify="space-between"
-                  className="historico-title"
-                >
-                  <Grid item>
-                    <h4>ORDENS RECENTES</h4>
-                  </Grid>
-                  <Grid item>
-                    <h4>
-                      <a href="/calculation">Ver tudo</a>
-                    </h4>
-                  </Grid>
+          {/* GRAFICO E ORDENS RECENTES */}
+          <Grid
+            container
+            item
+            spacing={4}
+            xs={12}
+            className="container card-arredondado exhibit"
+          >
+            {listaHistorico.length > 0 ? (
+              <>
+                <Grid item xs={12} md={8}>
+                  <ReactApexChart
+                    options={options}
+                    series={series}
+                    type="line"
+                    height={350}
+                    width="100%"
+                  />
                 </Grid>
-                <Grid container spacing={2}>
-                  <Grid item xs={4}>
-                    <TitleHistorico>Investimento</TitleHistorico>
-                  </Grid>
-                  <Grid item xs={4}>
-                    <TitleHistorico>Payout</TitleHistorico>
-                  </Grid>
-                  <Grid item xs={4}>
-                    <TitleHistorico>Lucro</TitleHistorico>
-                  </Grid>
-                </Grid>
-                {listaHistorico.map((item, idx) => (
-                  <CardHistorico key={idx}>
-                    <Grid container spacing={2}>
-                      <Grid item xs={4}>
-                        <ValueHistorico>
-                          R${parseFloat(item?.investimento).toFixed(2)}
-                        </ValueHistorico>
-                      </Grid>
-                      <Grid item xs={4}>
-                        <ValueHistorico>{item?.payout}%</ValueHistorico>
-                      </Grid>
-                      <Grid item xs={4}>
-                        <ValueHistorico
-                          className={
-                            parseFloat(item?.lucro) > 0 ? "pos" : "neg"
-                          }
-                        >
-                          R${parseFloat(item?.lucro).toFixed(2)}
-                        </ValueHistorico>
-                      </Grid>
+                <Grid item xs={12} md={4} className="card-historico">
+                  <Grid
+                    container
+                    justify="space-between"
+                    className="historico-title"
+                  >
+                    <Grid item>
+                      <h4>ORDENS RECENTES</h4>
                     </Grid>
-                  </CardHistorico>
-                ))}
-              </Grid>
-            </>
-          ) : (
-            <NoData size="18px">
-              Histórico indisponível no momento! Verifique suas ordens em{" "}
-              <a href="/calculation">Calculadora</a>!
-            </NoData>
-          )}
+                    <Grid item>
+                      <h4>
+                        <a href="/calculation">Ver tudo</a>
+                      </h4>
+                    </Grid>
+                  </Grid>
+                  <Grid container spacing={2}>
+                    <Grid item xs={4}>
+                      <TitleHistorico>Investimento</TitleHistorico>
+                    </Grid>
+                    <Grid item xs={4}>
+                      <TitleHistorico>Payout</TitleHistorico>
+                    </Grid>
+                    <Grid item xs={4}>
+                      <TitleHistorico>Lucro</TitleHistorico>
+                    </Grid>
+                  </Grid>
+                  {listaHistorico.map((item, idx) => (
+                    <CardHistorico key={idx}>
+                      <Grid container spacing={2}>
+                        <Grid item xs={4}>
+                          <ValueHistorico>
+                            R${parseFloat(item?.investimento).toFixed(2)}
+                          </ValueHistorico>
+                        </Grid>
+                        <Grid item xs={4}>
+                          <ValueHistorico>{item?.payout}%</ValueHistorico>
+                        </Grid>
+                        <Grid item xs={4}>
+                          <ValueHistorico
+                            className={
+                              parseFloat(item?.lucro) > 0 ? "pos" : "neg"
+                            }
+                          >
+                            R${parseFloat(item?.lucro).toFixed(2)}
+                          </ValueHistorico>
+                        </Grid>
+                      </Grid>
+                    </CardHistorico>
+                  ))}
+                </Grid>
+              </>
+            ) : (
+              <NoData size="18px">
+                Histórico indisponível no momento! Verifique suas ordens em{" "}
+                <a href="/calculation">Calculadora</a>!
+              </NoData>
+            )}
+          </Grid>
         </Grid>
-      </Grid>
+      </Wrapper>
       <Footer />
       {showAlert && alert}
     </>
