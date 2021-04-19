@@ -10,7 +10,7 @@ const Header = () => {
     localStorage.removeItem("@wallet-app/dadosUsuario");
     history.push("/login");
   };
-  const newEmail = "";
+
   return (
     <div className="header">
       <nav className="navbar navbar-inverse">
