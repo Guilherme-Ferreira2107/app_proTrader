@@ -1,4 +1,3 @@
-https://user-images.githubusercontent.com/39266201/115238309-ed14ea00-a0f3-11eb-820f-6eedbeef5e32.mp4
 
 Veja em
 https://app-protrader.herokuapp.com/
@@ -14,3 +13,5 @@ npm install
 
 Rode o app
 npm start
+
+https://user-images.githubusercontent.com/39266201/115238615-4250fb80-a0f4-11eb-8f87-59e62838db91.mp4
