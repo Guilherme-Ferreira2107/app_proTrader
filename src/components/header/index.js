@@ -42,9 +42,11 @@ const Header = () => {
 
             <ul className="nav navbar-nav navbar-right">
               <li>
-                <button className="btn-exit" onClick={exitApp}>
-                  Sair <span className="glyphicon glyphicon-log-in"></span>
-                </button>
+                <a href="/login">
+                  <button className="btn-exit" onClick={exitApp}>
+                    Sair <span className="glyphicon glyphicon-log-in"></span>
+                  </button>
+                </a>
               </li>
             </ul>
           </div>
