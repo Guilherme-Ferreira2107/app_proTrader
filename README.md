@@ -1,3 +1,6 @@
+Veja em
+https://app-protrader.herokuapp.com/
+
 Clone o projeto
 git clone https://github.com/Guilherme-Ferreira2107/app_proTrader.git
 
