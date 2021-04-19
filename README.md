@@ -1,11 +1,11 @@
-// Clone o projeto
+Clone o projeto
 git clone https://github.com/Guilherme-Ferreira2107/app_proTrader.git
 
-// Acesse a pasta do projeto
+Acesse o projeto
 cd app_proTrader
 
-// Instale as dependências
+Instale as dependências
 npm install
 
-// Rodar app
+Rode o app
 npm start
