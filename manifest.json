@@ -1,0 +1,10 @@
+{
+  "manifest_version": 1,
+  "version": "1",
+  "name": "Pro Trader",
+  "short_name": "ProTrader",
+  "theme_color": "#231225",
+  "background_color": "rgb(252,218,24)",
+  "display": "standalone",
+  "start_url": "/"
+}
